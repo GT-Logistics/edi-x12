@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+require_once '../vendor/autoload.php';
+
+use Gtlogistics\X12Parser\Loaders\CDataSchemaLoader;
+use Gtlogistics\X12Parser\Generator\ReleaseGenerator;
+
+$schemaPath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'schemas';
+$outputPath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'generated';
+
+$schemaLoader = new CDataSchemaLoader($schemaPath);
+$release = $schemaLoader->getRelease('00603', ['204', '214', '990', '997']);
+
+$releaseGenerator = new ReleaseGenerator($outputPath, 'Gtlogistics\\X12Parser\\Release', $release);
+$releaseGenerator->write();
