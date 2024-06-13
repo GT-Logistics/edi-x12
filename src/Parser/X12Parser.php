@@ -160,7 +160,7 @@ final readonly class X12Parser
                     throw new MalformedX12Exception('The ST header does not have the SE trailer');
                 }
 
-                $transactionSetId = TransactionSetIdentifierCode::from($elements[1]);
+                $transactionSetId = $elements[1];
                 $transactionSetClass = $release->getTransactionSetClass($transactionSetId);
                 $currentSt = new $transactionSetClass();
                 $currentSt->setElements($elements);
@@ -197,8 +197,8 @@ final readonly class X12Parser
         return $st;
     }
 
-    private function getRelease(InterchangeControlVersionNumberCode $releaseId): ReleaseInterface
+    private function getRelease(string $releaseId): ReleaseInterface
     {
-        return $this->releases[$releaseId->value] ?? throw new \RuntimeException("Could not found release $releaseId->value.");
+        return $this->releases[$releaseId] ?? throw new \RuntimeException("Could not found release $releaseId->value.");
     }
 }

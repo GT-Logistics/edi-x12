@@ -3,15 +3,12 @@
 namespace Gtlogistics\X12Parser\Generator;
 
 use Gtlogistics\X12Parser\Model\AbstractSegment;
-use Gtlogistics\X12Parser\Schema\Element;
 use Gtlogistics\X12Parser\Schema\Segment;
 use Gtlogistics\X12Parser\Schema\Types\DateType;
-use Gtlogistics\X12Parser\Schema\Types\EnumType;
 use Gtlogistics\X12Parser\Schema\Types\StringType;
 use Gtlogistics\X12Parser\Schema\Types\TimeType;
 use Laminas\Code\Generator\AbstractMemberGenerator;
 use Laminas\Code\Generator\ClassGenerator;
-use Laminas\Code\Generator\DocBlock\Tag\PropertyTag;
 use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\FileGenerator;
 use Laminas\Code\Generator\PropertyGenerator;
@@ -19,6 +16,8 @@ use Laminas\Code\Generator\TypeGenerator;
 
 final readonly class SegmentClassGenerator extends AbstractClassGenerator
 {
+    use RegisterElementTrait;
+
     public function __construct(
         string $outputPath,
         string $namespace,
@@ -46,8 +45,9 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
         $castings = [];
         $elements = $this->segment->getElements();
         foreach ($elements as $element) {
+            $elementId = $this->segment->getId() . $element->getId();
             $elementType = $element->getType();
-            [$elementId, $elementNativeType] = $this->registerElement($docblock, $element);
+            $elementNativeType = $this->registerElement($docblock, $element, $elementId);
 
             if (class_exists($elementNativeType) || interface_exists($elementNativeType)) {
                 $class->addUse($elementNativeType);
@@ -68,38 +68,5 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
         }
 
         $file->write();
-    }
-
-    private function registerElement(DocBlockGenerator $docBlock, Element $element): array
-    {
-        $elementId = $this->segment->getId() . $element->getId();
-
-        $docBlockTypes = [];
-        $type = $element->getType();
-        $nativeType = $type->getNativeType();
-        $description = $element->getDescription();
-
-        if ($type instanceof EnumType) {
-            $enumGenerator = new EnumClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $type);
-
-            $nativeType = $enumGenerator->getFullClassName();
-            $docBlockTypes[] = $enumGenerator->getClassName();
-
-            $enumGenerator->write();
-        } else {
-            $docBlockTypes[] = $nativeType;
-        }
-
-        if (!$element->isRequired()) {
-            $docBlockTypes[] = 'null';
-        }
-
-        $docBlock->setTag(new PropertyTag(
-            $elementId,
-            $docBlockTypes,
-            $description,
-        ));
-
-        return [$elementId, $nativeType];
     }
 }

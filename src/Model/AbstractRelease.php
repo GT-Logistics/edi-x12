@@ -2,8 +2,6 @@
 
 namespace Gtlogistics\X12Parser\Model;
 
-use Gtlogistics\X12Parser\Qualifier\TransactionSetIdentifierCode;
-
 abstract class AbstractRelease implements ReleaseInterface
 {
     /**
@@ -16,9 +14,9 @@ abstract class AbstractRelease implements ReleaseInterface
     ) {
     }
 
-    public function getTransactionSetClass(TransactionSetIdentifierCode $code): string
+    public function getTransactionSetClass(string $code): string
     {
-        return $this->transactionSetClassMap[$code->value];
+        return $this->transactionSetClassMap[$code];
     }
 
     public function addTransactionSetClass(string $code, string $transactionSetClass): void

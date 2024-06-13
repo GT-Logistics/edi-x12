@@ -14,6 +14,8 @@ use Laminas\Code\Generator\FileGenerator;
 
 final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
 {
+    use RegisterElementTrait;
+
     public function __construct(
         string $outputPath,
         string $namespace,
@@ -40,15 +42,19 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
 
         $class->addUse(TransactionSetIdentifierCode::class);
         $class->setExtendedClass(AbstractTransactionSet::class);
-        $docBlock->setTag(new PropertyTag('ST01', ['TransactionSetIdentifierCode'], '**Transaction Set Identifier Code:** Code identifying a Transaction Set'));
-        $docBlock->setTag(new PropertyTag('ST02', ['string'], '**Transaction Set Control Number:** Identifying control number that must be unique within the transaction set functional group assigned by the originator for a transaction set'));
-        $docBlock->setTag(new PropertyTag('ST03', ['string', 'null'], '**Implementation Convention Reference:** Reference assigned to identify Implementation Convention'));
 
         $segments = $this->transactionSet->getSegments();
         foreach ($segments as $segment) {
             $segmentId = $segment->getId();
 
-            if ($segmentId === 'ST') {
+            if ($segment instanceof Segment && $segmentId === 'ST') {
+                $elements = $segment->getElements();
+                foreach ($elements as $element) {
+                    $elementId = 'ST' . $element->getId();
+
+                    $this->registerElement($docBlock, $element, $elementId);
+                }
+
                 continue;
             }
 
