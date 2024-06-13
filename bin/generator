@@ -10,7 +10,7 @@ $schemaPath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'sche
 $outputPath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'generated';
 
 $schemaLoader = new CDataSchemaLoader($schemaPath);
-$release = $schemaLoader->getRelease('00401');
+$release = $schemaLoader->getRelease('00401', ['204', '214', '990', '997']);
 
 $releaseGenerator = new ReleaseGenerator($outputPath, 'Gtlogistics\\X12Parser\\Release', $release);
 $releaseGenerator->write();

@@ -2,14 +2,8 @@
 
 namespace Gtlogistics\X12Parser\Model;
 
-use Gtlogistics\X12Parser\Qualifier\TransactionSetIdentifierCode;
-
 abstract class AbstractTransactionSet extends AbstractSegment implements TransactionSetInterface
 {
-    protected array $castings = [
-        'ST01' => TransactionSetIdentifierCode::class,
-    ];
-
     /**
      * @var (SegmentInterface|LoopInterface)[]
      */

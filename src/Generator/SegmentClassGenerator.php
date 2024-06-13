@@ -21,6 +21,7 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
     public function __construct(
         string $outputPath,
         string $namespace,
+        private ClassMap $classMap,
         private Segment $segment,
     ) {
         parent::__construct($outputPath, $namespace, "{$segment->getId()}Segment");
@@ -39,8 +40,11 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
     public function write(): void
     {
         $docblock = (new DocBlockGenerator())->setWordWrap(false);
-        $class = new ClassGenerator($this->getClassName(), $this->getNamespace(), extends: AbstractSegment::class, docBlock: $docblock);
+        $class = new ClassGenerator($this->getClassName(), $this->getNamespace(), docBlock: $docblock);
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
+
+        $class->setExtendedClass( AbstractSegment::class);
+        $this->classMap->addSegmentClass($this->segment->getId(), $this->getFullClassName());
 
         $castings = [];
         $elements = $this->segment->getElements();

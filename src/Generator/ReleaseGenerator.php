@@ -6,7 +6,6 @@ use Gtlogistics\X12Parser\Model\AbstractRelease;
 use Gtlogistics\X12Parser\Schema\Release;
 use Laminas\Code\Generator\AbstractMemberGenerator;
 use Laminas\Code\Generator\ClassGenerator;
-use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\FileGenerator;
 use Laminas\Code\Generator\MethodGenerator;
 use Laminas\Code\Generator\ParameterGenerator;
@@ -26,11 +25,9 @@ final readonly class ReleaseGenerator extends AbstractClassGenerator
         $class = new ClassGenerator($this->getClassName(), $this->getNamespace());
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
 
-        $transactionSetClassMap = [];
-        $segmentClassMap = [];
+        $classMap = new ClassMap();
         foreach ($this->release->getTransactionSets() as $transactionSet) {
-            $transactionSetGenerator = new TransactionSetClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $transactionSet);
-            $transactionSetClassMap[$transactionSet->getId()] = $transactionSetGenerator->getFullClassName();
+            $transactionSetGenerator = new TransactionSetClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $classMap, $transactionSet);
 
             $transactionSetGenerator->write();
         }
@@ -39,11 +36,12 @@ final readonly class ReleaseGenerator extends AbstractClassGenerator
         $class->addMethodFromGenerator(new MethodGenerator(
             '__construct',
             [
-                new ParameterGenerator('transactionSetClassMap', 'array', $transactionSetClassMap),
-                new ParameterGenerator('segmentClassMap', 'array', $segmentClassMap),
+                new ParameterGenerator('transactionSetClassMap', 'array', $classMap->getTransactionSetClassMap()),
+                new ParameterGenerator('loopClassMap', 'array', $classMap->getLoopClassMap()),
+                new ParameterGenerator('segmentClassMap', 'array', $classMap->getSegmentClassMap()),
             ],
             AbstractMemberGenerator::FLAG_PUBLIC,
-            'parent::__construct($transactionSetClassMap, $segmentClassMap);'
+            'parent::__construct($transactionSetClassMap, $loopClassMap, $segmentClassMap);'
         ));
 
         $file->write();

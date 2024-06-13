@@ -15,6 +15,7 @@ final readonly class LoopClassGenerator extends AbstractClassGenerator
     public function __construct(
         string $outputPath,
         string $namespace,
+        private ClassMap $classMap,
         private Loop $loop,
     ) {
         parent::__construct($outputPath, $namespace, $loop->getId());
@@ -37,13 +38,14 @@ final readonly class LoopClassGenerator extends AbstractClassGenerator
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
 
         $class->setExtendedClass(AbstractLoop::class);
+        $this->classMap->addLoopClass($this->loop->getId(), $this->getFullClassName());
 
         $segments = $this->loop->getSegments();
         foreach ($segments as $segment) {
             $segmentId = $segment->getId();
             $generator = match (true) {
-                $segment instanceof Loop => new LoopClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $segment),
-                $segment instanceof Segment => new SegmentClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $segment),
+                $segment instanceof Loop => new LoopClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $this->classMap, $segment),
+                $segment instanceof Segment => new SegmentClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $this->classMap, $segment),
                 default => throw new \RuntimeException('Unsupported segment ' . $segment->getId()),
             };
 

@@ -10,8 +10,6 @@ use Gtlogistics\X12Parser\Model\ReleaseInterface;
 use Gtlogistics\X12Parser\Model\Segment;
 use Gtlogistics\X12Parser\Model\SegmentInterface;
 use Gtlogistics\X12Parser\Model\TransactionSetInterface;
-use Gtlogistics\X12Parser\Qualifier\InterchangeControlVersionNumberCode;
-use Gtlogistics\X12Parser\Qualifier\TransactionSetIdentifierCode;
 
 final readonly class X12Parser
 {
@@ -184,7 +182,8 @@ final readonly class X12Parser
                 continue;
             }
 
-            $currentSegment = new Segment();
+            $segmentClass = $release->getSegmentClass($segmentId);
+            $currentSegment = new $segmentClass();
             $currentSegment->setElements($elements);
             $currentSegments[$segmentId][] = $currentSegment;
             $segmentCount++;
@@ -199,6 +198,6 @@ final readonly class X12Parser
 
     private function getRelease(string $releaseId): ReleaseInterface
     {
-        return $this->releases[$releaseId] ?? throw new \RuntimeException("Could not found release $releaseId->value.");
+        return $this->releases[$releaseId] ?? throw new \RuntimeException("Could not found release $releaseId.");
     }
 }
