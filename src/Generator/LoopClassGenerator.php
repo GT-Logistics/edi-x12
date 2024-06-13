@@ -2,6 +2,7 @@
 
 namespace Gtlogistics\X12Parser\Generator;
 
+use Gtlogistics\X12Parser\Model\AbstractLoop;
 use Gtlogistics\X12Parser\Schema\Loop;
 use Gtlogistics\X12Parser\Schema\Segment;
 use Laminas\Code\Generator\ClassGenerator;
@@ -34,6 +35,8 @@ final readonly class LoopClassGenerator extends AbstractClassGenerator
         $docBlock = (new DocBlockGenerator())->setWordWrap(false);
         $class = new ClassGenerator($this->getClassName(), $this->getNamespace(), docBlock: $docBlock);
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
+
+        $class->setExtendedClass(AbstractLoop::class);
 
         $segments = $this->loop->getSegments();
         foreach ($segments as $segment) {

@@ -23,8 +23,7 @@ final readonly class ReleaseGenerator extends AbstractClassGenerator
 
     public function write(): void
     {
-        $docblock = (new DocBlockGenerator())->setWordWrap(false);
-        $class = new ClassGenerator($this->getClassName(), $this->getNamespace(), docBlock: $docblock);
+        $class = new ClassGenerator($this->getClassName(), $this->getNamespace());
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
 
         $transactionSetClassMap = [];

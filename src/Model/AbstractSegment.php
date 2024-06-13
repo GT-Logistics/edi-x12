@@ -2,14 +2,27 @@
 
 namespace Gtlogistics\X12Parser\Model;
 
-use function _PHPStan_1310ce93b\RingCentral\Psr7\str;
-
-abstract class AbstractSegment
+abstract class AbstractSegment implements SegmentInterface
 {
     protected array $castings = [];
 
-    public function __construct(private array $elements)
+    /**
+     * @var mixed[]
+     */
+    private array $elements = [];
+
+    public function __construct()
     {
+    }
+
+    public function getElements(): array
+    {
+        return $this->elements;
+    }
+
+    public function setElements(array $elements): void
+    {
+        $this->elements = $elements;
     }
 
     public function __get(string $key): mixed
@@ -62,7 +75,7 @@ abstract class AbstractSegment
             'int' => (int) $value,
             'float' => (float) $value,
             'date', 'time' => new \DateTime($value),
-            default => trim($value),
+            default => $value,
         };
     }
 

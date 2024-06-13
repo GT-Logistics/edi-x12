@@ -2,7 +2,7 @@
 
 namespace Gtlogistics\X12Parser\Generator;
 
-use Gtlogistics\X12Parser\Model\AbstractSegment;
+use Gtlogistics\X12Parser\Model\AbstractTransactionSet;
 use Gtlogistics\X12Parser\Qualifier\TransactionSetIdentifierCode;
 use Gtlogistics\X12Parser\Schema\Loop;
 use Gtlogistics\X12Parser\Schema\Segment;
@@ -39,7 +39,7 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
 
         $class->addUse(TransactionSetIdentifierCode::class);
-        $class->setExtendedClass(AbstractSegment::class);
+        $class->setExtendedClass(AbstractTransactionSet::class);
         $docBlock->setTag(new PropertyTag('ST01', ['TransactionSetIdentifierCode'], '**Transaction Set Identifier Code:** Code identifying a Transaction Set'));
         $docBlock->setTag(new PropertyTag('ST02', ['string'], '**Transaction Set Control Number:** Identifying control number that must be unique within the transaction set functional group assigned by the originator for a transaction set'));
         $docBlock->setTag(new PropertyTag('ST03', ['string', 'null'], '**Implementation Convention Reference:** Reference assigned to identify Implementation Convention'));
@@ -59,7 +59,7 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
             };
 
             $class->addUse($generator->getFullClassName());
-            $docBlock->setTag(new PropertyTag($segmentId, $generator->getClassName()));
+            $docBlock->setTag(new PropertyTag($segmentId, $generator->getClassName() . '[]'));
 
             $generator->write();
         }
