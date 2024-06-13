@@ -12,7 +12,7 @@ abstract class AbstractSegment
     {
     }
 
-    public function __get(string $key): string
+    public function __get(string $key): mixed
     {
         $casting = $this->getCasting($key);
         $value = $this->elements[$this->parseIndex($key)];

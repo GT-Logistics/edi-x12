@@ -8,6 +8,7 @@ use Gtlogistics\X12Parser\Heading\GsHeading;
 use Gtlogistics\X12Parser\Heading\IsaHeading;
 use Gtlogistics\X12Parser\Model\ReleaseInterface;
 use Gtlogistics\X12Parser\Model\Segment;
+use Gtlogistics\X12Parser\Qualifier\InterchangeControlVersionNumberCode;
 use Gtlogistics\X12Parser\Qualifier\TransactionSetIdentifierCode;
 
 final readonly class X12Parser
@@ -165,7 +166,7 @@ final readonly class X12Parser
                     throw new MalformedX12Exception('The ST header does not have the declared number of segments in the SE trailer');
                 }
 
-                $currentSt->segments = $currentSegments;
+                // $currentSt->segments = $currentSegments;
                 $st[] = $currentSt;
                 $ended = true;
 
@@ -182,8 +183,8 @@ final readonly class X12Parser
         return $st;
     }
 
-    private function getRelease(string $releaseId): ReleaseInterface
+    private function getRelease(InterchangeControlVersionNumberCode $releaseId): ReleaseInterface
     {
-        return $this->releases[$releaseId] ?? throw new \RuntimeException("Could not found release $releaseId.");
+        return $this->releases[$releaseId->value] ?? throw new \RuntimeException("Could not found release $releaseId->value.");
     }
 }
