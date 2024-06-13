@@ -8,6 +8,7 @@ use Gtlogistics\X12Parser\Heading\GsHeading;
 use Gtlogistics\X12Parser\Heading\IsaHeading;
 use Gtlogistics\X12Parser\Model\ReleaseInterface;
 use Gtlogistics\X12Parser\Model\Segment;
+use Gtlogistics\X12Parser\Qualifier\TransactionSetIdentifierCode;
 
 final readonly class X12Parser
 {
@@ -47,6 +48,7 @@ final readonly class X12Parser
     {
         $isa = [];
         $currentIsa = null;
+        $currentRelease = null;
         $currentSegments = [];
         $ended = true;
 
@@ -59,13 +61,14 @@ final readonly class X12Parser
                 }
 
                 $currentIsa = new IsaHeading($elements);
+                $currentRelease = $this->getRelease($currentIsa->ISA12);
                 $currentSegments = [];
                 $ended = false;
 
                 continue;
             }
             if ($segmentId === 'IEA') {
-                $gs = $this->parseFunctionalGroups($currentSegments);
+                $gs = $this->parseFunctionalGroups($currentRelease, $currentSegments);
 
                 if (count($gs) !== (int) $elements[1]) {
                     throw new MalformedX12Exception('The ISA header does not have the declared number of GS in the IEA trailer');
@@ -88,7 +91,7 @@ final readonly class X12Parser
         return $isa;
     }
 
-    private function parseFunctionalGroups(array $segments): array
+    private function parseFunctionalGroups(ReleaseInterface $release, array $segments): array
     {
         $gs = [];
         $currentGs = null;
@@ -110,7 +113,7 @@ final readonly class X12Parser
                 continue;
             }
             if ($segmentId === 'GE') {
-                $st = $this->parseTransactionSets($currentSegments);
+                $st = $this->parseTransactionSets($release, $currentSegments);
 
                 if (count($st) !== (int) $elements[1]) {
                     throw new MalformedX12Exception('The GS header does not have the declared number of ST in the GE trailer');
@@ -133,7 +136,7 @@ final readonly class X12Parser
         return $gs;
     }
 
-    private function parseTransactionSets(array $segments): array
+    private function parseTransactionSets(ReleaseInterface $release, array $segments): array
     {
         $st = [];
         $currentSt = null;
@@ -148,7 +151,9 @@ final readonly class X12Parser
                     throw new MalformedX12Exception('The ST header does not have the SE trailer');
                 }
 
-                $currentSt = new Segment($elements);
+                $transactionSetId = TransactionSetIdentifierCode::from($elements[1]);
+                $transactionSetClass = $release->getTransactionSetClass($transactionSetId);
+                $currentSt = new $transactionSetClass($elements);
                 $currentSegments = [];
                 $ended = false;
 
@@ -167,7 +172,7 @@ final readonly class X12Parser
                 continue;
             }
 
-            $currentSegments[] = $elements;
+            $currentSegments[] = new Segment($elements);
         }
 
         if (!$ended) {

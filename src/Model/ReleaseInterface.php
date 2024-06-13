@@ -2,12 +2,14 @@
 
 namespace Gtlogistics\X12Parser\Model;
 
+use Gtlogistics\X12Parser\Qualifier\TransactionSetIdentifierCode;
+
 interface ReleaseInterface
 {
     /**
      * @return class-string
      */
-    public function getTransactionSetClass(string $code): string;
+    public function getTransactionSetClass(TransactionSetIdentifierCode $code): string;
 
     /**
      * @return class-string

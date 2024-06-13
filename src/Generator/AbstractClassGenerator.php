@@ -2,6 +2,8 @@
 
 namespace Gtlogistics\X12Parser\Generator;
 
+use function Symfony\Component\String\u;
+
 abstract readonly class AbstractClassGenerator implements ClassGeneratorInterface
 {
     public function __construct(
@@ -48,6 +50,8 @@ abstract readonly class AbstractClassGenerator implements ClassGeneratorInterfac
 
     protected function escapeIdentifier(string $identifier): string
     {
+        $identifier = u($identifier)->ascii()->toString();
+
         if (is_numeric($identifier[0])) {
             $identifier = '_' . $identifier;
         }
