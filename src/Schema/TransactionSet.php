@@ -10,13 +10,13 @@ final class TransactionSet
     private array $segments;
 
     public function __construct(
-        private readonly string $id
+        private readonly string $code
     ) {
     }
 
-    public function getId(): string
+    public function getCode(): string
     {
-        return $this->id;
+        return $this->code;
     }
 
     /**

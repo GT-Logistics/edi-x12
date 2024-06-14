@@ -25,7 +25,7 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
         private ClassMap $classMap,
         private TransactionSet $transactionSet,
     ) {
-        parent::__construct($outputPath, $namespace, "TransactionSet{$transactionSet->getId()}");
+        parent::__construct($outputPath, $namespace, "TransactionSet{$transactionSet->getCode()}");
     }
 
     protected function getDirname(): string
@@ -43,6 +43,7 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
         $docBlock = (new DocBlockGenerator())->setWordWrap(false);
         $class = new ClassGenerator($this->getClassName(), $this->getNamespace(), docBlock: $docBlock);
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
+        $transactionSetCode = $this->transactionSet->getCode();
 
         $class->setExtendedClass(AbstractTransactionSet::class);
 
@@ -50,7 +51,7 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
         $getIdMethod->setReturnType('string');
         $class->addMethodFromGenerator($getIdMethod);
 
-        $this->classMap->addTransactionSetClass($this->transactionSet->getId(), $this->getFullClassName());
+        $this->classMap->addTransactionSetClass($transactionSetCode, $this->getFullClassName());
 
         $loops = [];
         $segments = $this->transactionSet->getSegments();
@@ -80,8 +81,10 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
             $generator->write();
         }
 
-        $loopsProperty = new PropertyGenerator('loops', $loops, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
-        $class->addPropertyFromGenerator($loopsProperty);
+        if (count($loops) > 0) {
+            $loopsProperty = new PropertyGenerator('loops', $loops, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+            $class->addPropertyFromGenerator($loopsProperty);
+        }
 
         $file->write();
     }

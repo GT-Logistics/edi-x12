@@ -62,8 +62,10 @@ final readonly class LoopClassGenerator extends AbstractClassGenerator
             $generator->write();
         }
 
-        $loopsProperty = new PropertyGenerator('loops', $loops, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
-        $class->addPropertyFromGenerator($loopsProperty);
+        if (count($loops) > 0) {
+            $loopsProperty = new PropertyGenerator('loops', $loops, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+            $class->addPropertyFromGenerator($loopsProperty);
+        }
 
         $file->write();
     }

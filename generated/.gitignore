@@ -1,2 +1,6 @@
-*
-!.gitignore
+/*
+!/Loop
+!/Qualifier
+!/Segment
+!/TransactionSet
+!/.gitignore

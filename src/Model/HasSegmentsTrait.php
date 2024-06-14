@@ -7,12 +7,12 @@ trait HasSegmentsTrait
     /**
      * @var array<string, class-string<LoopInterface>>
      */
-    private array $loops = [];
+    protected array $loops = [];
 
     /**
      * @var array<string, (SegmentInterface|LoopInterface)[]>
      */
-    private array $segments = [];
+    protected array $segments = [];
 
     public function getSegments(): array
     {
