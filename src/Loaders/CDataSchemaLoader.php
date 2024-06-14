@@ -64,7 +64,7 @@ final class CDataSchemaLoader implements SchemaLoaderInterface
     private function getSegment(string $releaseId, array $segmentSchema): SegmentInterface
     {
         $segmentId = $segmentSchema['ID'];
-        $min = $segmentSchema['Max'] ?? null;
+        $min = $segmentSchema['Min'] ?? null;
         $max = $segmentSchema['Max'] ?? null;
 
         if ($loopSegmentSchemas = $segmentSchema['Loop'] ?? null) {
@@ -87,6 +87,8 @@ final class CDataSchemaLoader implements SchemaLoaderInterface
                     $elementId,
                     $elementSchema['Desc'],
                     $elementType,
+                    $elementSchema['MinLength'] ?? -1,
+                    $elementSchema['MaxLength'] ?? -1,
                     $elementSchema['Required'] ?? false,
                 );
 

@@ -15,8 +15,14 @@ class IeaTrailer extends AbstractSegment
         '_02' => 'int',
     ];
 
-    protected array $paddings = [
-        '_02' => 9,
+    protected array $lengths = [
+        '_01' => [1, 5],
+        '_02' => [9, 9],
+    ];
+
+    protected array $required = [
+        '_01' => true,
+        '_02' => true,
     ];
 
     public function getId(): string

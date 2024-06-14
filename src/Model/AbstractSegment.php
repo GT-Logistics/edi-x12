@@ -4,9 +4,20 @@ namespace Gtlogistics\X12Parser\Model;
 
 abstract class AbstractSegment implements SegmentInterface
 {
+    /**
+     * @var array<string, string>
+     */
     protected array $castings = [];
 
-    protected array $paddings = [];
+    /**
+     * @var array<string, array{int, int}>
+     */
+    protected array $lengths = [];
+
+    /**
+     * @var array<string, true>
+     */
+    protected array $required = [];
 
     /**
      * @var mixed[]
@@ -24,14 +35,22 @@ abstract class AbstractSegment implements SegmentInterface
 
         for ($i = 0, $iMax = max(array_keys($this->elements)); $i <= $iMax; $i++) {
             $key = '_' . str_pad($i, 2, '0', STR_PAD_LEFT);
-            $value = $this->elements[$i] ?? '';
-            $padding = $this->getPadding($key);
-            $casting = $this->getCasting($key);
 
-            if (in_array($casting, ['int', 'float'])) {
-                $value = str_pad($value, $padding, '0', STR_PAD_LEFT);
-            } else {
-                $value = str_pad($value, $padding);
+            $value = $this->elements[$i] ?? '';
+            [$min, $max] = $this->getLengths($key);
+            $casting = $this->getCasting($key);
+            $required = $this->getRequired($key);
+
+            if ($required) {
+                if (in_array($casting, ['int', 'float'])) {
+                    $value = str_pad($value, $min, '0', STR_PAD_LEFT);
+                } else {
+                    $value = str_pad($value, $min);
+                }
+
+                if ($max >= 0) {
+                    $value = substr($value, 0, $max);
+                }
             }
 
             $elements[$i] = $value;
@@ -56,7 +75,8 @@ abstract class AbstractSegment implements SegmentInterface
     public function __set(string $key, mixed $value): void
     {
         $casting = $this->getCasting($key);
-        $value = $this->convertFrom($value, $casting);
+        $lengths = $this->getLengths($key);
+        $value = $this->convertFrom($value, $casting, $lengths);
 
         $this->elements[$this->parseIndex($key)] = $value;
     }
@@ -76,9 +96,14 @@ abstract class AbstractSegment implements SegmentInterface
         return $this->castings[$key] ?? 'string';
     }
 
-    private function getPadding(string $key): ?int
+    private function getLengths(string $key): array
     {
-        return $this->paddings[$key] ?? -1;
+        return $this->lengths[$key] ?? [-1, -1];
+    }
+
+    private function getRequired(string $key): bool
+    {
+        return $this->required[$key] ?? false;
     }
 
     /**
@@ -105,7 +130,7 @@ abstract class AbstractSegment implements SegmentInterface
         };
     }
 
-    private function convertFrom(mixed $value, string $type): string
+    private function convertFrom(mixed $value, string $type, array $lengths): string
     {
         if ($value === null) {
             return '';
@@ -114,11 +139,24 @@ abstract class AbstractSegment implements SegmentInterface
             return $value->value;
         }
 
-        return match ($type) {
-            'date' => $value->format('ymd'),
-            'time' => $value->format('Hi'),
-            default => (string) $value,
-        };
+        [, $max] = $lengths;
+        if ($type === 'date') {
+            /** @var $value \DateTimeInterface */
+            return match ($max) {
+                8 => $value->format('Ymd'),
+                6 => $value->format('ymd'),
+            };
+        }
+        if ($type === 'time') {
+            /** @var $value \DateTimeInterface */
+            return match ($max) {
+                8 => $value->format('Hisv'),
+                6 => $value->format('His'),
+                4 => $value->format('Hi'),
+            };
+        }
+
+        return (string) $value;
     }
 
     /**

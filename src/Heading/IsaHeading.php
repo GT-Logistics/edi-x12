@@ -180,12 +180,34 @@ final class IsaHeading extends AbstractSegment
         '_13' => 'int',
     ];
 
-    protected array $paddings = [
-        '_02' => 10,
-        '_04' => 10,
-        '_06' => 15,
-        '_08' => 15,
-        '_13' => 9,
+    protected array $lengths = [
+        '_02' => [10, 10],
+        '_04' => [10, 10],
+        '_06' => [15, 15],
+        '_08' => [15, 15],
+        '_09' => [6, 6],
+        '_10' => [4, 4],
+        '_13' => [9, 9],
+        '_16' => [1, 1],
+    ];
+
+    protected array $required = [
+        '_01' => true,
+        '_02' => true,
+        '_03' => true,
+        '_04' => true,
+        '_05' => true,
+        '_06' => true,
+        '_07' => true,
+        '_08' => true,
+        '_09' => true,
+        '_10' => true,
+        '_11' => true,
+        '_12' => true,
+        '_13' => true,
+        '_14' => true,
+        '_15' => true,
+        '_16' => true,
     ];
 
     public function getId(): string

@@ -15,6 +15,16 @@ class GeTrailer extends AbstractSegment
         '_02' => 'int',
     ];
 
+    protected array $lengths = [
+        '_01' => [1, 6],
+        '_02' => [1, 9],
+    ];
+
+    protected array $required = [
+        '_01' => true,
+        '_02' => true,
+    ];
+
     public function getId(): string
     {
         return 'GE';

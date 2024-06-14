@@ -394,6 +394,25 @@ final class GsHeading extends AbstractSegment
         '_05' => 'time',
     ];
 
+    protected array $lengths = [
+        '_02' => [2, 15],
+        '_03' => [2, 15],
+        '_04' => [8, 8],
+        '_05' => [4, 8],
+        '_06' => [1, 9],
+    ];
+
+    protected array $required = [
+        '_01' => true,
+        '_02' => true,
+        '_03' => true,
+        '_04' => true,
+        '_05' => true,
+        '_06' => true,
+        '_07' => true,
+        '_08' => true,
+    ];
+
     /**
      * @var non-empty-list<TransactionSetInterface>
      */

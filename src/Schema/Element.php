@@ -10,6 +10,8 @@ final readonly class Element
         private string $id,
         private string $description,
         private TypeInterface $type,
+        private int $minLength,
+        private int $maxLength,
         private bool $required,
     ) {
     }
@@ -27,6 +29,16 @@ final readonly class Element
     public function getType(): TypeInterface
     {
         return $this->type;
+    }
+
+    public function getMinLength(): int
+    {
+        return $this->minLength;
+    }
+
+    public function getMaxLength(): int
+    {
+        return $this->maxLength;
     }
 
     public function isRequired(): bool

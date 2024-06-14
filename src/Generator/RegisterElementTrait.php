@@ -16,9 +16,14 @@ use Laminas\Code\Generator\TypeGenerator;
 
 trait RegisterElementTrait
 {
-    private function registerElements(ClassGenerator $class, DocBlockGenerator $docBlock, array $elements, string $segmentId): void
+    /**
+     * @param Element[] $elements
+     */
+    private function registerElements(ClassGenerator $class, DocBlockGenerator $docBlock, array $elements): void
     {
         $castings = [];
+        $lengths = [];
+        $required = [];
         foreach ($elements as $element) {
             $elementId = '_' . $element->getId();
             $elementType = $element->getType();
@@ -35,11 +40,32 @@ trait RegisterElementTrait
                     default => $elementNativeType,
                 };
             }
+
+            $minLength = $element->getMinLength();
+            $maxLength = $element->getMaxLength();
+            if ($minLength !== -1 && $maxLength !== -1) {
+                $lengths[$elementId] = [$minLength, $maxLength];
+            }
+
+            $isRequired = $element->isRequired();
+            if ($isRequired) {
+                $required[$elementId] = true;
+            }
         }
 
         if (count($castings) !== 0) {
-            $castingProperty = new PropertyGenerator('castings', $castings, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
-            $class->addPropertyFromGenerator($castingProperty);
+            $castingsProperty = new PropertyGenerator('castings', $castings, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+            $class->addPropertyFromGenerator($castingsProperty);
+        }
+
+        if (count($lengths) !== 0) {
+            $lengthsProperty = new PropertyGenerator('lengths', $lengths, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+            $class->addPropertyFromGenerator($lengthsProperty);
+        }
+
+        if (count($required) !== 0) {
+            $requiredProperty = new PropertyGenerator('required', $required, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+            $class->addPropertyFromGenerator($requiredProperty);
         }
     }
 

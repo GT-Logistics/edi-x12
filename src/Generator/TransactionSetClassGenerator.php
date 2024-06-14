@@ -59,7 +59,7 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
 
             if ($segment instanceof Segment && $segmentId === 'ST') {
                 $elements = $segment->getElements();
-                $this->registerElements($class, $docBlock, $elements, $segmentId);
+                $this->registerElements($class, $docBlock, $elements);
 
                 continue;
             }

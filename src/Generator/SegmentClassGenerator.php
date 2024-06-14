@@ -48,7 +48,7 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
         $this->classMap->addSegmentClass($segmentId, $this->getFullClassName());
 
         $elements = $this->segment->getElements();
-        $this->registerElements($class, $docblock, $elements, $segmentId);
+        $this->registerElements($class, $docblock, $elements);
 
         $file->write();
     }

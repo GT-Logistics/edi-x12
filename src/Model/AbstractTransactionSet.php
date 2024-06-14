@@ -12,7 +12,7 @@ abstract class AbstractTransactionSet extends AbstractSegment implements Transac
             return parent::__get($key);
         }
 
-        return $this->segments[$key];
+        return array_values(array_filter($this->segments, static fn (SegmentInterface|LoopInterface $segment) => $segment->getId() === $key));
     }
 
     public function __set(string $key, mixed $value): void
@@ -23,7 +23,7 @@ abstract class AbstractTransactionSet extends AbstractSegment implements Transac
             return;
         }
 
-        $this->segments[$key] = $value;
+        $this->segments[] = $value;
     }
 
     public function __isset(string $key): bool
@@ -37,6 +37,6 @@ abstract class AbstractTransactionSet extends AbstractSegment implements Transac
 
     private function isElement(string $key): int
     {
-        return is_numeric(substr($key, -2));
+        return str_starts_with($key, '_');
     }
 }
