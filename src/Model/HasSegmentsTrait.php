@@ -5,6 +5,11 @@ namespace Gtlogistics\X12Parser\Model;
 trait HasSegmentsTrait
 {
     /**
+     * @var array<string, class-string<LoopInterface>>
+     */
+    private array $loops = [];
+
+    /**
      * @var array<string, (SegmentInterface|LoopInterface)[]>
      */
     private array $segments = [];
@@ -15,7 +20,7 @@ trait HasSegmentsTrait
 
         foreach ($this->segments as $segment) {
             if ($segment instanceof LoopInterface) {
-                array_merge($segments, $segment->getSegments());
+                array_push($segments, ...$segment->getSegments());
             } else {
                 $segments[] = $segment;
             }

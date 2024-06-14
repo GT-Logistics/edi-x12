@@ -169,15 +169,24 @@ use Gtlogistics\X12Parser\Model\AbstractSegment;
  */
 final class IsaHeading extends AbstractSegment
 {
-    protected array $castings = [
-        '_09' => 'date',
-        '_10' => 'time',
-    ];
-
     /**
      * @var non-empty-list<GsHeading>
      */
     public array $GS = [];
+
+    protected array $castings = [
+        '_09' => 'date',
+        '_10' => 'time',
+        '_13' => 'int',
+    ];
+
+    protected array $paddings = [
+        '_02' => 10,
+        '_04' => 10,
+        '_06' => 15,
+        '_08' => 15,
+        '_13' => 9,
+    ];
 
     public function getId(): string
     {

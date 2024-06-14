@@ -6,6 +6,8 @@ abstract class AbstractSegment implements SegmentInterface
 {
     protected array $castings = [];
 
+    protected array $paddings = [];
+
     /**
      * @var mixed[]
      */
@@ -18,7 +20,24 @@ abstract class AbstractSegment implements SegmentInterface
 
     public function getElements(): array
     {
-        return $this->elements;
+        $elements = [];
+
+        for ($i = 0, $iMax = max(array_keys($this->elements)); $i <= $iMax; $i++) {
+            $key = '_' . str_pad($i, 2, '0', STR_PAD_LEFT);
+            $value = $this->elements[$i] ?? '';
+            $padding = $this->getPadding($key);
+            $casting = $this->getCasting($key);
+
+            if (in_array($casting, ['int', 'float'])) {
+                $value = str_pad($value, $padding, '0', STR_PAD_LEFT);
+            } else {
+                $value = str_pad($value, $padding);
+            }
+
+            $elements[$i] = $value;
+        }
+
+        return $elements;
     }
 
     public function setElements(array $elements): void
@@ -57,6 +76,11 @@ abstract class AbstractSegment implements SegmentInterface
         return $this->castings[$key] ?? 'string';
     }
 
+    private function getPadding(string $key): ?int
+    {
+        return $this->paddings[$key] ?? -1;
+    }
+
     /**
      * @param string $value
      * @param string $type
@@ -75,13 +99,41 @@ abstract class AbstractSegment implements SegmentInterface
         return match ($type) {
             'int' => (int) $value,
             'float' => (float) $value,
-            'date', 'time' => new \DateTime($value),
+            'date' => $this->convertToDateTime($value, ['Ymd', 'ymd'])->setTime(0, 0),
+            'time' => $this->convertToDateTime($value, ['Hisu', 'His', 'Hi'])->setDate(1970, 1, 1),
             default => $value,
         };
     }
 
     private function convertFrom(mixed $value, string $type): string
     {
-        return (string) $value;
+        if ($value === null) {
+            return '';
+        }
+        if (is_a($type, \BackedEnum::class, true)) {
+            return $value->value;
+        }
+
+        return match ($type) {
+            'date' => $value->format('ymd'),
+            'time' => $value->format('Hi'),
+            default => (string) $value,
+        };
+    }
+
+    /**
+     * @param string[] $formats
+     */
+    private function convertToDateTime(string $value, array $formats): \DateTimeImmutable
+    {
+        foreach ($formats as $format) {
+            $converted = \DateTimeImmutable::createFromFormat($format, $value);
+
+            if ($converted !== false) {
+                return $converted;
+            }
+        }
+
+        throw new \RuntimeException('Invalid date/time format');
     }
 }

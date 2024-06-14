@@ -5,10 +5,13 @@ namespace Gtlogistics\X12Parser\Generator;
 use Gtlogistics\X12Parser\Model\AbstractLoop;
 use Gtlogistics\X12Parser\Schema\Loop;
 use Gtlogistics\X12Parser\Schema\Segment;
+use Laminas\Code\Generator\AbstractMemberGenerator;
 use Laminas\Code\Generator\ClassGenerator;
 use Laminas\Code\Generator\DocBlock\Tag\PropertyTag;
 use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\FileGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
+use Laminas\Code\Generator\TypeGenerator;
 
 final readonly class LoopClassGenerator extends AbstractClassGenerator
 {
@@ -38,8 +41,8 @@ final readonly class LoopClassGenerator extends AbstractClassGenerator
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
 
         $class->setExtendedClass(AbstractLoop::class);
-        $this->classMap->addLoopClass($this->loop->getId(), $this->getFullClassName());
 
+        $loops = [];
         $segments = $this->loop->getSegments();
         foreach ($segments as $segment) {
             $segmentId = $segment->getId();
@@ -49,11 +52,18 @@ final readonly class LoopClassGenerator extends AbstractClassGenerator
                 default => throw new \RuntimeException('Unsupported segment ' . $segment->getId()),
             };
 
+            if ($generator instanceof self) {
+                $loops[] = $generator->getFullClassName();
+            }
+
             $class->addUse($generator->getFullClassName());
-            $docBlock->setTag(new PropertyTag($segmentId, $generator->getClassName()));
+            $docBlock->setTag(new PropertyTag($segmentId, $generator->getClassName() . '[]'));
 
             $generator->write();
         }
+
+        $loopsProperty = new PropertyGenerator('loops', $loops, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+        $class->addPropertyFromGenerator($loopsProperty);
 
         $file->write();
     }

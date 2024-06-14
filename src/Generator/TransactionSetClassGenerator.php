@@ -6,9 +6,6 @@ use Gtlogistics\X12Parser\Model\AbstractTransactionSet;
 use Gtlogistics\X12Parser\Schema\Loop;
 use Gtlogistics\X12Parser\Schema\Segment;
 use Gtlogistics\X12Parser\Schema\TransactionSet;
-use Gtlogistics\X12Parser\Schema\Types\DateType;
-use Gtlogistics\X12Parser\Schema\Types\StringType;
-use Gtlogistics\X12Parser\Schema\Types\TimeType;
 use Laminas\Code\Generator\AbstractMemberGenerator;
 use Laminas\Code\Generator\ClassGenerator;
 use Laminas\Code\Generator\DocBlock\Tag\PropertyTag;
@@ -55,6 +52,7 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
 
         $this->classMap->addTransactionSetClass($this->transactionSet->getId(), $this->getFullClassName());
 
+        $loops = [];
         $segments = $this->transactionSet->getSegments();
         foreach ($segments as $segment) {
             $segmentId = $segment->getId();
@@ -72,11 +70,18 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
                 default => throw new \RuntimeException('Unsupported segment ' . $segment->getId()),
             };
 
+            if ($generator instanceof LoopClassGenerator) {
+                $loops[] = $generator->getFullClassName();
+            }
+
             $class->addUse($generator->getFullClassName());
             $docBlock->setTag(new PropertyTag($segmentId, $generator->getClassName() . '[]'));
 
             $generator->write();
         }
+
+        $loopsProperty = new PropertyGenerator('loops', $loops, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+        $class->addPropertyFromGenerator($loopsProperty);
 
         $file->write();
     }

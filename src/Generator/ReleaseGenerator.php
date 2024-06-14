@@ -37,11 +37,10 @@ final readonly class ReleaseGenerator extends AbstractClassGenerator
             '__construct',
             [
                 new ParameterGenerator('transactionSetClassMap', 'array', $classMap->getTransactionSetClassMap()),
-                new ParameterGenerator('loopClassMap', 'array', $classMap->getLoopClassMap()),
                 new ParameterGenerator('segmentClassMap', 'array', $classMap->getSegmentClassMap()),
             ],
             AbstractMemberGenerator::FLAG_PUBLIC,
-            'parent::__construct($transactionSetClassMap, $loopClassMap, $segmentClassMap);'
+            'parent::__construct($transactionSetClassMap, $segmentClassMap);'
         ));
 
         $file->write();

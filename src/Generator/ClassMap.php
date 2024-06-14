@@ -2,7 +2,6 @@
 
 namespace Gtlogistics\X12Parser\Generator;
 
-use Gtlogistics\X12Parser\Model\LoopInterface;
 use Gtlogistics\X12Parser\Model\SegmentInterface;
 use Gtlogistics\X12Parser\Model\TransactionSetInterface;
 
@@ -12,11 +11,6 @@ class ClassMap
      * @var array<string, class-string<TransactionSetInterface>>
      */
     private array $transactionSetClassMap = [];
-
-    /**
-     * @var array<string, class-string<LoopInterface>>
-     */
-    private array $loopClassMap = [];
 
     /**
      * @var array<string, class-string<SegmentInterface>>
@@ -37,22 +31,6 @@ class ClassMap
     public function addTransactionSetClass(string $code, string $transactionSetClass): void
     {
         $this->transactionSetClassMap[$code] = $transactionSetClass;
-    }
-
-    /**
-     * @return array<string, class-string<SegmentInterface>>
-     */
-    public function getLoopClassMap(): array
-    {
-        return $this->loopClassMap;
-    }
-
-    /**
-     * @param class-string<LoopInterface> $loopClass
-     */
-    public function addLoopClass(string $id, string $loopClass): void
-    {
-        $this->loopClassMap[$id] = $loopClass;
     }
 
     /**

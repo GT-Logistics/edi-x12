@@ -2,18 +2,14 @@
 
 namespace Gtlogistics\X12Parser\Model;
 
-use Gtlogistics\X12Parser\Schema\Loop;
-
 abstract class AbstractRelease implements ReleaseInterface
 {
     /**
      * @param array<string, class-string<TransactionSetInterface>> $transactionSetClassMap
-     * @param array<string, class-string<LoopInterface>> $loopClassMap
      * @param array<string, class-string<SegmentInterface>> $segmentClassMap
      */
     public function __construct(
         private array $transactionSetClassMap,
-        private array $loopClassMap,
         private array $segmentClassMap,
     ) {
     }
@@ -37,27 +33,6 @@ abstract class AbstractRelease implements ReleaseInterface
     public function removeTransactionSetClass(string $code): void
     {
         unset($this->transactionSetClassMap[$code]);
-    }
-
-    /**
-     * @return class-string<LoopInterface>
-     */
-    public function getLoopClass(string $code): string
-    {
-        return $this->loopClassMap[$code];
-    }
-
-    /**
-     * @param class-string<LoopInterface> $loopClass
-     */
-    public function addLoopClass(string $code, string $loopClass): void
-    {
-        $this->loopClassMap[$code] = $loopClass;
-    }
-
-    public function removeLoopClass(string $code): void
-    {
-        unset($this->loopClassMap[$code]);
     }
 
     /**
