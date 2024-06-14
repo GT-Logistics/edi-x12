@@ -13,6 +13,7 @@ abstract class AbstractSegment implements SegmentInterface
 
     public function __construct()
     {
+        $this->elements[0] = $this->getId();
     }
 
     public function getElements(): array

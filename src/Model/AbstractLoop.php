@@ -4,23 +4,10 @@ namespace Gtlogistics\X12Parser\Model;
 
 abstract class AbstractLoop implements LoopInterface
 {
-    /**
-     * @var (SegmentInterface|LoopInterface)[]
-     */
-    private array $segments = [];
+    use HasSegmentsTrait;
 
     public function __construct()
     {
-    }
-
-    public function getSegments(): array
-    {
-        return $this->segments;
-    }
-
-    public function setSegments(array $segments): void
-    {
-        $this->segments = $segments;
     }
 
     public function __get(string $key): mixed

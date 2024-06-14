@@ -185,7 +185,7 @@ final readonly class X12Parser
             $segmentClass = $release->getSegmentClass($segmentId);
             $currentSegment = new $segmentClass();
             $currentSegment->setElements($elements);
-            $currentSegments[$segmentId][] = $currentSegment;
+            $currentSegments[] = $currentSegment;
             $segmentCount++;
         }
 

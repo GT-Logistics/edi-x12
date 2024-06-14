@@ -6,6 +6,8 @@ interface SegmentInterface
 {
     public function __construct();
 
+    public function getId(): string;
+
     /**
      * @return mixed[]
      */

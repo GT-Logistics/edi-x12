@@ -4,15 +4,10 @@ namespace Gtlogistics\X12Parser\Generator;
 
 use Gtlogistics\X12Parser\Model\AbstractSegment;
 use Gtlogistics\X12Parser\Schema\Segment;
-use Gtlogistics\X12Parser\Schema\Types\DateType;
-use Gtlogistics\X12Parser\Schema\Types\StringType;
-use Gtlogistics\X12Parser\Schema\Types\TimeType;
-use Laminas\Code\Generator\AbstractMemberGenerator;
 use Laminas\Code\Generator\ClassGenerator;
 use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\FileGenerator;
-use Laminas\Code\Generator\PropertyGenerator;
-use Laminas\Code\Generator\TypeGenerator;
+use Laminas\Code\Generator\MethodGenerator;
 
 final readonly class SegmentClassGenerator extends AbstractClassGenerator
 {
@@ -39,37 +34,21 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
 
     public function write(): void
     {
+        $segmentId = $this->segment->getId();
         $docblock = (new DocBlockGenerator())->setWordWrap(false);
         $class = new ClassGenerator($this->getClassName(), $this->getNamespace(), docBlock: $docblock);
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
 
         $class->setExtendedClass( AbstractSegment::class);
-        $this->classMap->addSegmentClass($this->segment->getId(), $this->getFullClassName());
 
-        $castings = [];
+        $getIdMethod = new MethodGenerator('getId', body: "return '$segmentId';");
+        $getIdMethod->setReturnType('string');
+        $class->addMethodFromGenerator($getIdMethod);
+
+        $this->classMap->addSegmentClass($segmentId, $this->getFullClassName());
+
         $elements = $this->segment->getElements();
-        foreach ($elements as $element) {
-            $elementId = $this->segment->getId() . $element->getId();
-            $elementType = $element->getType();
-            $elementNativeType = $this->registerElement($docblock, $element, $elementId);
-
-            if (class_exists($elementNativeType) || interface_exists($elementNativeType)) {
-                $class->addUse($elementNativeType);
-            }
-
-            if (!($elementType instanceof StringType)) {
-                $castings[$elementId] = match (true) {
-                    $elementType instanceof DateType => 'date',
-                    $elementType instanceof TimeType => 'time',
-                    default => $elementNativeType,
-                };
-            }
-        }
-
-        if (count($castings) !== 0) {
-            $castingProperty = new PropertyGenerator('castings', $castings, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
-            $class->addPropertyFromGenerator($castingProperty);
-        }
+        $this->registerElements($class, $docblock, $elements, $segmentId);
 
         $file->write();
     }

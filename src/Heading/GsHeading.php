@@ -4,10 +4,10 @@ namespace Gtlogistics\X12Parser\Heading;
 
 
 use Gtlogistics\X12Parser\Model\AbstractSegment;
-use Gtlogistics\X12Parser\Model\SegmentInterface;
+use Gtlogistics\X12Parser\Model\TransactionSetInterface;
 
 /**
- * @property "AA"|"AB"|"AC"|"AD"|"AE"|"AF"|"AG"|"AH"|"AI"|"AK"|"AL"|"AM"|"AN"|"AO"|"AP"|"AQ"|"AR"|"AS"|"AT"|"AU"|"AV"|"AW"|"AX"|"AY"|"AZ"|"BA"|"BB"|"BC"|"BD"|"BE"|"BF"|"BG"|"BL"|"BS"|"CA"|"CB"|"CC"|"CD"|"CE"|"CF"|"CH"|"CI"|"CJ"|"CK"|"CL"|"CM"|"CN"|"CO"|"CP"|"CQ"|"CR"|"CS"|"CT"|"CU"|"CV"|"CW"|"D3"|"D4"|"D5"|"DA"|"DD"|"DF"|"DI"|"DM"|"DS"|"DX"|"EC"|"ED"|"EI"|"EN"|"EO"|"EP"|"ER"|"ES"|"EV"|"EX"|"FA"|"FB"|"FC"|"FG"|"FR"|"FT"|"GC"|"GE"|"GF"|"GL"|"GP"|"GR"|"GT"|"HB"|"HC"|"HI"|"HN"|"HP"|"HR"|"HS"|"HU"|"HV"|"IA"|"IB"|"IC"|"ID"|"IE"|"IF"|"IG"|"IH"|"IJ"|"IM"|"IN"|"IO"|"IR"|"IS"|"JB"|"KM"|"LA"|"LB"|"LI"|"LN"|"LR"|"LS"|"LT"|"MA"|"MC"|"MD"|"ME"|"MF"|"MG"|"MH"|"MI"|"MJ"|"MK"|"MM"|"MN"|"MO"|"MP"|"MQ"|"MR"|"MS"|"MT"|"MV"|"MW"|"MX"|"MY"|"MZ"|"NC"|"NL"|"NP"|"NR"|"NT"|"OC"|"OG"|"OR"|"OW"|"PA"|"PB"|"PC"|"PD"|"PE"|"PF"|"PG"|"PH"|"PI"|"PJ"|"PK"|"PL"|"PN"|"PO"|"PQ"|"PR"|"PS"|"PT"|"PU"|"PV"|"PW"|"PY"|"QG"|"QM"|"QO"|"RA"|"RB"|"RC"|"RD"|"RE"|"RF"|"RG"|"RH"|"RI"|"RJ"|"RK"|"RL"|"RM"|"RN"|"RO"|"RP"|"RQ"|"RR"|"RS"|"RT"|"RU"|"RV"|"RW"|"RX"|"RY"|"RZ"|"SA"|"SB"|"SC"|"SD"|"SE"|"SF"|"SH"|"SI"|"SJ"|"SL"|"SM"|"SN"|"SO"|"SP"|"SQ"|"SR"|"SS"|"ST"|"SU"|"SV"|"SW"|"TA"|"TB"|"TD"|"TE"|"TF"|"TI"|"TJ"|"TM"|"TN"|"TO"|"TP"|"TR"|"TT"|"TU"|"TX"|"UA"|"UB"|"UC"|"UD"|"UI"|"UP"|"UW"|"VA"|"VB"|"VC"|"VD"|"VE"|"VH"|"VI"|"VS"|"WA"|"WB"|"WG"|"WI"|"WL"|"WR"|"WT" $GS01 **Functional Identifier Code:** Code identifying a group of application related transaction sets
+ * @property "AA"|"AB"|"AC"|"AD"|"AE"|"AF"|"AG"|"AH"|"AI"|"AK"|"AL"|"AM"|"AN"|"AO"|"AP"|"AQ"|"AR"|"AS"|"AT"|"AU"|"AV"|"AW"|"AX"|"AY"|"AZ"|"BA"|"BB"|"BC"|"BD"|"BE"|"BF"|"BG"|"BL"|"BS"|"CA"|"CB"|"CC"|"CD"|"CE"|"CF"|"CH"|"CI"|"CJ"|"CK"|"CL"|"CM"|"CN"|"CO"|"CP"|"CQ"|"CR"|"CS"|"CT"|"CU"|"CV"|"CW"|"D3"|"D4"|"D5"|"DA"|"DD"|"DF"|"DI"|"DM"|"DS"|"DX"|"EC"|"ED"|"EI"|"EN"|"EO"|"EP"|"ER"|"ES"|"EV"|"EX"|"FA"|"FB"|"FC"|"FG"|"FR"|"FT"|"GC"|"GE"|"GF"|"GL"|"GP"|"GR"|"GT"|"HB"|"HC"|"HI"|"HN"|"HP"|"HR"|"HS"|"HU"|"HV"|"IA"|"IB"|"IC"|"ID"|"IE"|"IF"|"IG"|"IH"|"IJ"|"IM"|"IN"|"IO"|"IR"|"IS"|"JB"|"KM"|"LA"|"LB"|"LI"|"LN"|"LR"|"LS"|"LT"|"MA"|"MC"|"MD"|"ME"|"MF"|"MG"|"MH"|"MI"|"MJ"|"MK"|"MM"|"MN"|"MO"|"MP"|"MQ"|"MR"|"MS"|"MT"|"MV"|"MW"|"MX"|"MY"|"MZ"|"NC"|"NL"|"NP"|"NR"|"NT"|"OC"|"OG"|"OR"|"OW"|"PA"|"PB"|"PC"|"PD"|"PE"|"PF"|"PG"|"PH"|"PI"|"PJ"|"PK"|"PL"|"PN"|"PO"|"PQ"|"PR"|"PS"|"PT"|"PU"|"PV"|"PW"|"PY"|"QG"|"QM"|"QO"|"RA"|"RB"|"RC"|"RD"|"RE"|"RF"|"RG"|"RH"|"RI"|"RJ"|"RK"|"RL"|"RM"|"RN"|"RO"|"RP"|"RQ"|"RR"|"RS"|"RT"|"RU"|"RV"|"RW"|"RX"|"RY"|"RZ"|"SA"|"SB"|"SC"|"SD"|"SE"|"SF"|"SH"|"SI"|"SJ"|"SL"|"SM"|"SN"|"SO"|"SP"|"SQ"|"SR"|"SS"|"ST"|"SU"|"SV"|"SW"|"TA"|"TB"|"TD"|"TE"|"TF"|"TI"|"TJ"|"TM"|"TN"|"TO"|"TP"|"TR"|"TT"|"TU"|"TX"|"UA"|"UB"|"UC"|"UD"|"UI"|"UP"|"UW"|"VA"|"VB"|"VC"|"VD"|"VE"|"VH"|"VI"|"VS"|"WA"|"WB"|"WG"|"WI"|"WL"|"WR"|"WT" $_01 **Functional Identifier Code:** Code identifying a group of application related transaction sets
  * - AA: Account Analysis (822)
  * - AB: Logistics Service Request (219)
  * - AC: Associated Data (102)
@@ -270,15 +270,15 @@ use Gtlogistics\X12Parser\Model\SegmentInterface;
  * - WL: Well Information (625)
  * - WR: Shipment Weights (440)
  * - WT: Rail Waybill Request (425)
- * @property string $GS02 **Application Sender's Code:** Code identifying party sending transmission; codes agreed to by trading partners
- * @property string $GS03 **Application Receiver's Code:** Code identifying party receiving transmission; codes agreed to by trading partners
- * @property \DateTimeInterface $GS04 **Date:** Date expressed as CCYYMMDD where CC represents the first two digits of the calendar year
- * @property \DateTimeInterface $GS05 **Time:** Time expressed in 24-hour clock time as follows: HHMM, or HHMMSS, or HHMMSSD, or HHMMSSDD, where H = hours (00-23), M = minutes (00-59), S = integer seconds (00-59) and DD = decimal seconds; decimal seconds are expressed as follows: D = tenths (0-9) and DD = hundredths (00-99)
- * @property string $GS06 **Group Control Number:** Assigned number originated and maintained by the sender
- * @property "T"|"X" $GS07 **Responsible Agency Code:** Code identifying the issuer of the standard; this code is used in conjunction with Data Element 480
+ * @property string $_02 **Application Sender's Code:** Code identifying party sending transmission; codes agreed to by trading partners
+ * @property string $_03 **Application Receiver's Code:** Code identifying party receiving transmission; codes agreed to by trading partners
+ * @property \DateTimeInterface $_04 **Date:** Date expressed as CCYYMMDD where CC represents the first two digits of the calendar year
+ * @property \DateTimeInterface $_05 **Time:** Time expressed in 24-hour clock time as follows: HHMM, or HHMMSS, or HHMMSSD, or HHMMSSDD, where H = hours (00-23), M = minutes (00-59), S = integer seconds (00-59) and DD = decimal seconds; decimal seconds are expressed as follows: D = tenths (0-9) and DD = hundredths (00-99)
+ * @property string $_06 **Group Control Number:** Assigned number originated and maintained by the sender
+ * @property "T"|"X" $_07 **Responsible Agency Code:** Code identifying the issuer of the standard; this code is used in conjunction with Data Element 480
  * - T: Transportation Data Coordinating Committee (TDCC)
  * - X: Accredited Standards Committee X12
- * @property "001000"|"002000"|"002001"|"002002"|"002003"|"002031"|"002040"|"002041"|"002042"|"003000"|"003010"|"003011"|"003012"|"003020"|"003021"|"003022"|"003030"|"003031"|"003032"|"003040"|"003041"|"003042"|"003050"|"003051"|"003052"|"003060"|"003061"|"003062"|"003070"|"003071"|"003072"|"004000"|"004010"|"004011"|"004012"|"004020"|"004021"|"004022"|"004030"|"004031"|"004032"|"004040"|"004041"|"004042"|"004050"|"004051"|"004052"|"004060"|"004061"|"004062"|"005000"|"005010"|"005011"|"005012"|"005020"|"005021"|"005022"|"005030"|"005031"|"005032"|"005040"|"005041"|"005042"|"005050"|"005051"|"005052"|"006000"|"006010"|"006011"|"006012"|"006020"|"006021"|"006022"|"006030"|"006031"|"006032"|"006040"|"006041"|"006042"|"006050"|"006051"|"006052"|"007000"|"007010"|"007011"|"007012"|"007020"|"007021"|"007022"|"007030"|"007031"|"007032"|"007040"|"007041"|"007042"|"007050"|"007051"|"007052"|"007060"|"007061"|"007062"|"008000"|"008010"|"008020"|"008030"|"008040"|"008050" $GS08 **Version / Release / Industry Identifier Code:** Code indicating the version, release, and industry identifier of the EDI Standard being used, including the GS and GE segments; if the code in DE455 in the GS segment is X, then DE 480 positions 1-3 are the version number; positions 4-6 are the release level of the version; and positions 7-12 are the industry or trade association identifiers (optionally assigned by user); if the code in DE455 in the GS segment is T, other formats are allowed.
+ * @property "001000"|"002000"|"002001"|"002002"|"002003"|"002031"|"002040"|"002041"|"002042"|"003000"|"003010"|"003011"|"003012"|"003020"|"003021"|"003022"|"003030"|"003031"|"003032"|"003040"|"003041"|"003042"|"003050"|"003051"|"003052"|"003060"|"003061"|"003062"|"003070"|"003071"|"003072"|"004000"|"004010"|"004011"|"004012"|"004020"|"004021"|"004022"|"004030"|"004031"|"004032"|"004040"|"004041"|"004042"|"004050"|"004051"|"004052"|"004060"|"004061"|"004062"|"005000"|"005010"|"005011"|"005012"|"005020"|"005021"|"005022"|"005030"|"005031"|"005032"|"005040"|"005041"|"005042"|"005050"|"005051"|"005052"|"006000"|"006010"|"006011"|"006012"|"006020"|"006021"|"006022"|"006030"|"006031"|"006032"|"006040"|"006041"|"006042"|"006050"|"006051"|"006052"|"007000"|"007010"|"007011"|"007012"|"007020"|"007021"|"007022"|"007030"|"007031"|"007032"|"007040"|"007041"|"007042"|"007050"|"007051"|"007052"|"007060"|"007061"|"007062"|"008000"|"008010"|"008020"|"008030"|"008040"|"008050" $_08 **Version / Release / Industry Identifier Code:** Code indicating the version, release, and industry identifier of the EDI Standard being used, including the GS and GE segments; if the code in DE455 in the GS segment is X, then DE 480 positions 1-3 are the version number; positions 4-6 are the release level of the version; and positions 7-12 are the industry or trade association identifiers (optionally assigned by user); if the code in DE455 in the GS segment is T, other formats are allowed.
  * - 001000: ASC X12 Standards Approved by ANSI in 1983
  * - 002000: ASC X12 Standards Approved by ANSI in 1986
  * - 002001: Draft Standards Approved by ASC X12 in November 1987
@@ -390,12 +390,17 @@ use Gtlogistics\X12Parser\Model\SegmentInterface;
 final class GsHeading extends AbstractSegment
 {
     protected array $castings = [
-        'GS04' => 'date',
-        'GS05' => 'time',
+        '_04' => 'date',
+        '_05' => 'time',
     ];
 
     /**
-     * @var non-empty-list<SegmentInterface>
+     * @var non-empty-list<TransactionSetInterface>
      */
     public array $ST = [];
+
+    public function getId(): string
+    {
+        return 'GS';
+    }
 }

@@ -5,12 +5,12 @@ namespace Gtlogistics\X12Parser\Model;
 interface TransactionSetInterface extends SegmentInterface
 {
     /**
-     * @return (SegmentInterface|LoopInterface)[]
+     * @return SegmentInterface[]
      */
     public function getSegments(): array;
 
     /**
-     * @param (SegmentInterface|LoopInterface)[] $segments
+     * @param SegmentInterface[] $segments
      */
     public function setSegments(array $segments): void;
 }

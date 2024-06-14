@@ -14,6 +14,7 @@ use Laminas\Code\Generator\ClassGenerator;
 use Laminas\Code\Generator\DocBlock\Tag\PropertyTag;
 use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\FileGenerator;
+use Laminas\Code\Generator\MethodGenerator;
 use Laminas\Code\Generator\PropertyGenerator;
 use Laminas\Code\Generator\TypeGenerator;
 
@@ -47,32 +48,20 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
 
         $class->setExtendedClass(AbstractTransactionSet::class);
+
+        $getIdMethod = new MethodGenerator('getId', body: "return 'ST';");
+        $getIdMethod->setReturnType('string');
+        $class->addMethodFromGenerator($getIdMethod);
+
         $this->classMap->addTransactionSetClass($this->transactionSet->getId(), $this->getFullClassName());
 
-        $castings = [];
         $segments = $this->transactionSet->getSegments();
         foreach ($segments as $segment) {
             $segmentId = $segment->getId();
 
             if ($segment instanceof Segment && $segmentId === 'ST') {
                 $elements = $segment->getElements();
-                foreach ($elements as $element) {
-                    $elementId = $segmentId . $element->getId();
-                    $elementType = $element->getType();
-                    $elementNativeType = $this->registerElement($docBlock, $element, $elementId);
-
-                    if (class_exists($elementNativeType) || interface_exists($elementNativeType)) {
-                        $class->addUse($elementNativeType);
-                    }
-
-                    if (!($elementType instanceof StringType)) {
-                        $castings[$elementId] = match (true) {
-                            $elementType instanceof DateType => 'date',
-                            $elementType instanceof TimeType => 'time',
-                            default => $elementNativeType,
-                        };
-                    }
-                }
+                $this->registerElements($class, $docBlock, $elements, $segmentId);
 
                 continue;
             }
@@ -87,11 +76,6 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
             $docBlock->setTag(new PropertyTag($segmentId, $generator->getClassName() . '[]'));
 
             $generator->write();
-        }
-
-        if (count($castings) !== 0) {
-            $castingProperty = new PropertyGenerator('castings', $castings, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
-            $class->addPropertyFromGenerator($castingProperty);
         }
 
         $file->write();

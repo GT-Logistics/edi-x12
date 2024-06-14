@@ -6,7 +6,7 @@ namespace Gtlogistics\X12Parser\Heading;
 use Gtlogistics\X12Parser\Model\AbstractSegment;
 
 /**
- * @property "00"|"01"|"02"|"03"|"04"|"05"|"06"|"07"|"08" $ISA01 **Authorization Information Qualifier:** Code identifying the type of information in the Authorization Information
+ * @property "00"|"01"|"02"|"03"|"04"|"05"|"06"|"07"|"08" $_01 **Authorization Information Qualifier:** Code identifying the type of information in the Authorization Information
  * - 00: No Authorization Information Present (No Meaningful Information in I02)
  * - 01: UCS Communications ID
  * - 02: EDX Communications ID
@@ -16,12 +16,12 @@ use Gtlogistics\X12Parser\Model\AbstractSegment;
  * - 06: United States Federal Government Communication Identifier
  * - 07: Truck Communications ID
  * - 08: Ocean Communications ID
- * @property string $ISA02 **Authorization Information:** Information used for additional identification or authorization of the interchange sender or the data in the interchange; the type of information is set by the Authorization Information Qualifier (I01)
- * @property "00"|"01" $ISA03 **Security Information Qualifier:** Code identifying the type of information in the Security Information
+ * @property string $_02 **Authorization Information:** Information used for additional identification or authorization of the interchange sender or the data in the interchange; the type of information is set by the Authorization Information Qualifier (I01)
+ * @property "00"|"01" $_03 **Security Information Qualifier:** Code identifying the type of information in the Security Information
  * - 00: No Security Information Present (No Meaningful Information in I04)
  * - 01: Password
- * @property string $ISA04 **Security Information:** This is used for identifying the security information about the interchange sender or the data in the interchange; the type of information is set by the Security Information Qualifier (I03)
- * @property "01"|"02"|"03"|"04"|"07"|"08"|"09"|"10"|"11"|"12"|"13"|"14"|"15"|"16"|"17"|"18"|"19"|"20"|"21"|"22"|"23"|"24"|"25"|"26"|"27"|"28"|"29"|"30"|"31"|"32"|"33"|"34"|"35"|"36"|"37"|"38"|"AM"|"NR"|"SA"|"SN"|"ZZ" $ISA05 **Interchange ID Qualifier:** Code indicating the system/method of code structure used to designate the sender or receiver ID element being qualified
+ * @property string $_04 **Security Information:** This is used for identifying the security information about the interchange sender or the data in the interchange; the type of information is set by the Security Information Qualifier (I03)
+ * @property "01"|"02"|"03"|"04"|"07"|"08"|"09"|"10"|"11"|"12"|"13"|"14"|"15"|"16"|"17"|"18"|"19"|"20"|"21"|"22"|"23"|"24"|"25"|"26"|"27"|"28"|"29"|"30"|"31"|"32"|"33"|"34"|"35"|"36"|"37"|"38"|"AM"|"NR"|"SA"|"SN"|"ZZ" $_05 **Interchange ID Qualifier:** Code indicating the system/method of code structure used to designate the sender or receiver ID element being qualified
  * - 01: Duns (Dun & Bradstreet)
  * - 02: SCAC (Standard Carrier Alpha Code)
  * - 03: FMC (Federal Maritime Commission)
@@ -63,8 +63,8 @@ use Gtlogistics\X12Parser\Model\AbstractSegment;
  * - SA: User Identification Number as assigned by the Safety and Fitness Electronic Records (SAFER) System
  * - SN: Standard Address Number
  * - ZZ: Mutually Defined
- * @property string $ISA06 **Interchange Sender ID:** Identification code published by the sender for other parties to use as the receiver ID to route data to them; the sender always codes this value in the sender ID element
- * @property "01"|"02"|"03"|"04"|"07"|"08"|"09"|"10"|"11"|"12"|"13"|"14"|"15"|"16"|"17"|"18"|"19"|"20"|"21"|"22"|"23"|"24"|"25"|"26"|"27"|"28"|"29"|"30"|"31"|"32"|"33"|"34"|"35"|"36"|"37"|"38"|"AM"|"NR"|"SA"|"SN"|"ZZ" $ISA07 **Interchange ID Qualifier:** Code indicating the system/method of code structure used to designate the sender or receiver ID element being qualified
+ * @property string $_06 **Interchange Sender ID:** Identification code published by the sender for other parties to use as the receiver ID to route data to them; the sender always codes this value in the sender ID element
+ * @property "01"|"02"|"03"|"04"|"07"|"08"|"09"|"10"|"11"|"12"|"13"|"14"|"15"|"16"|"17"|"18"|"19"|"20"|"21"|"22"|"23"|"24"|"25"|"26"|"27"|"28"|"29"|"30"|"31"|"32"|"33"|"34"|"35"|"36"|"37"|"38"|"AM"|"NR"|"SA"|"SN"|"ZZ" $_07 **Interchange ID Qualifier:** Code indicating the system/method of code structure used to designate the sender or receiver ID element being qualified
  * - 01: Duns (Dun & Bradstreet)
  * - 02: SCAC (Standard Carrier Alpha Code)
  * - 03: FMC (Federal Maritime Commission)
@@ -106,11 +106,11 @@ use Gtlogistics\X12Parser\Model\AbstractSegment;
  * - SA: User Identification Number as assigned by the Safety and Fitness Electronic Records (SAFER) System
  * - SN: Standard Address Number
  * - ZZ: Mutually Defined
- * @property string $ISA08 **Interchange Receiver ID:** Identification code published by the receiver of the data; When sending, it is used by the sender as their sending ID, thus other parties sending to them will use this as a receiving ID to route data to them
- * @property \DateTimeInterface $ISA09 **Interchange Date:** Date of the interchange
- * @property \DateTimeInterface $ISA10 **Interchange Time:** Time of the interchange
- * @property string $ISA11 **Repetition Separator:** The repetition separator is a delimiter and not a data element; this field provides the delimiter used to separate repeated occurrences of a simple data element or a composite data structure; this value must be different than the data element separator, component element separator, and the segment terminator
- * @property string $ISA12 **Interchange Control Version Number Code:** Code indicating the system/method of code structure used to designate the sender or receiver ID element being qualified
+ * @property string $_08 **Interchange Receiver ID:** Identification code published by the receiver of the data; When sending, it is used by the sender as their sending ID, thus other parties sending to them will use this as a receiving ID to route data to them
+ * @property \DateTimeInterface $_09 **Interchange Date:** Date of the interchange
+ * @property \DateTimeInterface $_10 **Interchange Time:** Time of the interchange
+ * @property string $_11 **Repetition Separator:** The repetition separator is a delimiter and not a data element; this field provides the delimiter used to separate repeated occurrences of a simple data element or a composite data structure; this value must be different than the data element separator, component element separator, and the segment terminator
+ * @property string $_12 **Interchange Control Version Number Code:** Code indicating the system/method of code structure used to designate the sender or receiver ID element being qualified
  * - 00200: ASC X12 Standards Issued by ANSI in 1987
  * - 00200: ASC X12 Standards Issued by ANSI in 1987
  * - 00201: Draft Standards for Trial Use Approved by ASC X12 Through August 1988
@@ -155,27 +155,32 @@ use Gtlogistics\X12Parser\Model\AbstractSegment;
  * - 00803: 00803 Standards Approved for Publication by ASC X12 Procedures Review Board through December 2021
  * - 00804: 00804 Standards Approved for Publication by ASC X12 Procedures Review Board through December 2022
  * - 00805: 00805 Standards Approved for Publication by ASC X12 Procedures Review Board through December 2023
- * @property int $ISA13 **Interchange Control Number:** A control number assigned by the interchange sender
- * @property "0"|"1"|"2"|"3" $ISA14 **Acknowledgment Requested Code:** Code indicating sender's request for an interchange acknowledgment
+ * @property int $_13 **Interchange Control Number:** A control number assigned by the interchange sender
+ * @property "0"|"1"|"2"|"3" $_14 **Acknowledgment Requested Code:** Code indicating sender's request for an interchange acknowledgment
  * - 0: No Interchange Acknowledgment Requested
  * - 1: Interchange Acknowledgment Requested (TA1)
  * - 2: Interchange Acknowledgment Requested only when Interchange is "Rejected Because Of Errors"
  * - 3: Interchange Acknowledgment Requested only when Interchange is "Rejected Because Of Errors" or "Accepted but Errors are Noted"
- * @property "I"|"P"|"T" $ISA15 **Interchange Usage Indicator Code:** Code indicating whether data enclosed by this interchange envelope is test, production or information
+ * @property "I"|"P"|"T" $_15 **Interchange Usage Indicator Code:** Code indicating whether data enclosed by this interchange envelope is test, production or information
  * - I: Information
  * - P: Production Data
  * - T: Test Data
- * @property string $ISA16 **Component Element Separator:** The component element separator is a delimiter and not a data element; this field provides the delimiter used to separate component data elements within a composite data structure; this value must be different than the data element separator and the segment terminator
+ * @property string $_16 **Component Element Separator:** The component element separator is a delimiter and not a data element; this field provides the delimiter used to separate component data elements within a composite data structure; this value must be different than the data element separator and the segment terminator
  */
 final class IsaHeading extends AbstractSegment
 {
     protected array $castings = [
-        'ISA09' => 'date',
-        'ISA10' => 'time',
+        '_09' => 'date',
+        '_10' => 'time',
     ];
 
     /**
      * @var non-empty-list<GsHeading>
      */
     public array $GS = [];
+
+    public function getId(): string
+    {
+        return 'ISA';
+    }
 }
