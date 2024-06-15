@@ -7,8 +7,8 @@ use Gtlogistics\X12Parser\Schema\Release;
 use Laminas\Code\Generator\AbstractMemberGenerator;
 use Laminas\Code\Generator\ClassGenerator;
 use Laminas\Code\Generator\FileGenerator;
-use Laminas\Code\Generator\MethodGenerator;
-use Laminas\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
+use Laminas\Code\Generator\TypeGenerator;
 
 final readonly class ReleaseGenerator extends AbstractClassGenerator
 {
@@ -33,14 +33,17 @@ final readonly class ReleaseGenerator extends AbstractClassGenerator
         }
 
         $class->setExtendedClass(AbstractRelease::class);
-        $class->addMethodFromGenerator(new MethodGenerator(
-            '__construct',
-            [
-                new ParameterGenerator('transactionSetClassMap', 'array', $classMap->getTransactionSetClassMap()),
-                new ParameterGenerator('segmentClassMap', 'array', $classMap->getSegmentClassMap()),
-            ],
-            AbstractMemberGenerator::FLAG_PUBLIC,
-            'parent::__construct($transactionSetClassMap, $segmentClassMap);'
+        $class->addPropertyFromGenerator(new PropertyGenerator(
+            'transactionSetClassMap',
+            $classMap->getTransactionSetClassMap(),
+            AbstractMemberGenerator::FLAG_PROTECTED,
+            TypeGenerator::fromTypeString('array'),
+        ));
+        $class->addPropertyFromGenerator(new PropertyGenerator(
+            'segmentClassMap',
+            $classMap->getSegmentClassMap(),
+            AbstractMemberGenerator::FLAG_PROTECTED,
+            TypeGenerator::fromTypeString('array'),
         ));
 
         $file->write();

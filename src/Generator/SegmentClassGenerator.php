@@ -35,6 +35,12 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
     public function write(): void
     {
         $segmentId = $this->segment->getId();
+        $this->classMap->addSegmentClass($segmentId, $this->getFullClassName());
+
+        if (file_exists($this->getFilename())) {
+            return;
+        }
+
         $docblock = (new DocBlockGenerator())->setWordWrap(false);
         $class = new ClassGenerator($this->getClassName(), $this->getNamespace(), docBlock: $docblock);
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
@@ -45,7 +51,7 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
         $getIdMethod->setReturnType('string');
         $class->addMethodFromGenerator($getIdMethod);
 
-        $this->classMap->addSegmentClass($segmentId, $this->getFullClassName());
+
 
         $elements = $this->segment->getElements();
         $this->registerElements($class, $docblock, $elements);

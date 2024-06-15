@@ -2,15 +2,6 @@
 
 namespace Gtlogistics\X12Parser\Model;
 
-interface TransactionSetInterface extends SegmentInterface
+interface TransactionSetInterface extends SegmentInterface, WithSegmentsInterface
 {
-    /**
-     * @return SegmentInterface[]
-     */
-    public function getSegments(): array;
-
-    /**
-     * @param SegmentInterface[] $segments
-     */
-    public function setSegments(array $segments): void;
 }

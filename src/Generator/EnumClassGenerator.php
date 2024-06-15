@@ -21,6 +21,10 @@ final readonly class EnumClassGenerator extends AbstractClassGenerator
 
     public function write(): void
     {
+        if (file_exists($this->getFilename())) {
+            return;
+        }
+
         $cases = [];
         foreach ($this->enumType->getAvailableValues() as $value => $description) {
             $key = u($description)->snake()->upper()->toString() ?: $value;

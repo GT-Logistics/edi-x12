@@ -5,13 +5,25 @@ namespace Gtlogistics\X12Parser\Model;
 abstract class AbstractRelease implements ReleaseInterface
 {
     /**
-     * @param array<string, class-string<TransactionSetInterface>> $transactionSetClassMap
-     * @param array<string, class-string<SegmentInterface>> $segmentClassMap
+     * @var array<string, class-string<TransactionSetInterface>>
      */
+    protected array $transactionSetClassMap;
+
+    /**
+     * @var array<string, class-string<SegmentInterface>> $segmentClassMap
+     */
+    protected array $segmentClassMap;
+
     public function __construct(
-        private array $transactionSetClassMap,
-        private array $segmentClassMap,
+        ?array $transactionSetClassMap = null,
+        ?array $segmentClassMap = null,
     ) {
+        if ($transactionSetClassMap !== null) {
+            $this->transactionSetClassMap = $transactionSetClassMap;
+        }
+        if ($segmentClassMap !== null) {
+            $this->segmentClassMap = $segmentClassMap;
+        }
     }
 
     /**

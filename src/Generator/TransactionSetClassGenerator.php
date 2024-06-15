@@ -40,18 +40,18 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
 
     public function write(): void
     {
+        $transactionSetCode = $this->transactionSet->getCode();
+        $this->classMap->addTransactionSetClass($transactionSetCode, $this->getFullClassName());
+
         $docBlock = (new DocBlockGenerator())->setWordWrap(false);
         $class = new ClassGenerator($this->getClassName(), $this->getNamespace(), docBlock: $docBlock);
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
-        $transactionSetCode = $this->transactionSet->getCode();
 
         $class->setExtendedClass(AbstractTransactionSet::class);
 
         $getIdMethod = new MethodGenerator('getId', body: "return 'ST';");
         $getIdMethod->setReturnType('string');
         $class->addMethodFromGenerator($getIdMethod);
-
-        $this->classMap->addTransactionSetClass($transactionSetCode, $this->getFullClassName());
 
         $loops = [];
         $segments = $this->transactionSet->getSegments();
