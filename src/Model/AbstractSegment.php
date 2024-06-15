@@ -41,7 +41,7 @@ abstract class AbstractSegment implements SegmentInterface
             $casting = $this->getCasting($key);
             $required = $this->getRequired($key);
 
-            if ($required) {
+            if ($required || $value !== '') {
                 if (in_array($casting, ['int', 'float'])) {
                     $value = str_pad($value, $min, '0', STR_PAD_LEFT);
                 } else {
@@ -67,9 +67,10 @@ abstract class AbstractSegment implements SegmentInterface
     public function __get(string $key): mixed
     {
         $casting = $this->getCasting($key);
+        $lengths = $this->getLengths($key);
         $value = $this->elements[$this->parseIndex($key)];
 
-        return $this->convertTo($value, $casting);
+        return $this->convertTo($value, $casting, $lengths);
     }
 
     public function __set(string $key, mixed $value): void
@@ -112,7 +113,7 @@ abstract class AbstractSegment implements SegmentInterface
      * @return mixed
      * @throws \Exception
      */
-    private function convertTo(string $value, string $type): mixed
+    private function convertTo(string $value, string $type, array $lengths): mixed
     {
         if ($value === '') {
             return null;
@@ -121,11 +122,38 @@ abstract class AbstractSegment implements SegmentInterface
             return $type::from($value);
         }
 
+        [, $max] = $lengths;
+        if ($type === 'date') {
+            $dateFormats = [];
+
+            if ($max >= 8) {
+                $dateFormats[] = 'Ymd';
+            }
+            if ($max >= 6) {
+                $dateFormats[] = 'ymd';
+            }
+
+            return $this->convertToDateTime($value, $dateFormats)->setTime(0, 0);
+        }
+        if ($type === 'time') {
+            $timeFormats = [];
+
+            if ($max >= 8) {
+                $timeFormats[] = 'Hisu';
+            }
+            if ($max >= 6) {
+                $timeFormats[] = 'His';
+            }
+            if ($max >= 4) {
+                $timeFormats[] = 'Hi';
+            }
+
+            return $this->convertToDateTime($value, $timeFormats)->setDate(1970, 1, 1);
+        }
+
         return match ($type) {
             'int' => (int) $value,
             'float' => (float) $value,
-            'date' => $this->convertToDateTime($value, ['Ymd', 'ymd'])->setTime(0, 0),
-            'time' => $this->convertToDateTime($value, ['Hisu', 'His', 'Hi'])->setDate(1970, 1, 1),
             default => $value,
         };
     }
