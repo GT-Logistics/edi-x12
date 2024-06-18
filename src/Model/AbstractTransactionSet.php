@@ -12,7 +12,7 @@ abstract class AbstractTransactionSet extends AbstractSegment implements Transac
             return parent::__get($key);
         }
 
-        return array_values(array_filter($this->segments, static fn (SegmentInterface|LoopInterface $segment) => $segment->getId() === $key));
+        return $this->segments[$key];
     }
 
     public function __set(string $key, mixed $value): void

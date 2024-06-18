@@ -5,7 +5,7 @@ namespace Gtlogistics\X12Parser\Generator;
 use Gtlogistics\X12Parser\Model\SegmentInterface;
 use Gtlogistics\X12Parser\Model\TransactionSetInterface;
 
-class ClassMap
+final class ClassMap
 {
     /**
      * @var array<string, class-string<TransactionSetInterface>>

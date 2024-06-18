@@ -51,8 +51,6 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
         $getIdMethod->setReturnType('string');
         $class->addMethodFromGenerator($getIdMethod);
 
-
-
         $elements = $this->segment->getElements();
         $this->registerElements($class, $docblock, $elements);
 

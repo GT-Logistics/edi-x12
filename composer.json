@@ -7,9 +7,7 @@
   },
   "require": {
     "laminas/laminas-code": "^4.13.0",
-    "symfony/string": "^7.1"
-  },
-  "require-dev": {
-    "phpstan/phpstan": "^1.11.3"
+    "symfony/string": "^7.1",
+    "phpstan/phpstan": "^1.11"
   }
 }

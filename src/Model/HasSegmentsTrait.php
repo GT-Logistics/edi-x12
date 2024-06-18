@@ -16,21 +16,53 @@ trait HasSegmentsTrait
 
     public function getSegments(): array
     {
-        $segments = [];
+        $flatSegments = [];
 
-        foreach ($this->segments as $segment) {
-            if ($segment instanceof LoopInterface) {
-                array_push($segments, ...$segment->getSegments());
-            } else {
-                $segments[] = $segment;
+        foreach ($this->segments as $segments) {
+            foreach ($segments as $segment) {
+                if ($segment instanceof LoopInterface) {
+                    array_push($flatSegments, ...$segment->getSegments());
+                } else {
+                    $flatSegments[] = $segment;
+                }
             }
         }
 
-        return $segments;
+        return $flatSegments;
     }
 
     public function setSegments(array $segments): void
     {
-        $this->segments = $segments;
+        $this->segments = [];
+        $currentLoop = null;
+        $currentLoopSegments = [];
+
+        foreach ($segments as $segment) {
+            // If the segment is the start of the loop, begin the loop
+            if ($loopClass = $this->loops[$segment->getId()] ?? null) {
+                $currentLoop = new $loopClass();
+                $currentLoopSegments = [];
+
+                continue;
+            }
+
+            // If we're on a loop
+            if ($currentLoop) {
+                // Collect the segments that are part of the loop
+                if ($currentLoop->isPartOf($segment)) {
+                    $currentLoopSegments[] = $segment;
+
+                    continue;
+                }
+
+                // Register the segments and the loop itself
+                $currentLoop->setSegments($currentLoopSegments);
+
+                $this->segments[$currentLoop->getId()][] = $currentLoop;
+                $currentLoop = null;
+            }
+
+            $this->segments[$segment->getId()][] = $segment;
+        }
     }
 }
