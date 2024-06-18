@@ -414,7 +414,7 @@ final class GsHeading extends AbstractSegment
     ];
 
     /**
-     * @var non-empty-list<TransactionSetInterface>
+     * @var TransactionSetInterface[]
      */
     public array $ST = [];
 

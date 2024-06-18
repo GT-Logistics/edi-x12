@@ -32,7 +32,9 @@ final readonly class X12Parser
             throw new MalformedX12Exception('The ISA Header must be 106 characters long.');
         }
 
+        /** @var non-empty-string $elementDelimiter */
         $elementDelimiter = $rawIsa[3];
+        /** @var non-empty-string $segmentDelimiter */
         $segmentDelimiter = $rawIsa[105];
 
         $elements = explode($elementDelimiter, $rawIsa);
@@ -45,6 +47,10 @@ final readonly class X12Parser
         return new Edi($this->parseInterchangeControls($components));
     }
 
+    /**
+     * @param string[][] $segments
+     * @return IsaHeading[]
+     */
     private function parseInterchangeControls(array $segments): array
     {
         $isa = [];
@@ -63,13 +69,17 @@ final readonly class X12Parser
 
                 $currentIsa = new IsaHeading();
                 $currentIsa->setElements($elements);
-                $currentRelease = $this->getRelease($currentIsa->ISA12);
+                $currentRelease = $this->getRelease($currentIsa->_12);
                 $currentSegments = [];
                 $ended = false;
 
                 continue;
             }
             if ($segmentId === 'IEA') {
+                if (!$currentIsa || !$currentRelease) {
+                    throw new MalformedX12Exception('The IEA trailer does not have a matching ISA segment');
+                }
+
                 $gs = $this->parseFunctionalGroups($currentRelease, $currentSegments);
 
                 if (count($gs) !== (int) $elements[1]) {
@@ -93,6 +103,10 @@ final readonly class X12Parser
         return $isa;
     }
 
+    /**
+     * @param string[][] $segments
+     * @return GsHeading[]
+     */
     private function parseFunctionalGroups(ReleaseInterface $release, array $segments): array
     {
         $gs = [];
@@ -116,6 +130,10 @@ final readonly class X12Parser
                 continue;
             }
             if ($segmentId === 'GE') {
+                if (!$currentGs) {
+                    throw new MalformedX12Exception('The GE trailer does not have a matching GS segment');
+                }
+
                 $st = $this->parseTransactionSets($release, $currentSegments);
 
                 if (count($st) !== (int) $elements[1]) {
@@ -139,13 +157,14 @@ final readonly class X12Parser
         return $gs;
     }
 
+    /**
+     * @param string[][] $segments
+     * @return TransactionSetInterface[]
+     */
     private function parseTransactionSets(ReleaseInterface $release, array $segments): array
     {
-        /** @var TransactionSetInterface[] $st */
         $st = [];
-        /** @var TransactionSetInterface|null $currentSt */
         $currentSt = null;
-        /** @var array<string, SegmentInterface[]> $currentSegments */
         $currentSegments = [];
         $segmentCount = 0;
         $ended = true;
@@ -170,6 +189,10 @@ final readonly class X12Parser
                 continue;
             }
             if ($segmentId === 'SE') {
+                if (!$currentSt) {
+                    throw new MalformedX12Exception('The SE trailer does not have a matching ST segment');
+                }
+
                 // Must be the extracted number of segments plus 2 (for the excluded ST and SE segments)
                 if ($segmentCount + 2 !== ((int) $elements[1])) {
                     throw new MalformedX12Exception('The ST header does not have the declared number of segments in the SE trailer');

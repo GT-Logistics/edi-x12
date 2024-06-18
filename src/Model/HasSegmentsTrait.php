@@ -2,6 +2,8 @@
 
 namespace Gtlogistics\X12Parser\Model;
 
+use Webmozart\Assert\Assert;
+
 trait HasSegmentsTrait
 {
     /**
@@ -64,5 +66,23 @@ trait HasSegmentsTrait
 
             $this->segments[$segment->getId()][] = $segment;
         }
+    }
+
+    /**
+     * @return (SegmentInterface|LoopInterface)[]
+     */
+    private function validateSegments(string $key, mixed $value): array
+    {
+        $result = [];
+
+        Assert::isArray($value);
+        foreach ($value as $item) {
+            Assert::isInstanceOfAny($item, [LoopInterface::class, SegmentInterface::class]);
+            Assert::same($item->getId(), $key);
+
+            $result[] = $item;
+        }
+
+        return $result;
     }
 }

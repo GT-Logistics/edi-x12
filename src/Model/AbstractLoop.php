@@ -17,7 +17,7 @@ abstract class AbstractLoop implements LoopInterface
 
     public function __set(string $key, mixed $value): void
     {
-        $this->segments[$key] = $value;
+        $this->segments[$key] = $this->validateSegments($key, $value);
     }
 
     public function __isset(string $key): bool

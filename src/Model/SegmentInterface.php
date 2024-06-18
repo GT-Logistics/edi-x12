@@ -9,12 +9,12 @@ interface SegmentInterface
     public function getId(): string;
 
     /**
-     * @return mixed[]
+     * @return string[]
      */
     public function getElements(): array;
 
     /**
-     * @param mixed[] $elements
+     * @param string[] $elements
      */
     public function setElements(array $elements): void;
 }

@@ -5,7 +5,7 @@ namespace Gtlogistics\X12Parser\Schema;
 final class Loop implements SegmentInterface
 {
     /**
-     * @var Segment[]
+     * @var SegmentInterface[]
      */
     private array $segments = [];
 
@@ -42,7 +42,7 @@ final class Loop implements SegmentInterface
     }
 
     /**
-     * @return Segment[]
+     * @return SegmentInterface[]
      */
     public function getSegments(): array
     {

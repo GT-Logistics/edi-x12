@@ -52,8 +52,8 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
         $segments = $this->transactionSet->getSegments();
         $stSegment = array_pop($segments);
 
-        if (!($stSegment instanceof Segment) && $stSegment->getId() !== 'ST') {
-            throw new \RuntimeException("Unexpected segment {$stSegment->getId()}");
+        if (!($stSegment instanceof Segment) || $stSegment->getId() !== 'ST') {
+            throw new \RuntimeException('Unexpected segment');
         }
 
         $this->registerElements($class, $docBlock, $stSegment->getElements());

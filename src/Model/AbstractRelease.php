@@ -14,6 +14,10 @@ abstract class AbstractRelease implements ReleaseInterface
      */
     protected array $segmentClassMap;
 
+    /**
+     * @param array<string, class-string<TransactionSetInterface>>|null $transactionSetClassMap
+     * @param array<string, class-string<SegmentInterface>>|null $segmentClassMap
+     */
     public function __construct(
         ?array $transactionSetClassMap = null,
         ?array $segmentClassMap = null,

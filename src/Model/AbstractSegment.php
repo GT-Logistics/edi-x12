@@ -2,6 +2,8 @@
 
 namespace Gtlogistics\X12Parser\Model;
 
+use Webmozart\Assert\Assert;
+
 abstract class AbstractSegment implements SegmentInterface
 {
     /**
@@ -20,7 +22,7 @@ abstract class AbstractSegment implements SegmentInterface
     protected array $required = [];
 
     /**
-     * @var mixed[]
+     * @var string[]
      */
     private array $elements = [];
 
@@ -34,7 +36,7 @@ abstract class AbstractSegment implements SegmentInterface
         $elements = [];
 
         for ($i = 0, $iMax = max(array_keys($this->elements)); $i <= $iMax; $i++) {
-            $key = '_' . str_pad($i, 2, '0', STR_PAD_LEFT);
+            $key = '_' . str_pad((string) $i, 2, '0', STR_PAD_LEFT);
 
             $value = $this->elements[$i] ?? '';
             [$min, $max] = $this->getLengths($key);
@@ -43,8 +45,10 @@ abstract class AbstractSegment implements SegmentInterface
 
             if ($required || $value !== '') {
                 if (in_array($casting, ['int', 'float'])) {
+                    Assert::numeric($value);
                     $value = str_pad($value, $min, '0', STR_PAD_LEFT);
                 } else {
+                    Assert::string($value);
                     $value = str_pad($value, $min);
                 }
 
@@ -97,6 +101,9 @@ abstract class AbstractSegment implements SegmentInterface
         return $this->castings[$key] ?? 'string';
     }
 
+    /**
+     * @return array{int, int}
+     */
     private function getLengths(string $key): array
     {
         return $this->lengths[$key] ?? [-1, -1];
@@ -108,10 +115,7 @@ abstract class AbstractSegment implements SegmentInterface
     }
 
     /**
-     * @param string $value
-     * @param string $type
-     * @return mixed
-     * @throws \Exception
+     * @param array{int, int} $lengths
      */
     private function convertTo(string $value, string $type, array $lengths): mixed
     {
@@ -158,33 +162,46 @@ abstract class AbstractSegment implements SegmentInterface
         };
     }
 
+    /**
+     * @param array{int, int} $lengths
+     */
     private function convertFrom(mixed $value, string $type, array $lengths): string
     {
         if ($value === null) {
             return '';
         }
-        if (is_a($type, \BackedEnum::class, true)) {
-            return $value->value;
+        if (is_a($type, \BackedEnum::class, true) && $value instanceof $type) {
+            return (string) $value->value;
         }
 
         [, $max] = $lengths;
         if ($type === 'date') {
-            /** @var $value \DateTimeInterface */
+            Assert::isInstanceOf($value, \DateTimeInterface::class);
+
             return match ($max) {
                 8 => $value->format('Ymd'),
                 6 => $value->format('ymd'),
+                default => throw new \RuntimeException('Not a valid length format'),
             };
         }
         if ($type === 'time') {
-            /** @var $value \DateTimeInterface */
+            Assert::isInstanceOf($value, \DateTimeInterface::class);
+
             return match ($max) {
                 8 => $value->format('Hisv'),
                 6 => $value->format('His'),
                 4 => $value->format('Hi'),
+                default => throw new \RuntimeException('Not a valid length format'),
             };
         }
+        if ($value instanceof \Stringable) {
+            return (string) $value;
+        }
+        if (is_string($value)) {
+            return $value;
+        }
 
-        return (string) $value;
+        throw new \RuntimeException('Not a valid value');
     }
 
     /**

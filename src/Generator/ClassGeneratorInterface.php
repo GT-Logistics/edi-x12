@@ -10,7 +10,7 @@ interface ClassGeneratorInterface
 
     public function getFullClassName(): string;
 
-    public function getFilename();
+    public function getFilename(): string;
 
     public function write(): void;
 }

@@ -7,6 +7,7 @@ use Gtlogistics\X12Parser\Schema\Loop;
 use Laminas\Code\Generator\ClassGenerator;
 use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\FileGenerator;
+use Laminas\Code\Generator\MethodGenerator;
 
 final readonly class LoopClassGenerator extends AbstractClassGenerator
 {
@@ -33,11 +34,17 @@ final readonly class LoopClassGenerator extends AbstractClassGenerator
 
     public function write(): void
     {
+        $loopId = $this->loop->getId();
+
         $docBlock = (new DocBlockGenerator())->setWordWrap(false);
         $class = new ClassGenerator($this->getClassName(), $this->getNamespace(), docBlock: $docBlock);
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
 
         $class->setExtendedClass(AbstractLoop::class);
+
+        $getIdMethod = new MethodGenerator('getId', body: "return '$loopId';");
+        $getIdMethod->setReturnType('string');
+        $class->addMethodFromGenerator($getIdMethod);
 
         $segments = $this->loop->getSegments();
         $this->registerSegments($class, $docBlock, $segments);

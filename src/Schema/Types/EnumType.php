@@ -18,6 +18,9 @@ final readonly class EnumType implements TypeInterface
         return $this->name;
     }
 
+    /**
+     * @return 'string'
+     */
     public function getNativeType(): string
     {
         return 'string';

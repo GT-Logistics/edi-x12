@@ -15,6 +15,10 @@ use Gtlogistics\X12Parser\Schema\Types\StringType;
 use Gtlogistics\X12Parser\Schema\Types\TimeType;
 use Gtlogistics\X12Parser\Schema\Types\TypeInterface;
 
+use function Safe\scandir;
+use function Safe\preg_match;
+use function Safe\file_get_contents;
+
 final class CDataSchemaLoader implements SchemaLoaderInterface
 {
     private array $schemas = [];
@@ -81,7 +85,7 @@ final class CDataSchemaLoader implements SchemaLoaderInterface
             $elementSchemas = $fullSegmentSchema['Elements'];
 
             foreach ($elementSchemas as $index => $elementSchema) {
-                $elementId = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+                $elementId = str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT);
                 $elementType = $this->getElementType($releaseId, $elementSchema);
                 $element = new Element(
                     $elementId,

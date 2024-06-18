@@ -1,0 +1,9 @@
+includes:
+    - vendor/phpstan/phpstan-webmozart-assert/extension.neon
+    - vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
+
+parameters:
+    level: 9
+    paths:
+        - src/
+        # - test/

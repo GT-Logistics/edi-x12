@@ -170,7 +170,7 @@ use Gtlogistics\X12Parser\Model\AbstractSegment;
 final class IsaHeading extends AbstractSegment
 {
     /**
-     * @var non-empty-list<GsHeading>
+     * @var GsHeading[]
      */
     public array $GS = [];
 

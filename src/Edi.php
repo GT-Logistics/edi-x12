@@ -7,10 +7,13 @@ use Gtlogistics\X12Parser\Heading\IsaHeading;
 final class Edi
 {
     /**
-     * @var non-empty-list<IsaHeading>
+     * @var IsaHeading[]
      */
     public array $ISA;
 
+    /**
+     * @param IsaHeading[] $ISA
+     */
     public function __construct(array $ISA = [])
     {
         $this->ISA = $ISA;

@@ -8,6 +8,12 @@
   "require": {
     "laminas/laminas-code": "^4.13.0",
     "symfony/string": "^7.1",
-    "phpstan/phpstan": "^1.11"
+    "phpstan/phpstan": "^1.11",
+    "webmozart/assert": "^1.11",
+    "thecodingmachine/safe": "^2.5"
+  },
+  "require-dev": {
+    "phpstan/phpstan-webmozart-assert": "^1.2",
+    "thecodingmachine/phpstan-safe-rule": "^1.2"
   }
 }

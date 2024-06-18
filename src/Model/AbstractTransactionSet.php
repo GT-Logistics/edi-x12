@@ -2,6 +2,8 @@
 
 namespace Gtlogistics\X12Parser\Model;
 
+use Webmozart\Assert\Assert;
+
 abstract class AbstractTransactionSet extends AbstractSegment implements TransactionSetInterface
 {
     use HasSegmentsTrait;
@@ -23,7 +25,7 @@ abstract class AbstractTransactionSet extends AbstractSegment implements Transac
             return;
         }
 
-        $this->segments[] = $value;
+        $this->segments[$key] = $this->validateSegments($key, $value);
     }
 
     public function __isset(string $key): bool
@@ -35,7 +37,7 @@ abstract class AbstractTransactionSet extends AbstractSegment implements Transac
         return isset($this->segments[$key]);
     }
 
-    private function isElement(string $key): int
+    private function isElement(string $key): bool
     {
         return str_starts_with($key, '_');
     }
