@@ -19,19 +19,26 @@ trait RegisterSegmentTrait
      */
     private function registerSegments(ClassGenerator $class, DocBlockGenerator $docBlock, array $segments): void
     {
+        $order = [];
         $loops = [];
-        foreach ($segments as $segment) {
+        foreach ($segments as $index => $segment) {
             $segmentClass = $this->registerSegment($class, $docBlock, $segment);
             if ($segment instanceof Loop) {
                 $firstSegment = $segment->getSegments()[0];
 
                 $loops[$firstSegment->getId()] = $segmentClass;
             }
+
+            $order[$segment->getId()] = $index;
         }
 
         if (count($loops) > 0) {
             $loopsProperty = new PropertyGenerator('loops', $loops, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
             $class->addPropertyFromGenerator($loopsProperty);
+        }
+        if (count($order) > 0) {
+            $orderProperty = new PropertyGenerator('order', $order, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+            $class->addPropertyFromGenerator($orderProperty);
         }
     }
 

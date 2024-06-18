@@ -7,12 +7,17 @@ use Webmozart\Assert\Assert;
 trait HasSegmentsTrait
 {
     /**
+     * @var array<string, int>
+     */
+    protected array $order = [];
+
+    /**
      * @var array<string, class-string<LoopInterface>>
      */
     protected array $loops = [];
 
     /**
-     * @var array<string, (SegmentInterface|LoopInterface)[]>
+     * @var array<int, (SegmentInterface|LoopInterface)[]>
      */
     protected array $segments = [];
 
@@ -40,18 +45,10 @@ trait HasSegmentsTrait
         $currentLoopSegments = [];
 
         foreach ($segments as $segment) {
-            // If the segment is the start of the loop, begin the loop
-            if ($loopClass = $this->loops[$segment->getId()] ?? null) {
-                $currentLoop = new $loopClass();
-                $currentLoopSegments = [];
-
-                continue;
-            }
-
             // If we're on a loop
             if ($currentLoop) {
                 // Collect the segments that are part of the loop
-                if ($currentLoop->isPartOf($segment)) {
+                if ($currentLoop->supportSegment($segment)) {
                     $currentLoopSegments[] = $segment;
 
                     continue;
@@ -64,8 +61,29 @@ trait HasSegmentsTrait
                 $currentLoop = null;
             }
 
+            // If the segment is the start of the loop, begin the loop
+            if ($loopClass = $this->loops[$segment->getId()] ?? null) {
+                $currentLoop = new $loopClass();
+                $currentLoopSegments = [$segment];
+
+                continue;
+            }
+
             $this->segments[$segment->getId()][] = $segment;
         }
+
+        // If we ended, and we're still in a loop,
+        // register it with its segments
+        if ($currentLoop) {
+            $currentLoop->setSegments($currentLoopSegments);
+
+            $this->segments[$currentLoop->getId()][] = $currentLoop;
+        }
+    }
+
+    public function supportSegment(SegmentInterface $segment): bool
+    {
+        return isset($this->order[$segment->getId()]);
     }
 
     /**

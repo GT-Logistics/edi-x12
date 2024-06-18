@@ -50,7 +50,7 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
         $class->addMethodFromGenerator($getIdMethod);
 
         $segments = $this->transactionSet->getSegments();
-        $stSegment = array_pop($segments);
+        $stSegment = array_shift($segments);
 
         if (!($stSegment instanceof Segment) || $stSegment->getId() !== 'ST') {
             throw new \RuntimeException('Unexpected segment');
