@@ -10,8 +10,9 @@ abstract class AbstractLoop implements LoopInterface
     {
     }
 
-    public function __get(string $key): mixed
+    public function &__get(string $key): mixed
     {
+        $this->segments[$key] ??= [];
         return $this->segments[$key];
     }
 

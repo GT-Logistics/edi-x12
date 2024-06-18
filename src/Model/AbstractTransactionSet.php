@@ -8,12 +8,16 @@ abstract class AbstractTransactionSet extends AbstractSegment implements Transac
 {
     use HasSegmentsTrait;
 
-    public function __get(string $key): mixed
+    public function &__get(string $key): mixed
     {
         if ($this->isElement($key)) {
-            return parent::__get($key);
+            // We need a temporal variable
+            // to pass by reference the value
+            $_ = parent::__get($key);
+            return $_;
         }
 
+        $this->segments[$key] ??= [];
         return $this->segments[$key];
     }
 

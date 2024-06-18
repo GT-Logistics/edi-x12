@@ -81,7 +81,8 @@ abstract class AbstractSegment implements SegmentInterface
     {
         $casting = $this->getCasting($key);
         $lengths = $this->getLengths($key);
-        $value = $this->convertFrom($value, $casting, $lengths);
+        $required = $this->getRequired($key);
+        $value = $this->convertFrom($value, $casting, $lengths, $required);
 
         $this->elements[$this->parseIndex($key)] = $value;
     }
@@ -165,12 +166,34 @@ abstract class AbstractSegment implements SegmentInterface
     /**
      * @param array{int, int} $lengths
      */
-    private function convertFrom(mixed $value, string $type, array $lengths): string
+    private function convertFrom(mixed $value, string $type, array $lengths, bool $required): string
     {
+        if ($required) {
+            Assert::notNull($value);
+        }
         if ($value === null) {
             return '';
         }
-        if (is_a($type, \BackedEnum::class, true) && $value instanceof $type) {
+
+        if ($type === 'int') {
+            Assert::integer($value);
+
+            return (string) $value;
+        }
+        if ($type === 'float') {
+            Assert::float($value);
+
+            return (string) $value;
+        }
+        if ($type === 'string') {
+            Assert::string($value);
+
+            return $value;
+        }
+
+        if (is_a($type, \BackedEnum::class, true)) {
+            Assert::isInstanceOf($value, $type);
+
             return (string) $value->value;
         }
 
@@ -193,12 +216,6 @@ abstract class AbstractSegment implements SegmentInterface
                 4 => $value->format('Hi'),
                 default => throw new \RuntimeException('Not a valid length format'),
             };
-        }
-        if ($value instanceof \Stringable) {
-            return (string) $value;
-        }
-        if (is_string($value)) {
-            return $value;
         }
 
         throw new \RuntimeException('Not a valid value');
