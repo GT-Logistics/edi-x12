@@ -7,4 +7,6 @@ interface LoopInterface extends WithSegmentsInterface
     public function __construct();
 
     public function getId(): string;
+
+    public static function isFirstSegment(SegmentInterface $segment): bool;
 }

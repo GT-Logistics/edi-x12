@@ -41,35 +41,45 @@ trait HasSegmentsTrait
     public function setSegments(array $segments): void
     {
         $this->segments = [];
+
         $currentLoop = null;
         $currentLoopSegments = [];
-
         foreach ($segments as $segment) {
-            // If we're on a loop
-            if ($currentLoop) {
-                // Collect the segments that are part of the loop
-                if ($currentLoop->supportSegment($segment)) {
-                    $currentLoopSegments[] = $segment;
+            // Collect the segments that are part of the loop
+            if ($currentLoop && !$currentLoop::isFirstSegment($segment) && $currentLoop::supportSegment($segment)) {
+                $currentLoopSegments[] = $segment;
 
-                    continue;
-                }
-
-                // Register the segments and the loop itself
-                $currentLoop->setSegments($currentLoopSegments);
-
-                $this->segments[$currentLoop->getId()][] = $currentLoop;
-                $currentLoop = null;
+                continue;
             }
 
             // If the segment is the start of the loop, begin the loop
-            if ($loopClass = $this->loops[$segment->getId()] ?? null) {
+            if ($loopClass = static::$loops[$segment->getId()] ?? null) {
+                // If we're on a loop...
+                if ($currentLoop) {
+                    // Register the segments and the loop itself
+                    $currentLoop->setSegments($currentLoopSegments);
+
+                    $this->segments[$currentLoop->getId()][] = $currentLoop;
+                }
+
                 $currentLoop = new $loopClass();
                 $currentLoopSegments = [$segment];
 
                 continue;
             }
 
-            $this->segments[$segment->getId()][] = $segment;
+            // If we're not on a loop, register the segment
+            if (!$currentLoop) {
+                $this->segments[$segment->getId()][] = $segment;
+
+                continue;
+            }
+
+            // Register the segments and the loop itself
+            $currentLoop->setSegments($currentLoopSegments);
+
+            $this->segments[$currentLoop->getId()][] = $currentLoop;
+            $currentLoop = null;
         }
 
         // If we ended, and we're still in a loop,

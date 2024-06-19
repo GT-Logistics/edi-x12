@@ -25,4 +25,9 @@ abstract class AbstractLoop implements LoopInterface
     {
         return isset($this->segments[$key]);
     }
+
+    public static function isFirstSegment(SegmentInterface $segment): bool
+    {
+        return array_key_first(static::$order) === $segment->getId();
+    }
 }
