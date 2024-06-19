@@ -7,8 +7,6 @@ use Gtlogistics\X12Parser\Exception\MalformedX12Exception;
 use Gtlogistics\X12Parser\Heading\GsHeading;
 use Gtlogistics\X12Parser\Heading\IsaHeading;
 use Gtlogistics\X12Parser\Model\ReleaseInterface;
-use Gtlogistics\X12Parser\Model\Segment;
-use Gtlogistics\X12Parser\Model\SegmentInterface;
 use Gtlogistics\X12Parser\Model\TransactionSetInterface;
 
 final readonly class X12Parser

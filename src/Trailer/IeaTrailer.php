@@ -10,17 +10,17 @@ use Gtlogistics\X12Parser\Model\AbstractSegment;
  */
 class IeaTrailer extends AbstractSegment
 {
-    protected array $castings = [
+    protected static array $castings = [
         '_01' => 'int',
         '_02' => 'int',
     ];
 
-    protected array $lengths = [
+    protected static array $lengths = [
         '_01' => [1, 5],
         '_02' => [9, 9],
     ];
 
-    protected array $required = [
+    protected static array $required = [
         '_01' => true,
         '_02' => true,
     ];

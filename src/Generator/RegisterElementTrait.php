@@ -54,17 +54,17 @@ trait RegisterElementTrait
         }
 
         if (count($castings) !== 0) {
-            $castingsProperty = new PropertyGenerator('castings', $castings, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+            $castingsProperty = new PropertyGenerator('castings', $castings, AbstractMemberGenerator::FLAG_STATIC | AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
             $class->addPropertyFromGenerator($castingsProperty);
         }
 
         if (count($lengths) !== 0) {
-            $lengthsProperty = new PropertyGenerator('lengths', $lengths, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+            $lengthsProperty = new PropertyGenerator('lengths', $lengths, AbstractMemberGenerator::FLAG_STATIC | AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
             $class->addPropertyFromGenerator($lengthsProperty);
         }
 
         if (count($required) !== 0) {
-            $requiredProperty = new PropertyGenerator('required', $required, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+            $requiredProperty = new PropertyGenerator('required', $required, AbstractMemberGenerator::FLAG_STATIC | AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
             $class->addPropertyFromGenerator($requiredProperty);
         }
     }

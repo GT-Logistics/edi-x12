@@ -4,6 +4,7 @@ namespace Gtlogistics\X12Parser\Generator;
 
 use Gtlogistics\X12Parser\Model\AbstractLoop;
 use Gtlogistics\X12Parser\Schema\Loop;
+use Gtlogistics\X12Parser\Schema\TransactionSet;
 use Laminas\Code\Generator\ClassGenerator;
 use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\FileGenerator;
@@ -17,9 +18,10 @@ final readonly class LoopClassGenerator extends AbstractClassGenerator
         string $outputPath,
         string $namespace,
         private ClassMap $classMap,
+        private TransactionSet $transactionSet,
         private Loop $loop,
     ) {
-        parent::__construct($outputPath, $namespace, $loop->getId());
+        parent::__construct($outputPath, $namespace, "{$loop->getId()}_{$transactionSet->getCode()}");
     }
 
     public function getNamespace(): string

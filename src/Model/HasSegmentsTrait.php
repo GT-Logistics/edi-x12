@@ -9,12 +9,12 @@ trait HasSegmentsTrait
     /**
      * @var array<string, int>
      */
-    protected array $order = [];
+    protected static array $order = [];
 
     /**
      * @var array<string, class-string<LoopInterface>>
      */
-    protected array $loops = [];
+    protected static array $loops = [];
 
     /**
      * @var array<int, (SegmentInterface|LoopInterface)[]>
@@ -81,9 +81,19 @@ trait HasSegmentsTrait
         }
     }
 
-    public function supportSegment(SegmentInterface $segment): bool
+    public static function supportSegment(SegmentInterface $segment): bool
     {
-        return isset($this->order[$segment->getId()]);
+        if (isset(static::$order[$segment->getId()])) {
+            return true;
+        }
+
+        foreach (static::$loops as $loop) {
+            if ($loop::supportSegment($segment)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

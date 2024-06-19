@@ -33,11 +33,11 @@ trait RegisterSegmentTrait
         }
 
         if (count($loops) > 0) {
-            $loopsProperty = new PropertyGenerator('loops', $loops, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+            $loopsProperty = new PropertyGenerator('loops', $loops, AbstractMemberGenerator::FLAG_STATIC | AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
             $class->addPropertyFromGenerator($loopsProperty);
         }
         if (count($order) > 0) {
-            $orderProperty = new PropertyGenerator('order', $order, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+            $orderProperty = new PropertyGenerator('order', $order, AbstractMemberGenerator::FLAG_STATIC | AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
             $class->addPropertyFromGenerator($orderProperty);
         }
     }
@@ -46,7 +46,7 @@ trait RegisterSegmentTrait
     {
         $segmentId = $segment->getId();
         $generator = match (true) {
-            $segment instanceof Loop => new LoopClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $this->classMap, $segment),
+            $segment instanceof Loop => new LoopClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $this->classMap, $this->transactionSet, $segment),
             $segment instanceof Segment => new SegmentClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $this->classMap, $segment),
             default => throw new \RuntimeException('Unsupported segment ' . $segment->getId()),
         };
