@@ -155,7 +155,7 @@ use Gtlogistics\X12Parser\Model\AbstractSegment;
  * - 00803: 00803 Standards Approved for Publication by ASC X12 Procedures Review Board through December 2021
  * - 00804: 00804 Standards Approved for Publication by ASC X12 Procedures Review Board through December 2022
  * - 00805: 00805 Standards Approved for Publication by ASC X12 Procedures Review Board through December 2023
- * @property string $_13 **Interchange Control Number:** A control number assigned by the interchange sender
+ * @property int $_13 **Interchange Control Number:** A control number assigned by the interchange sender
  * @property "0"|"1"|"2"|"3" $_14 **Acknowledgment Requested Code:** Code indicating sender's request for an interchange acknowledgment
  * - 0: No Interchange Acknowledgment Requested
  * - 1: Interchange Acknowledgment Requested (TA1)
@@ -177,6 +177,7 @@ final class IsaHeading extends AbstractSegment
     protected static array $castings = [
         '_09' => 'date',
         '_10' => 'time',
+        '_13' => 'int',
     ];
 
     protected static array $lengths = [

@@ -29,4 +29,12 @@ class EdiTestCase extends TestCase
         $this->assertInstanceOf($expected::class, $value);
         $this->assertSame($expected, $value);
     }
+
+    protected function assertEdi(string $expected, string $value): void
+    {
+        $expected = str_replace(["\n", "\t", "\r"], '', $expected);
+        $value = str_replace(["\n", "\t", "\r"], '', $value);
+
+        $this->assertSame($expected, $value);
+    }
 }

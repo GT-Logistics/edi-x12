@@ -274,7 +274,7 @@ use Gtlogistics\X12Parser\Model\TransactionSetInterface;
  * @property string $_03 **Application Receiver's Code:** Code identifying party receiving transmission; codes agreed to by trading partners
  * @property \DateTimeInterface $_04 **Date:** Date expressed as CCYYMMDD where CC represents the first two digits of the calendar year
  * @property \DateTimeInterface $_05 **Time:** Time expressed in 24-hour clock time as follows: HHMM, or HHMMSS, or HHMMSSD, or HHMMSSDD, where H = hours (00-23), M = minutes (00-59), S = integer seconds (00-59) and DD = decimal seconds; decimal seconds are expressed as follows: D = tenths (0-9) and DD = hundredths (00-99)
- * @property string $_06 **Group Control Number:** Assigned number originated and maintained by the sender
+ * @property int $_06 **Group Control Number:** Assigned number originated and maintained by the sender
  * @property "T"|"X" $_07 **Responsible Agency Code:** Code identifying the issuer of the standard; this code is used in conjunction with Data Element 480
  * - T: Transportation Data Coordinating Committee (TDCC)
  * - X: Accredited Standards Committee X12
@@ -392,6 +392,7 @@ final class GsHeading extends AbstractSegment
     protected static array $castings = [
         '_04' => 'date',
         '_05' => 'time',
+        '_06' => 'int',
     ];
 
     protected static array $lengths = [
