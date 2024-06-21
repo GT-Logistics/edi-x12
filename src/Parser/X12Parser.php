@@ -74,7 +74,7 @@ final readonly class X12Parser
                 continue;
             }
             if ($segmentId === 'IEA') {
-                if (!$currentIsa || !$currentRelease) {
+                if (!$currentIsa || !$currentRelease || $ended) {
                     throw new MalformedX12Exception('The IEA trailer does not have a matching ISA segment');
                 }
 
@@ -128,7 +128,7 @@ final readonly class X12Parser
                 continue;
             }
             if ($segmentId === 'GE') {
-                if (!$currentGs) {
+                if (!$currentGs || $ended) {
                     throw new MalformedX12Exception('The GE trailer does not have a matching GS segment');
                 }
 
@@ -187,7 +187,7 @@ final readonly class X12Parser
                 continue;
             }
             if ($segmentId === 'SE') {
-                if (!$currentSt) {
+                if (!$currentSt || $ended) {
                     throw new MalformedX12Exception('The SE trailer does not have a matching ST segment');
                 }
 
@@ -211,7 +211,7 @@ final readonly class X12Parser
         }
 
         if (!$ended) {
-            throw new MalformedX12Exception('The GS header does not have the GE trailer');
+            throw new MalformedX12Exception('The ST header does not have the SE trailer');
         }
 
         return $st;

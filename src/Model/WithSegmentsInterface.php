@@ -13,6 +13,4 @@ interface WithSegmentsInterface
      * @param SegmentInterface[] $segments
      */
     public function setSegments(array $segments): void;
-
-    public static function supportSegment(SegmentInterface $segment): bool;
 }

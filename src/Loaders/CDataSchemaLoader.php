@@ -11,6 +11,7 @@ use Gtlogistics\X12Parser\Schema\TransactionSet;
 use Gtlogistics\X12Parser\Schema\Types\DateType;
 use Gtlogistics\X12Parser\Schema\Types\EnumType;
 use Gtlogistics\X12Parser\Schema\Types\FloatType;
+use Gtlogistics\X12Parser\Schema\Types\IntegerType;
 use Gtlogistics\X12Parser\Schema\Types\StringType;
 use Gtlogistics\X12Parser\Schema\Types\TimeType;
 use Gtlogistics\X12Parser\Schema\Types\TypeInterface;
@@ -157,7 +158,8 @@ final class CDataSchemaLoader implements SchemaLoaderInterface
         $dataType = $elementSchema['DataType'];
 
         return match ($dataType) {
-            'N', 'R' => new FloatType(),
+            'N' => new IntegerType(),
+            'R' => new FloatType(),
             'AN', 'ID' => new StringType(),
             'DT' => new DateType(),
             'TM' => new TimeType(),
