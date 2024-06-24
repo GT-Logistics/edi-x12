@@ -21,7 +21,7 @@ class EdiTestCase extends TestCase
     protected function assertTime(string $expected, mixed $value): void
     {
         $this->assertInstanceOf(\DateTimeInterface::class, $value);
-        $this->assertSame($expected, $value->format('H:i'));
+        $this->assertSame($expected, $value->format('H:i:s.v'));
     }
 
     protected function assertEnum(\BackedEnum $expected, mixed $value): void

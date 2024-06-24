@@ -234,6 +234,6 @@ abstract class AbstractSegment implements SegmentInterface
             }
         }
 
-        throw new \RuntimeException('Invalid date/time format');
+        throw new \DateMalformedStringException('Invalid Date/Time string');
     }
 }
