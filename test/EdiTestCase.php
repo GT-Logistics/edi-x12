@@ -15,13 +15,13 @@ class EdiTestCase extends TestCase
     protected function assertDate(string $expected, mixed $value): void
     {
         $this->assertInstanceOf(\DateTimeInterface::class, $value);
-        $this->assertSame($expected, $value->format('Y-m-d'));
+        $this->assertSame($expected . ' 00:00:00.000', $value->format('Y-m-d H:i:s.v'));
     }
 
     protected function assertTime(string $expected, mixed $value): void
     {
         $this->assertInstanceOf(\DateTimeInterface::class, $value);
-        $this->assertSame($expected, $value->format('H:i:s.v'));
+        $this->assertSame('1970-01-01 ' . $expected, $value->format('Y-m-d H:i:s.v'));
     }
 
     protected function assertEnum(\BackedEnum $expected, mixed $value): void
