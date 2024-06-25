@@ -7,11 +7,9 @@ use Gtlogistics\X12Parser\Test\EdiTestCase;
 use Gtlogistics\X12Parser\Test\Mock\SegmentMock;
 use Gtlogistics\X12Parser\Test\Stub\QualifierStub;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\TestWith;
 use Safe\DateTimeImmutable;
 
-#[RunTestsInSeparateProcesses]
 #[CoversClass(AbstractSegment::class)]
 class AbstractSegmentTest extends EdiTestCase
 {

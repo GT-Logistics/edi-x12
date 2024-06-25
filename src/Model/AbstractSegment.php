@@ -9,17 +9,17 @@ abstract class AbstractSegment implements SegmentInterface
     /**
      * @var array<int, string>
      */
-    protected static array $castings = [];
+    protected array $castings = [];
 
     /**
      * @var array<int, array{int, int}>
      */
-    protected static array $lengths = [];
+    protected array $lengths = [];
 
     /**
      * @var array<int, true>
      */
-    protected static array $required = [];
+    protected array $required = [];
 
     /**
      * @var string[]
@@ -77,7 +77,7 @@ abstract class AbstractSegment implements SegmentInterface
 
     private function getCasting(int $index): string
     {
-        return static::$castings[$index] ?? 'string';
+        return $this->castings[$index] ?? 'string';
     }
 
     /**
@@ -85,12 +85,12 @@ abstract class AbstractSegment implements SegmentInterface
      */
     private function getLengths(int $index): array
     {
-        return static::$lengths[$index] ?? [-1, -1];
+        return $this->lengths[$index] ?? [-1, -1];
     }
 
     private function getRequired(int $index): bool
     {
-        return static::$required[$index] ?? false;
+        return $this->required[$index] ?? false;
     }
 
     private function padValue(int $index, string $value): string

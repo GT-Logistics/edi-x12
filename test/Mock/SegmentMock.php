@@ -14,7 +14,7 @@ class SegmentMock extends AbstractSegment
      */
     public function setCastings(array $castings): void
     {
-        self::$castings = $castings;
+        $this->castings = $castings;
     }
 
     /**
@@ -22,7 +22,7 @@ class SegmentMock extends AbstractSegment
      */
     public function setLengths(array $lengths): void
     {
-        self::$lengths = $lengths;
+        $this->lengths = $lengths;
     }
 
     /**
@@ -30,7 +30,7 @@ class SegmentMock extends AbstractSegment
      */
     public function setRequired(array $required): void
     {
-        self::$required = $required;
+        $this->required = $required;
     }
 
     public function getId(): string

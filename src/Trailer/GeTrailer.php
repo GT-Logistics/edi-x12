@@ -10,17 +10,17 @@ use Gtlogistics\X12Parser\Model\AbstractSegment;
  */
 class GeTrailer extends AbstractSegment
 {
-    protected static array $castings = [
+    protected array $castings = [
         1 => 'int',
         2 => 'int',
     ];
 
-    protected static array $lengths = [
+    protected array $lengths = [
         1 => [1, 6],
         2 => [1, 9],
     ];
 
-    protected static array $required = [
+    protected array $required = [
         1 => true,
         2 => true,
     ];

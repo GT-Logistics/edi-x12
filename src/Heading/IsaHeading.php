@@ -174,13 +174,13 @@ final class IsaHeading extends AbstractSegment
      */
     public array $GS = [];
 
-    protected static array $castings = [
+    protected array $castings = [
         9 => 'date',
         10 => 'time',
         13 => 'int',
     ];
 
-    protected static array $lengths = [
+    protected array $lengths = [
         2 => [10, 10],
         4 => [10, 10],
         6 => [15, 15],
@@ -191,7 +191,7 @@ final class IsaHeading extends AbstractSegment
         16 => [1, 1],
     ];
 
-    protected static array $required = [
+    protected array $required = [
         1 => true,
         2 => true,
         3 => true,
