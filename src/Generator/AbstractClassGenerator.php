@@ -2,17 +2,44 @@
 
 namespace Gtlogistics\X12Parser\Generator;
 
+use Webmozart\Assert\Assert;
 use function Symfony\Component\String\u;
 
 abstract readonly class AbstractClassGenerator implements ClassGeneratorInterface
 {
+    /**
+     * @var non-empty-string
+     */
+    private string $outputPath;
+
+    /**
+     * @var non-empty-string
+     */
+    private string $namespace;
+
+    /**
+     * @var non-empty-string
+     */
+    private string $className;
+
     public function __construct(
-        private string $outputPath,
-        private string $namespace,
-        private string $className,
+        string $outputPath,
+        string $namespace,
+        string $className,
     ) {
+        Assert::stringNotEmpty($outputPath);
+        Assert::directory($outputPath);
+        Assert::stringNotEmpty($namespace);
+        Assert::stringNotEmpty($className);
+
+        $this->outputPath = $outputPath;
+        $this->namespace = $namespace;
+        $this->className = $className;
     }
 
+    /**
+     * @return non-empty-string
+     */
     protected function getRootNamespace(): string
     {
         return $this->namespace;
@@ -33,6 +60,9 @@ abstract readonly class AbstractClassGenerator implements ClassGeneratorInterfac
         return $this->getNamespace() . '\\' . $this->getClassName();
     }
 
+    /**
+     * @return non-empty-string
+     */
     protected function getRootDirname(): string
     {
         return $this->outputPath;

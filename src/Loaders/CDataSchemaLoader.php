@@ -15,6 +15,7 @@ use Gtlogistics\X12Parser\Schema\Types\IntegerType;
 use Gtlogistics\X12Parser\Schema\Types\StringType;
 use Gtlogistics\X12Parser\Schema\Types\TimeType;
 use Gtlogistics\X12Parser\Schema\Types\TypeInterface;
+use Webmozart\Assert\Assert;
 
 use function Safe\scandir;
 use function Safe\preg_match;
@@ -22,10 +23,15 @@ use function Safe\file_get_contents;
 
 final class CDataSchemaLoader implements SchemaLoaderInterface
 {
+    private readonly string $schemaPath;
+
     private array $schemas = [];
 
-    public function __construct(private readonly string $schemaPath)
+    public function __construct(string $schemaPath)
     {
+        Assert::directory($schemaPath);
+
+        $this->schemaPath = $schemaPath;
     }
 
     public function getRelease(string $releaseId, array $transactionSetIds = []): Release
@@ -115,6 +121,8 @@ final class CDataSchemaLoader implements SchemaLoaderInterface
     {
         $filePath = $this->getReleasePath($releaseId) . DIRECTORY_SEPARATOR . "{$releaseId}_RSSBus_$releaseId.json";
 
+        Assert::file($filePath);
+
         return $this->schemas[$releaseId] ??= json_decode(file_get_contents($filePath), true, 512, JSON_THROW_ON_ERROR);
     }
 
@@ -135,6 +143,8 @@ final class CDataSchemaLoader implements SchemaLoaderInterface
     private function getTransactionSetSchema(string $releaseId, string $transactionSetId): array
     {
         $filePath = $this->getReleasePath($releaseId) . DIRECTORY_SEPARATOR . "{$releaseId}_RSSBus_{$releaseId}_$transactionSetId.json";
+
+        Assert::file($filePath);
 
         return json_decode(file_get_contents($filePath), true, 512, JSON_THROW_ON_ERROR)['TransactionSet'];
     }

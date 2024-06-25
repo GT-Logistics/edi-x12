@@ -56,10 +56,11 @@ trait HasSegmentsTrait
             if ($loopClass = static::$loops[$segment->getId()] ?? null) {
                 // If we're on a loop...
                 if ($currentLoop) {
+                    $index = $this->getOrder($currentLoop->getId());
                     // Register the segments and the loop itself
                     $currentLoop->setSegments($currentLoopSegments);
 
-                    $this->segments[$currentLoop->getId()][] = $currentLoop;
+                    $this->segments[$index][] = $currentLoop;
                 }
 
                 $currentLoop = new $loopClass();
@@ -70,25 +71,50 @@ trait HasSegmentsTrait
 
             // If we're not on a loop, register the segment
             if (!$currentLoop) {
-                $this->segments[$segment->getId()][] = $segment;
+                $index = $this->getOrder($segment->getId());
+                $this->segments[$index][] = $segment;
 
                 continue;
             }
 
-            // Register the segments and the loop itself
+            $index = $this->getOrder($currentLoop->getId());
+
             $currentLoop->setSegments($currentLoopSegments);
 
-            $this->segments[$currentLoop->getId()][] = $currentLoop;
+            $this->segments[$index][] = $currentLoop;
             $currentLoop = null;
         }
 
         // If we ended, and we're still in a loop,
-        // register it with its segments
         if ($currentLoop) {
+            $index = $this->getOrder($currentLoop->getId());
+            // Register the segments and the loop itself
             $currentLoop->setSegments($currentLoopSegments);
 
-            $this->segments[$currentLoop->getId()][] = $currentLoop;
+            $this->segments[$index][] = $currentLoop;
         }
+    }
+
+    private function hasSegment(string $key): bool
+    {
+        $index = $this->getOrder($key);
+
+        return isset($this->segments[$index]);
+    }
+
+    private function &getSegment(string $key): array
+    {
+        $index = $this->getOrder($key);
+
+        $this->segments[$index] ??= [];
+        return $this->segments[$index];
+    }
+
+    private function setSegment(string $key, mixed $value): void
+    {
+        $index = $this->getOrder($key);
+
+        $this->segments[$index] = $this->validateSegments($key, $value);
     }
 
     public static function supportSegment(SegmentInterface $segment): bool
@@ -104,6 +130,11 @@ trait HasSegmentsTrait
         }
 
         return false;
+    }
+
+    private function getOrder(string $key): int
+    {
+        return static::$order[$key] ?? throw new \InvalidArgumentException(sprintf('The segment "%s" is not supported.', $key));
     }
 
     /**

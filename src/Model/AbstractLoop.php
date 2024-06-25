@@ -12,18 +12,17 @@ abstract class AbstractLoop implements LoopInterface
 
     public function &__get(string $key): mixed
     {
-        $this->segments[$key] ??= [];
-        return $this->segments[$key];
+        return $this->getSegment($key);
     }
 
     public function __set(string $key, mixed $value): void
     {
-        $this->segments[$key] = $this->validateSegments($key, $value);
+        $this->setSegment($key, $value);
     }
 
     public function __isset(string $key): bool
     {
-        return isset($this->segments[$key]);
+        return $this->hasSegment($key);
     }
 
     public static function isFirstSegment(SegmentInterface $segment): bool

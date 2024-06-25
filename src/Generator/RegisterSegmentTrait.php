@@ -52,7 +52,7 @@ trait RegisterSegmentTrait
         };
 
         $class->addUse($generator->getFullClassName());
-        $docBlock->setTag(new PropertyTag($segmentId, $generator->getClassName() . '[]'));
+        $docBlock->setTag(new PropertyTag($segmentId, [$generator->getClassName() . '[]']));
 
         $generator->write();
 

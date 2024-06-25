@@ -5,6 +5,7 @@ namespace Gtlogistics\X12Parser\Generator;
 use Gtlogistics\X12Parser\Schema\Types\EnumType;
 use Laminas\Code\Generator\EnumGenerator\EnumGenerator;
 use Laminas\Code\Generator\FileGenerator;
+use Webmozart\Assert\Assert;
 use function Symfony\Component\String\u;
 
 final readonly class EnumClassGenerator extends AbstractClassGenerator
@@ -29,6 +30,8 @@ final readonly class EnumClassGenerator extends AbstractClassGenerator
         foreach ($this->enumType->getAvailableValues() as $value => $description) {
             $key = u($description)->snake()->upper()->toString() ?: $value;
             $key = $this->escapeIdentifier($key);
+
+            Assert::stringNotEmpty($key);
 
             $cases[$key] = $value;
         }
