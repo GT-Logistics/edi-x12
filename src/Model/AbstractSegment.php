@@ -116,19 +116,37 @@ abstract class AbstractSegment implements SegmentInterface
         return $value;
     }
 
-    /**
-     * @param array{int, int} $lengths
-     */
     private function convertTo(int $index, string $value): mixed
     {
         $type = $this->getCasting($index);
         $lengths = $this->getLengths($index);
+        $required = $this->getRequired($index);
 
+        if ($required) {
+            Assert::stringNotEmpty($value);
+        }
         if ($value === '') {
             return null;
         }
+
         if (is_a($type, \BackedEnum::class, true)) {
             return $type::from($value);
+        }
+
+        if ($type === 'int') {
+            Assert::numeric($value);
+
+            return (int) $value;
+        }
+        if ($type === 'float') {
+            Assert::numeric($value);
+
+            return (float) $value;
+        }
+        if ($type === 'string') {
+            Assert::string($value);
+
+            return $value;
         }
 
         [, $max] = $lengths;
@@ -160,16 +178,9 @@ abstract class AbstractSegment implements SegmentInterface
             return $this->convertToDateTime($value, $timeFormats)->setDate(1970, 1, 1);
         }
 
-        return match ($type) {
-            'int' => (int) $value,
-            'float' => (float) $value,
-            default => $value,
-        };
+        throw new \InvalidArgumentException(sprintf('Not a valid type "%s"', $type));
     }
 
-    /**
-     * @param array{int, int} $lengths
-     */
     private function convertFrom(int $index, mixed $value): string
     {
         $type = $this->getCasting($index);
@@ -226,7 +237,7 @@ abstract class AbstractSegment implements SegmentInterface
             };
         }
 
-        throw new \RuntimeException('Not a valid value');
+        throw new \InvalidArgumentException(sprintf('Not a valid type "%s"', $type));
     }
 
     /**

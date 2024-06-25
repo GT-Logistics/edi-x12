@@ -198,13 +198,52 @@ class AbstractSegmentTest extends EdiTestCase
 
     public function testInvalidCasting(): void
     {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Not a valid value');
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Not a valid type "unknown"');
 
         $mock = new SegmentMock();
         $mock->setCastings([1 => 'unknown']);
 
         $mock->_01 = 'test';
+    }
+
+    public function testInvalidParsing(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Not a valid type "unknown"');
+
+        $mock = new SegmentMock();
+        $mock->setCastings([1 => 'unknown']);
+
+        $mock->setElements(['TST', 'test']);
+        $mock->_01;
+    }
+
+    #[TestWith(['error', 'int'])]
+    #[TestWith(['error', 'float'])]
+    public function testInvalidNumericCasting(mixed $value, string $type): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected a numeric. Got: string');
+
+        $mock = new SegmentMock();
+        $mock->setCastings([1 => $type]);
+
+        $mock->setElements(['TST', $value]);
+        $mock->_01;
+    }
+
+    #[TestWith(['Expected an integer. Got: string', 'error', 'int'])]
+    #[TestWith(['Expected a float. Got: string', 'error', 'float'])]
+    public function testInvalidNumericParsing(string $expected, mixed $value, string $type): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($expected);
+
+        $mock = new SegmentMock();
+        $mock->setCastings([1 => $type]);
+
+        $mock->_01 = $value;
     }
 
     /**
