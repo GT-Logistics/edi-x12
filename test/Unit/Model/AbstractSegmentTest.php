@@ -21,7 +21,7 @@ class AbstractSegmentTest extends EdiTestCase
     public function testScalarCasting(mixed $expected, string $value, string $type): void
     {
         $mock = new SegmentMock();
-        $mock->setCastings(['_01' => $type]);
+        $mock->setCastings([1 => $type]);
 
         $mock->setElements(['TST', $value]);
         $this->assertSame($expected, $mock->_01);
@@ -33,7 +33,7 @@ class AbstractSegmentTest extends EdiTestCase
     public function testScalarParsing(string $expected, mixed $value, string $type): void
     {
         $mock = new SegmentMock();
-        $mock->setCastings(['_01' => $type]);
+        $mock->setCastings([1 => $type]);
 
         $mock->_01 = $value;
         $elements = $mock->getElements();
@@ -49,7 +49,7 @@ class AbstractSegmentTest extends EdiTestCase
     public function testEnumCasting(QualifierStub $expected): void
     {
         $mock = new SegmentMock();
-        $mock->setCastings(['_01' => QualifierStub::class]);
+        $mock->setCastings([1 => QualifierStub::class]);
 
         $mock->setElements(['TST', $expected->value]);
         $this->assertEnum($expected, $mock->_01);
@@ -61,7 +61,7 @@ class AbstractSegmentTest extends EdiTestCase
     public function testEnumParsing(QualifierStub $expected): void
     {
         $mock = new SegmentMock();
-        $mock->setCastings(['_01' => $expected::class]);
+        $mock->setCastings([1 => $expected::class]);
 
         $mock->_01 = $expected;
         $elements = $mock->getElements();
@@ -81,11 +81,32 @@ class AbstractSegmentTest extends EdiTestCase
     public function testDateCasting(string $expected, string $value, array $length): void
     {
         $mock = new SegmentMock();
-        $mock->setCastings(['_01' => 'date']);
-        $mock->setLengths(['_01' => $length]);
+        $mock->setCastings([1 => 'date']);
+        $mock->setLengths([1 => $length]);
 
         $mock->setElements(['TST', $value]);
         $this->assertDate($expected, $mock->_01);
+    }
+
+    /**
+     * @param array{int, int} $length
+     */
+    #[TestWith(['20240101', '2024-01-01', [8, 8]])]
+    #[TestWith(['20241231', '2024-12-31', [8, 8]])]
+    #[TestWith(['240101', '2024-01-01', [6, 6]])]
+    #[TestWith(['241231', '2024-12-31', [6, 6]])]
+    public function testDateParsing(string $expected, string $value, array $length): void
+    {
+        $mock = new SegmentMock();
+        $mock->setCastings([1 => 'date']);
+        $mock->setLengths([1 => $length]);
+
+        $mock->_01 = new DateTimeImmutable($value);
+        $elements = $mock->getElements();
+
+        $this->assertCount(2, $elements);
+        $this->assertSame('TST', $elements[0]);
+        $this->assertSame($expected, $elements[1]);
     }
 
     /**
@@ -100,11 +121,34 @@ class AbstractSegmentTest extends EdiTestCase
     public function testTimeCasting(string $expected, string $value, array $length): void
     {
         $mock = new SegmentMock();
-        $mock->setCastings(['_01' => 'time']);
-        $mock->setLengths(['_01' => $length]);
+        $mock->setCastings([1 => 'time']);
+        $mock->setLengths([1 => $length]);
 
         $mock->setElements(['TST', $value]);
         $this->assertTime($expected, $mock->_01);
+    }
+
+    /**
+     * @param array{int, int} $length
+     */
+    #[TestWith(['08101550', '08:10:15.500', [8, 8]])]
+    #[TestWith(['18203575', '18:20:35.750', [8, 8]])]
+    #[TestWith(['081015', '08:10:15.000', [6, 6]])]
+    #[TestWith(['182035', '18:20:35.000', [6, 6]])]
+    #[TestWith(['0810', '08:10:00.000', [4, 4]])]
+    #[TestWith(['1820', '18:20:00.000', [4, 4]])]
+    public function testTimeParsing(string $expected, string $value, array $length): void
+    {
+        $mock = new SegmentMock();
+        $mock->setCastings([1 => 'time']);
+        $mock->setLengths([1 => $length]);
+
+        $mock->_01 = new DateTimeImmutable($value);
+        $elements = $mock->getElements();
+
+        $this->assertCount(2, $elements);
+        $this->assertSame('TST', $elements[0]);
+        $this->assertSame($expected, $elements[1]);
     }
 
     #[TestWith(['string'])]
@@ -116,7 +160,7 @@ class AbstractSegmentTest extends EdiTestCase
     public function testNullableCasting(string $type): void
     {
         $mock = new SegmentMock();
-        $mock->setCastings(['_01' => $type]);
+        $mock->setCastings([1 => $type]);
 
         $mock->setElements(['TST', '']);
         $this->assertNull($mock->_01);
@@ -131,7 +175,7 @@ class AbstractSegmentTest extends EdiTestCase
     public function testNullableParsing(string $type): void
     {
         $mock = new SegmentMock();
-        $mock->setCastings(['_01' => $type]);
+        $mock->setCastings([1 => $type]);
 
         $mock->_01 = null;
         $elements = $mock->getElements();
@@ -147,7 +191,7 @@ class AbstractSegmentTest extends EdiTestCase
         $this->expectExceptionMessage('Expected a value other than null.');
 
         $mock = new SegmentMock();
-        $mock->setRequired(['_01' => true]);
+        $mock->setRequired([1 => true]);
 
         $mock->_01 = null;
     }
@@ -158,7 +202,7 @@ class AbstractSegmentTest extends EdiTestCase
         $this->expectExceptionMessage('Not a valid value');
 
         $mock = new SegmentMock();
-        $mock->setCastings(['_01' => 'unknown']);
+        $mock->setCastings([1 => 'unknown']);
 
         $mock->_01 = 'test';
     }
@@ -178,8 +222,8 @@ class AbstractSegmentTest extends EdiTestCase
         $date = new DateTimeImmutable('2024-01-01 00:00:00');
 
         $mock = new SegmentMock();
-        $mock->setCastings(['_01' => $type]);
-        $mock->setLengths(['_01' => $length]);
+        $mock->setCastings([1 => $type]);
+        $mock->setLengths([1 => $length]);
 
         $mock->_01 = $date;
     }
@@ -195,8 +239,8 @@ class AbstractSegmentTest extends EdiTestCase
         $this->expectExceptionMessage('Invalid Date/Time string');
 
         $mock = new SegmentMock();
-        $mock->setCastings(['_01' => 'date']);
-        $mock->setLengths(['_01' => [6, 6]]);
+        $mock->setCastings([1 => 'date']);
+        $mock->setLengths([1 => [6, 6]]);
 
         $mock->setElements(['TST', $dateString]);
         $mock->_01;
@@ -213,8 +257,8 @@ class AbstractSegmentTest extends EdiTestCase
         $this->expectExceptionMessage('Invalid Date/Time string');
 
         $mock = new SegmentMock();
-        $mock->setCastings(['_01' => 'time']);
-        $mock->setLengths(['_01' => [6, 6]]);
+        $mock->setCastings([1 => 'time']);
+        $mock->setLengths([1 => [6, 6]]);
 
         $mock->setElements(['TST', $timeString]);
         $mock->_01;

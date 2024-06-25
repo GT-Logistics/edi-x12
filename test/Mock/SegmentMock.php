@@ -10,7 +10,7 @@ use Gtlogistics\X12Parser\Model\AbstractSegment;
 class SegmentMock extends AbstractSegment
 {
     /**
-     * @param array<string, string> $castings
+     * @param array<int, string> $castings
      */
     public function setCastings(array $castings): void
     {
@@ -18,7 +18,7 @@ class SegmentMock extends AbstractSegment
     }
 
     /**
-     * @param array<string, array{int, int}> $lengths
+     * @param array<int, array{int, int}> $lengths
      */
     public function setLengths(array $lengths): void
     {
@@ -26,7 +26,7 @@ class SegmentMock extends AbstractSegment
     }
 
     /**
-     * @param array<string, true> $required
+     * @param array<int, true> $required
      */
     public function setRequired(array $required): void
     {

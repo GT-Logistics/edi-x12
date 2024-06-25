@@ -390,28 +390,28 @@ use Gtlogistics\X12Parser\Model\TransactionSetInterface;
 final class GsHeading extends AbstractSegment
 {
     protected static array $castings = [
-        '_04' => 'date',
-        '_05' => 'time',
-        '_06' => 'int',
+        4 => 'date',
+        5 => 'time',
+        6 => 'int',
     ];
 
     protected static array $lengths = [
-        '_02' => [2, 15],
-        '_03' => [2, 15],
-        '_04' => [8, 8],
-        '_05' => [4, 8],
-        '_06' => [1, 9],
+        2 => [2, 15],
+        3 => [2, 15],
+        4 => [8, 8],
+        5 => [4, 8],
+        6 => [1, 9],
     ];
 
     protected static array $required = [
-        '_01' => true,
-        '_02' => true,
-        '_03' => true,
-        '_04' => true,
-        '_05' => true,
-        '_06' => true,
-        '_07' => true,
-        '_08' => true,
+        1 => true,
+        2 => true,
+        3 => true,
+        4 => true,
+        5 => true,
+        6 => true,
+        7 => true,
+        8 => true,
     ];
 
     /**

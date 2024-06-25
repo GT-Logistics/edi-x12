@@ -175,39 +175,39 @@ final class IsaHeading extends AbstractSegment
     public array $GS = [];
 
     protected static array $castings = [
-        '_09' => 'date',
-        '_10' => 'time',
-        '_13' => 'int',
+        9 => 'date',
+        10 => 'time',
+        13 => 'int',
     ];
 
     protected static array $lengths = [
-        '_02' => [10, 10],
-        '_04' => [10, 10],
-        '_06' => [15, 15],
-        '_08' => [15, 15],
-        '_09' => [6, 6],
-        '_10' => [4, 4],
-        '_13' => [9, 9],
-        '_16' => [1, 1],
+        2 => [10, 10],
+        4 => [10, 10],
+        6 => [15, 15],
+        8 => [15, 15],
+        9 => [6, 6],
+        10 => [4, 4],
+        13 => [9, 9],
+        16 => [1, 1],
     ];
 
     protected static array $required = [
-        '_01' => true,
-        '_02' => true,
-        '_03' => true,
-        '_04' => true,
-        '_05' => true,
-        '_06' => true,
-        '_07' => true,
-        '_08' => true,
-        '_09' => true,
-        '_10' => true,
-        '_11' => true,
-        '_12' => true,
-        '_13' => true,
-        '_14' => true,
-        '_15' => true,
-        '_16' => true,
+        1 => true,
+        2 => true,
+        3 => true,
+        4 => true,
+        5 => true,
+        6 => true,
+        7 => true,
+        8 => true,
+        9 => true,
+        10 => true,
+        11 => true,
+        12 => true,
+        13 => true,
+        14 => true,
+        15 => true,
+        16 => true,
     ];
 
     public function getId(): string

@@ -25,7 +25,8 @@ trait RegisterElementTrait
         $lengths = [];
         $required = [];
         foreach ($elements as $element) {
-            $elementId = '_' . $element->getId();
+            $elementIndex = $element->getIndex();
+            $elementId = '_' . str_pad((string) $elementIndex, 2, '0', STR_PAD_LEFT);
             $elementType = $element->getType();
             $elementNativeType = $this->registerElement($docBlock, $element, $elementId);
 
@@ -34,7 +35,7 @@ trait RegisterElementTrait
             }
 
             if (!($elementType instanceof StringType)) {
-                $castings[$elementId] = match (true) {
+                $castings[$elementIndex] = match (true) {
                     $elementType instanceof DateType => 'date',
                     $elementType instanceof TimeType => 'time',
                     default => $elementNativeType,
@@ -44,12 +45,12 @@ trait RegisterElementTrait
             $minLength = $element->getMinLength();
             $maxLength = $element->getMaxLength();
             if ($minLength !== -1 && $maxLength !== -1) {
-                $lengths[$elementId] = [$minLength, $maxLength];
+                $lengths[$elementIndex] = [$minLength, $maxLength];
             }
 
             $isRequired = $element->isRequired();
             if ($isRequired) {
-                $required[$elementId] = true;
+                $required[$elementIndex] = true;
             }
         }
 

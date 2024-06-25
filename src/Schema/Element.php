@@ -7,7 +7,7 @@ use Gtlogistics\X12Parser\Schema\Types\TypeInterface;
 final readonly class Element
 {
     public function __construct(
-        private string $id,
+        private int $index,
         private string $description,
         private TypeInterface $type,
         private int $minLength,
@@ -16,9 +16,9 @@ final readonly class Element
     ) {
     }
 
-    public function getId(): string
+    public function getIndex(): int
     {
-        return $this->id;
+        return $this->index;
     }
 
     public function getDescription(): string

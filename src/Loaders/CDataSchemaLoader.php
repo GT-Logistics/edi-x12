@@ -86,10 +86,10 @@ final class CDataSchemaLoader implements SchemaLoaderInterface
             $elementSchemas = $fullSegmentSchema['Elements'];
 
             foreach ($elementSchemas as $index => $elementSchema) {
-                $elementId = str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT);
+                $elementIndex = $index + 1;
                 $elementType = $this->getElementType($releaseId, $elementSchema);
                 $element = new Element(
-                    $elementId,
+                    $elementIndex,
                     $elementSchema['Desc'],
                     $elementType,
                     $elementSchema['MinLength'] ?? -1,

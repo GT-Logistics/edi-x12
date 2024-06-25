@@ -11,17 +11,17 @@ use Gtlogistics\X12Parser\Model\AbstractSegment;
 class SeTrailer extends AbstractSegment
 {
     protected static array $castings = [
-        '_01' => 'int',
+        1 => 'int',
     ];
 
     protected static array $lengths = [
-        '_01' => [1, 10],
-        '_02' => [4, 9],
+        1 => [1, 10],
+        2 => [4, 9],
     ];
 
     protected static array $required = [
-        '_01' => true,
-        '_02' => true,
+        1 => true,
+        2 => true,
     ];
 
     public function getId(): string

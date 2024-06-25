@@ -7,17 +7,17 @@ use Webmozart\Assert\Assert;
 abstract class AbstractSegment implements SegmentInterface
 {
     /**
-     * @var array<string, string>
+     * @var array<int, string>
      */
     protected static array $castings = [];
 
     /**
-     * @var array<string, array{int, int}>
+     * @var array<int, array{int, int}>
      */
     protected static array $lengths = [];
 
     /**
-     * @var array<string, true>
+     * @var array<int, true>
      */
     protected static array $required = [];
 
@@ -35,29 +35,10 @@ abstract class AbstractSegment implements SegmentInterface
     {
         $elements = [];
 
-        for ($i = 0, $iMax = max(array_keys($this->elements)); $i <= $iMax; $i++) {
-            $key = '_' . str_pad((string) $i, 2, '0', STR_PAD_LEFT);
+        for ($index = 0, $lastIndex = max(array_keys($this->elements)); $index <= $lastIndex; $index++) {
+            $value = $this->elements[$index] ?? '';
 
-            $value = $this->elements[$i] ?? '';
-            [$min, $max] = $this->getLengths($key);
-            $casting = $this->getCasting($key);
-            $required = $this->getRequired($key);
-
-            if ($required || $value !== '') {
-                if (in_array($casting, ['int', 'float'])) {
-                    Assert::numeric($value);
-                    $value = str_pad($value, $min, '0', STR_PAD_LEFT);
-                } else {
-                    Assert::string($value);
-                    $value = str_pad($value, $min);
-                }
-
-                if ($max >= 0) {
-                    $value = substr($value, 0, $max);
-                }
-            }
-
-            $elements[$i] = $value;
+            $elements[$index] = $this->padValue($index, $value);
         }
 
         return $elements;
@@ -70,21 +51,18 @@ abstract class AbstractSegment implements SegmentInterface
 
     public function __get(string $key): mixed
     {
-        $casting = $this->getCasting($key);
-        $lengths = $this->getLengths($key);
-        $value = $this->elements[$this->parseIndex($key)] ?? '';
+        $index = $this->parseIndex($key);
+        $value = $this->elements[$index] ?? '';
 
-        return $this->convertTo($value, $casting, $lengths);
+        return $this->convertTo($index, $value);
     }
 
     public function __set(string $key, mixed $value): void
     {
-        $casting = $this->getCasting($key);
-        $lengths = $this->getLengths($key);
-        $required = $this->getRequired($key);
-        $value = $this->convertFrom($value, $casting, $lengths, $required);
+        $index = $this->parseIndex($key);
+        $value = $this->convertFrom($index, $value);
 
-        $this->elements[$this->parseIndex($key)] = $value;
+        $this->elements[$index] = $value;
     }
 
     public function __isset(string $key): bool
@@ -97,29 +75,55 @@ abstract class AbstractSegment implements SegmentInterface
         return (int) substr($key, -2);
     }
 
-    private function getCasting(string $key): string
+    private function getCasting(int $index): string
     {
-        return static::$castings[$key] ?? 'string';
+        return static::$castings[$index] ?? 'string';
     }
 
     /**
      * @return array{int, int}
      */
-    private function getLengths(string $key): array
+    private function getLengths(int $index): array
     {
-        return static::$lengths[$key] ?? [-1, -1];
+        return static::$lengths[$index] ?? [-1, -1];
     }
 
-    private function getRequired(string $key): bool
+    private function getRequired(int $index): bool
     {
-        return static::$required[$key] ?? false;
+        return static::$required[$index] ?? false;
+    }
+
+    private function padValue(int $index, string $value): string
+    {
+        [$min, $max] = $this->getLengths($index);
+        $casting = $this->getCasting($index);
+        $required = $this->getRequired($index);
+
+        if ($required || $value !== '') {
+            if (in_array($casting, ['int', 'float'])) {
+                Assert::numeric($value);
+                $value = str_pad($value, $min, '0', STR_PAD_LEFT);
+            } else {
+                Assert::string($value);
+                $value = str_pad($value, $min);
+            }
+
+            if ($max >= 0) {
+                $value = substr($value, 0, $max);
+            }
+        }
+
+        return $value;
     }
 
     /**
      * @param array{int, int} $lengths
      */
-    private function convertTo(string $value, string $type, array $lengths): mixed
+    private function convertTo(int $index, string $value): mixed
     {
+        $type = $this->getCasting($index);
+        $lengths = $this->getLengths($index);
+
         if ($value === '') {
             return null;
         }
@@ -166,8 +170,12 @@ abstract class AbstractSegment implements SegmentInterface
     /**
      * @param array{int, int} $lengths
      */
-    private function convertFrom(mixed $value, string $type, array $lengths, bool $required): string
+    private function convertFrom(int $index, mixed $value): string
     {
+        $type = $this->getCasting($index);
+        $lengths = $this->getLengths($index);
+        $required = $this->getRequired($index);
+
         if ($required) {
             Assert::notNull($value);
         }
