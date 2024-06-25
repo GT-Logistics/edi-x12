@@ -33,11 +33,12 @@ final readonly class X12Serializer
                 $serializedSegments[] = $this->serializeSegment($gs);
                 foreach ($gs->ST as $st) {
                     $segments = $st->getSegments();
+                    $elements = $st->getElements();
 
                     $se = new SeTrailer();
                     // Must be the number of segments plus 2 (for the excluded ST and SE segments)
                     $se->_01 = count($segments) + 2;
-                    $se->_02 = $st->_02;
+                    $se->_02 = $elements[2];
 
                     $serializedSegments[] = $this->serializeSegment($st);
                     foreach ($segments as $segment) {
@@ -55,6 +56,6 @@ final readonly class X12Serializer
 
     private function serializeSegment(SegmentInterface $segment): string
     {
-        return rtrim(implode($this->elementDelimiter, $segment->getElements()), '*');
+        return rtrim(implode($this->elementDelimiter, $segment->getElements()), $this->elementDelimiter);
     }
 }
