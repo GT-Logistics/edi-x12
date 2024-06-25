@@ -10,7 +10,6 @@ use Gtlogistics\X12Parser\Model\AbstractSegment;
 use Gtlogistics\X12Parser\Model\ReleaseInterface;
 use Gtlogistics\X12Parser\Parser\X12Parser;
 use Gtlogistics\X12Parser\Test\EdiTestCase;
-use Gtlogistics\X12Parser\Test\Stub\TransactionSetStub;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 
@@ -25,8 +24,7 @@ class X12ParserTest extends EdiTestCase
 
     public function setUp(): void
     {
-        $release = $this->createMock(ReleaseInterface::class);
-        $release->method('getTransactionSetClass')->willReturn(TransactionSetStub::class);
+        $release = $this->createStub(ReleaseInterface::class);
 
         $this->parser = new X12Parser([
             '00000' => $release,

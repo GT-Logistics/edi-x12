@@ -4,13 +4,7 @@ namespace Gtlogistics\X12Parser\Model;
 
 interface ReleaseInterface
 {
-    /**
-     * @return class-string<TransactionSetInterface>
-     */
-    public function getTransactionSetClass(string $code): string;
+    public function makeTransactionSet(string $code): TransactionSetInterface;
 
-    /**
-     * @return class-string<SegmentInterface>
-     */
-    public function getSegmentClass(string $id): string;
+    public function makeSegment(string $id): SegmentInterface;
 }

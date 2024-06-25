@@ -30,12 +30,11 @@ abstract class AbstractRelease implements ReleaseInterface
         }
     }
 
-    /**
-     * @return class-string<TransactionSetInterface>
-     */
-    public function getTransactionSetClass(string $code): string
+    public function makeTransactionSet(string $code): TransactionSetInterface
     {
-        return $this->transactionSetClassMap[$code];
+        $class = $this->transactionSetClassMap[$code];
+
+        return new $class();
     }
 
     /**
@@ -51,12 +50,11 @@ abstract class AbstractRelease implements ReleaseInterface
         unset($this->transactionSetClassMap[$code]);
     }
 
-    /**
-     * @return class-string<SegmentInterface>
-     */
-    public function getSegmentClass(string $id): string
+    public function makeSegment(string $id): SegmentInterface
     {
-        return $this->segmentClassMap[$id];
+        $class = $this->segmentClassMap[$id];
+
+        return new $class();
     }
 
     /**

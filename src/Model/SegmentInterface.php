@@ -4,8 +4,6 @@ namespace Gtlogistics\X12Parser\Model;
 
 interface SegmentInterface
 {
-    public function __construct();
-
     public function getId(): string;
 
     /**

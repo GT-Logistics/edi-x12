@@ -176,8 +176,7 @@ final readonly class X12Parser
                 }
 
                 $transactionSetId = $elements[1];
-                $transactionSetClass = $release->getTransactionSetClass($transactionSetId);
-                $currentSt = new $transactionSetClass();
+                $currentSt = $release->makeTransactionSet($transactionSetId);
                 $currentSt->setElements($elements);
 
                 $currentSegments = [];
@@ -203,8 +202,7 @@ final readonly class X12Parser
                 continue;
             }
 
-            $segmentClass = $release->getSegmentClass($segmentId);
-            $currentSegment = new $segmentClass();
+            $currentSegment = $release->makeSegment($segmentId);
             $currentSegment->setElements($elements);
             $currentSegments[] = $currentSegment;
             $segmentCount++;
