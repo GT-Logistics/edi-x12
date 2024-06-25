@@ -1,16 +1,45 @@
 #!/usr/bin/env php
 <?php
 
-require_once '../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use Gtlogistics\X12Parser\Loaders\CDataSchemaLoader;
 use Gtlogistics\X12Parser\Generator\ReleaseGenerator;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Webmozart\Assert\Assert;
 
-$schemaPath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'schemas';
-$outputPath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'generated';
+$application = new Application();
+$application->register('generate')
+    ->setDescription('Generate the required models based on the schema provided')
+    ->addArgument('schema-path', InputArgument::REQUIRED, 'The path of the schemas')
+    ->addArgument('output-path', InputArgument::REQUIRED, 'The path to the output directory')
+    ->addArgument('namespace', InputArgument::REQUIRED, 'The namespace of the generated files')
+    ->addArgument('release', InputArgument::REQUIRED, 'The release code to generate')
+    ->addOption('transactions-sets', 't', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'The transaction set codes to generate. Defaults to everything', [])
+    ->setCode(function (InputInterface $input) {
+        $schemaPath = $input->getArgument('schema-path');
+        $outputPath = $input->getArgument('output-path');
+        $namespace = $input->getArgument('namespace');
+        $release = $input->getArgument('release');
+        $transactionSets = $input->getOption('transactions-sets');
 
-$schemaLoader = new CDataSchemaLoader($schemaPath);
-$release = $schemaLoader->getRelease('00401', ['204', '214', '990', '997']);
+        Assert::string($schemaPath);
+        Assert::string($outputPath);
+        Assert::string($namespace);
+        Assert::string($release);
+        Assert::isArray($transactionSets);
+        Assert::allString($transactionSets);
 
-$releaseGenerator = new ReleaseGenerator($outputPath, 'Gtlogistics\\X12Parser\\Release', $release);
-$releaseGenerator->write();
+        $schemaLoader = new CDataSchemaLoader($schemaPath);
+        $release = $schemaLoader->getRelease($release, $transactionSets);
+
+        $releaseGenerator = new ReleaseGenerator($outputPath, $namespace, $release);
+        $releaseGenerator->write();
+
+        return Command::SUCCESS;
+    });
+$application->run();

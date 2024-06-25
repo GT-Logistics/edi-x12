@@ -13,15 +13,16 @@
   "require": {
     "laminas/laminas-code": "^4.13.0",
     "symfony/string": "^7.1",
-    "phpstan/phpstan": "^1.11",
     "webmozart/assert": "^1.11",
-    "thecodingmachine/safe": "^2.5"
+    "thecodingmachine/safe": "^2.5",
+    "symfony/console": "^7.1"
   },
   "require-dev": {
     "phpstan/phpstan-webmozart-assert": "^1.2",
     "thecodingmachine/phpstan-safe-rule": "^1.2",
     "phpunit/phpunit": "^11.2",
-    "infection/infection": "^0.29.5"
+    "infection/infection": "^0.29.5",
+    "phpstan/phpstan": "^1.11"
   },
   "config": {
     "allow-plugins": {
