@@ -14,7 +14,7 @@ use Gtlogistics\X12Parser\Model\TransactionSetInterface;
 final readonly class X12Parser
 {
     /**
-     * @param array<string, ReleaseInterface> $releases
+     * @param ReleaseInterface[] $releases
      */
     public function __construct(private array $releases)
     {
@@ -222,6 +222,12 @@ final readonly class X12Parser
 
     private function getRelease(string $releaseId): ReleaseInterface
     {
-        return $this->releases[$releaseId] ?? throw new \RuntimeException("Could not found release $releaseId.");
+        foreach ($this->releases as $release) {
+            if ($release->supports($releaseId)) {
+                return $release;
+            }
+        }
+
+        throw new \RuntimeException("Could not found release $releaseId.");
     }
 }

@@ -18,7 +18,7 @@ final readonly class EnumClassGenerator extends AbstractClassGenerator
         string $namespace,
         private EnumType $enumType,
     ) {
-        $className = u($enumType->getName())->camel()->title();
+        $className = u($enumType->getName())->camel()->title()->toString();
 
         parent::__construct($outputPath, $namespace, $className);
     }
