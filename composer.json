@@ -1,4 +1,7 @@
 {
+  "name": "gtlogistics/edi-x12",
+  "type": "library",
+  "license": "LGPL-2.1-or-later",
   "autoload": {
     "psr-4": {
       "Gtlogistics\\X12Parser\\": "src/",
@@ -10,6 +13,16 @@
       "Gtlogistics\\X12Parser\\Test\\": "test/"
     }
   },
+  "bin": [
+    "bin/generator"
+  ],
+  "authors": [
+    {
+      "name": "Brandon Antonio Lorenzo",
+      "email": "bantonio@gtglobal.com"
+    }
+  ],
+  "minimum-stability": "stable",
   "require": {
     "laminas/laminas-code": "^4.13.0",
     "symfony/string": "^7.1",
