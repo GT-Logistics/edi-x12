@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Generator;
 
 use Gtlogistics\X12Parser\Model\AbstractRelease;

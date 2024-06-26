@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Loaders;
 
 use Gtlogistics\X12Parser\Schema\Element;
@@ -17,9 +19,9 @@ use Gtlogistics\X12Parser\Schema\Types\TimeType;
 use Gtlogistics\X12Parser\Schema\Types\TypeInterface;
 use Webmozart\Assert\Assert;
 
-use function Safe\scandir;
-use function Safe\preg_match;
 use function Safe\file_get_contents;
+use function Safe\preg_match;
+use function Safe\scandir;
 
 final class CDataSchemaLoader implements SchemaLoaderInterface
 {

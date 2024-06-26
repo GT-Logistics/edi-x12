@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Model;
 
 abstract class AbstractTransactionSet extends AbstractSegment implements TransactionSetInterface
@@ -12,6 +14,7 @@ abstract class AbstractTransactionSet extends AbstractSegment implements Transac
             // We need a temporal variable
             // to pass by reference the value
             $_ = parent::__get($key);
+
             return $_;
         }
 

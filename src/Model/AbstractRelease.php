@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Model;
 
 abstract class AbstractRelease implements ReleaseInterface
@@ -10,7 +12,7 @@ abstract class AbstractRelease implements ReleaseInterface
     protected array $transactionSetClassMap;
 
     /**
-     * @var array<string, class-string<SegmentInterface>> $segmentClassMap
+     * @var array<string, class-string<SegmentInterface>>
      */
     protected array $segmentClassMap;
 

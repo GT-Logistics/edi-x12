@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Generator;
 
 use Gtlogistics\X12Parser\Schema\Types\EnumType;
 use Laminas\Code\Generator\EnumGenerator\EnumGenerator;
 use Laminas\Code\Generator\FileGenerator;
 use Webmozart\Assert\Assert;
+
 use function Symfony\Component\String\u;
 
 final readonly class EnumClassGenerator extends AbstractClassGenerator
@@ -50,7 +53,7 @@ final readonly class EnumClassGenerator extends AbstractClassGenerator
 
     public function getNamespace(): string
     {
-        return parent::getNamespace() . '\\' . 'Qualifier';
+        return parent::getNamespace() . '\\Qualifier';
     }
 
     public function getDirname(): string

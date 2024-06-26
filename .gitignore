@@ -1,2 +1,5 @@
 vendor/
+phpunit.xml
 .phpunit.cache
+.php-cs-fixer.php
+.php-cs-fixer.cache

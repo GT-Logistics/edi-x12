@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Model;
 
 use Webmozart\Assert\Assert;
@@ -35,7 +37,7 @@ abstract class AbstractSegment implements SegmentInterface
     {
         $elements = [];
 
-        for ($index = 0, $lastIndex = max(array_keys($this->elements)); $index <= $lastIndex; $index++) {
+        for ($index = 0, $lastIndex = max(array_keys($this->elements)); $index <= $lastIndex; ++$index) {
             $value = $this->elements[$index] ?? '';
 
             $elements[$index] = $this->padValue($index, $value);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Parser;
 
 use Gtlogistics\X12Parser\Edi;
@@ -47,6 +49,7 @@ final readonly class X12Parser
 
     /**
      * @param string[][] $segments
+     *
      * @return IsaHeading[]
      */
     private function parseInterchangeControls(array $segments): array
@@ -103,6 +106,7 @@ final readonly class X12Parser
 
     /**
      * @param string[][] $segments
+     *
      * @return GsHeading[]
      */
     private function parseFunctionalGroups(ReleaseInterface $release, array $segments): array
@@ -157,6 +161,7 @@ final readonly class X12Parser
 
     /**
      * @param string[][] $segments
+     *
      * @return TransactionSetInterface[]
      */
     private function parseTransactionSets(ReleaseInterface $release, array $segments): array
@@ -205,7 +210,7 @@ final readonly class X12Parser
             $currentSegment = $release->makeSegment($segmentId);
             $currentSegment->setElements($elements);
             $currentSegments[] = $currentSegment;
-            $segmentCount++;
+            ++$segmentCount;
         }
 
         if (!$ended) {

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Test;
 
 use PHPUnit\Framework\TestCase;
+
 use function Safe\file_get_contents;
 
 class EdiTestCase extends TestCase

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Generator;
 
 use Webmozart\Assert\Assert;
+
 use function Symfony\Component\String\u;
 
 abstract readonly class AbstractClassGenerator implements ClassGeneratorInterface

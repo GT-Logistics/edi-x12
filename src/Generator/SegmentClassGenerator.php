@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Generator;
 
 use Gtlogistics\X12Parser\Model\AbstractSegment;
@@ -24,7 +26,7 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
 
     public function getNamespace(): string
     {
-        return parent::getNamespace() . '\\' . 'Segment';
+        return parent::getNamespace() . '\\Segment';
     }
 
     public function getDirname(): string
@@ -45,7 +47,7 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
         $class = new ClassGenerator($this->getClassName(), $this->getNamespace(), docBlock: $docblock);
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
 
-        $class->setExtendedClass( AbstractSegment::class);
+        $class->setExtendedClass(AbstractSegment::class);
 
         $getIdMethod = new MethodGenerator('getId', body: "return '$segmentId';");
         $getIdMethod->setReturnType('string');

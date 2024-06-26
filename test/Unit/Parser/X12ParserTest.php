@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Test\Unit\Parser;
 
 use Gtlogistics\X12Parser\Edi;
@@ -22,7 +24,7 @@ class X12ParserTest extends EdiTestCase
 {
     private X12Parser $parser;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $release = $this->createStub(ReleaseInterface::class);
 

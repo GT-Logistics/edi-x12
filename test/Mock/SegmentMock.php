@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Test\Mock;
 
 use Gtlogistics\X12Parser\Model\AbstractSegment;

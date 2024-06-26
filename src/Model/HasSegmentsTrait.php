@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Model;
 
 use Webmozart\Assert\Assert;
@@ -107,6 +109,7 @@ trait HasSegmentsTrait
         $index = $this->getOrder($key);
 
         $this->segments[$index] ??= [];
+
         return $this->segments[$index];
     }
 

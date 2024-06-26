@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Schema;
 
 final class TransactionSet
@@ -10,7 +12,7 @@ final class TransactionSet
     private array $segments;
 
     public function __construct(
-        private readonly string $code
+        private readonly string $code,
     ) {
     }
 

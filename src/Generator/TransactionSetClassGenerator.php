@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Generator;
 
 use Gtlogistics\X12Parser\Model\AbstractTransactionSet;
@@ -12,8 +14,8 @@ use Laminas\Code\Generator\MethodGenerator;
 
 final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
 {
-    use RegisterSegmentTrait;
     use RegisterElementTrait;
+    use RegisterSegmentTrait;
 
     public function __construct(
         string $outputPath,
@@ -31,7 +33,7 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
 
     public function getNamespace(): string
     {
-        return parent::getNamespace() . '\\' . 'TransactionSet';
+        return parent::getNamespace() . '\\TransactionSet';
     }
 
     public function write(): void

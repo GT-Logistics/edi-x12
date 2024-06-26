@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gtlogistics\X12Parser\Generator;
 
 use Gtlogistics\X12Parser\Model\AbstractLoop;
@@ -26,7 +28,7 @@ final readonly class LoopClassGenerator extends AbstractClassGenerator
 
     public function getNamespace(): string
     {
-        return parent::getNamespace() . '\\' . 'Loop';
+        return parent::getNamespace() . '\\Loop';
     }
 
     public function getDirname(): string
