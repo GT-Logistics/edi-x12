@@ -27,10 +27,10 @@ class X12ParserTest extends EdiTestCase
     protected function setUp(): void
     {
         $release = $this->createStub(ReleaseInterface::class);
+        $release->method('supports')
+            ->willReturnCallback(static fn (string $code) => $code === '00000');
 
-        $this->parser = new X12Parser([
-            '00000' => $release,
-        ]);
+        $this->parser = new X12Parser([$release]);
     }
 
     public function testEmptyEdi(): void

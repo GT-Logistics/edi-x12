@@ -25,10 +25,10 @@
   "minimum-stability": "stable",
   "require": {
     "laminas/laminas-code": "^4.13.0",
-    "symfony/string": "^7.1",
+    "symfony/string": "^7.1|^6.4",
     "webmozart/assert": "^1.11",
     "thecodingmachine/safe": "^2.5",
-    "symfony/console": "^7.1"
+    "symfony/console": "^7.1|^6.4"
   },
   "require-dev": {
     "phpstan/phpstan-webmozart-assert": "^1.2",
