@@ -25,7 +25,6 @@ trait RegisterElementTrait
      */
     private function registerElements(ClassGenerator $class, DocBlockGenerator $docBlock, array $elements): void
     {
-        $aliases = [];
         $castings = [];
         $lengths = [];
         $required = [];
@@ -62,11 +61,6 @@ trait RegisterElementTrait
             if ($isRequired) {
                 $required[$elementIndex] = true;
             }
-        }
-
-        if (count($aliases) !== 0) {
-            $aliasesProperty = new PropertyGenerator('aliases', $aliases, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
-            $class->addPropertyFromGenerator($aliasesProperty);
         }
 
         if (count($castings) !== 0) {
@@ -108,14 +102,14 @@ trait RegisterElementTrait
         }
 
         $docBlock->setTag(new PropertyTag(
-            $shortElementId,
+            $longElementId,
             $docBlockTypes,
             $description,
         ));
         $docBlock->setTag(new PropertyTag(
-            $longElementId,
+            $shortElementId,
             $docBlockTypes,
-            $description,
+            "See $$longElementId",
         ));
 
         return $nativeType;

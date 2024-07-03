@@ -9,11 +9,6 @@ use Webmozart\Assert\Assert;
 abstract class AbstractSegment implements SegmentInterface
 {
     /**
-     * @var array<string, int>
-     */
-    protected array $aliases = [];
-
-    /**
      * @var array<int, string>
      */
     protected array $castings = [];
@@ -79,7 +74,7 @@ abstract class AbstractSegment implements SegmentInterface
 
     private function parseIndex(string $key): int
     {
-        return $this->aliases[$key] ?? (int) substr($key, -2);
+        return (int) substr($key, -2);
     }
 
     private function getCasting(int $index): string

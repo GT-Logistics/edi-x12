@@ -8,14 +8,10 @@ use Gtlogistics\EdiX12\Model\AbstractSegment;
 
 /**
  * @property mixed $_01
- * @property mixed $test
+ * @property mixed $test_01
  */
 class SegmentMock extends AbstractSegment
 {
-    protected array $aliases = [
-        'test' => 1,
-    ];
-
     /**
      * @param array<int, string> $castings
      */

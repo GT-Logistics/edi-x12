@@ -43,6 +43,6 @@ abstract class AbstractTransactionSet extends AbstractSegment implements Transac
 
     private function isElement(string $key): bool
     {
-        return isset($this->aliases[$key]) || str_starts_with($key, '_');
+        return str_starts_with(substr($key, -3, 3), '_');
     }
 }

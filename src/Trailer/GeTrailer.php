@@ -7,18 +7,13 @@ namespace Gtlogistics\EdiX12\Trailer;
 use Gtlogistics\EdiX12\Model\AbstractSegment;
 
 /**
- * @property int $numberOfTransactionSetsIncluded @see $_01
- * @property int $_01 **Number of Transaction Sets Included:** Total number of transaction sets included in the functional group or interchange (transmission) group terminated by the trailer containing this data element
- * @property int $groupControlNumber @see $_02
- * @property int $_02 **Group Control Number:** Assigned number originated and maintained by the sender
+ * @property int $numberOfTransactionSetsIncluded_01 *Number of Transaction Sets Included:** Total number of transaction sets included in the functional group or interchange (transmission) group terminated by the trailer containing this data element
+ * @property int $_01 See $numberOfTransactionSetsIncluded_01
+ * @property int $groupControlNumber_02 **Group Control Number:** Assigned number originated and maintained by the sender
+ * @property int $_02 See $groupControlNumber_02
  */
-class GeTrailer extends AbstractSegment
+final class GeTrailer extends AbstractSegment
 {
-    protected array $aliases = [
-        'numberOfTransactionSetsIncluded' => 1,
-        'groupControlNumber' => 2,
-    ];
-
     protected array $castings = [
         1 => 'int',
         2 => 'int',
