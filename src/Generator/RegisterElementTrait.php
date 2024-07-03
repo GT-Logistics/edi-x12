@@ -34,7 +34,7 @@ trait RegisterElementTrait
             $elementType = $element->getType();
 
             $shortElementId = '_' . str_pad((string) $elementIndex, 2, '0', STR_PAD_LEFT);
-            $longElementId = $this->escapeIdentifier(u($elementDescription)->camel()->toString());
+            $longElementId = $this->escapeIdentifier(u($elementDescription)->camel()->toString()) . $shortElementId;
             $elementNativeType = $this->registerElement($docBlock, $element, $shortElementId, $longElementId);
 
             if (class_exists($elementNativeType) || interface_exists($elementNativeType)) {
