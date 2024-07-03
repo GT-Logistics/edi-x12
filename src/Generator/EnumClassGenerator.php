@@ -31,7 +31,7 @@ final readonly class EnumClassGenerator extends AbstractClassGenerator
 
         $cases = [];
         foreach ($this->enumType->getAvailableValues() as $value => $description) {
-            $key = u($description)->snake()->upper()->toString() ?: $value;
+            $key = u($description)->snake()->upper()->toString() ?: (string) $value;
             $key = $this->escapeIdentifier($key);
 
             Assert::stringNotEmpty($key);

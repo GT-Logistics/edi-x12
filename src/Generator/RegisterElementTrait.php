@@ -15,6 +15,7 @@ use Laminas\Code\Generator\DocBlock\Tag\PropertyTag;
 use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\PropertyGenerator;
 use Laminas\Code\Generator\TypeGenerator;
+use function Symfony\Component\String\u;
 
 trait RegisterElementTrait
 {
@@ -23,18 +24,24 @@ trait RegisterElementTrait
      */
     private function registerElements(ClassGenerator $class, DocBlockGenerator $docBlock, array $elements): void
     {
+        $aliases = [];
         $castings = [];
         $lengths = [];
         $required = [];
         foreach ($elements as $element) {
             $elementIndex = $element->getIndex();
-            $elementId = '_' . str_pad((string) $elementIndex, 2, '0', STR_PAD_LEFT);
+            $elementDescription = $element->getDescription();
             $elementType = $element->getType();
-            $elementNativeType = $this->registerElement($docBlock, $element, $elementId);
+
+            $shortElementId = '_' . str_pad((string) $elementIndex, 2, '0', STR_PAD_LEFT);
+            $longElementId = $this->escapeIdentifier(u($elementDescription)->camel()->toString());
+            $elementNativeType = $this->registerElement($docBlock, $element, $shortElementId, $longElementId);
 
             if (class_exists($elementNativeType) || interface_exists($elementNativeType)) {
                 $class->addUse($elementNativeType);
             }
+
+            $aliases[$longElementId] = $elementIndex;
 
             if (!($elementType instanceof StringType)) {
                 $castings[$elementIndex] = match (true) {
@@ -56,6 +63,11 @@ trait RegisterElementTrait
             }
         }
 
+        if (count($aliases) !== 0) {
+            $aliasesProperty = new PropertyGenerator('aliases', $aliases, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
+            $class->addPropertyFromGenerator($aliasesProperty);
+        }
+
         if (count($castings) !== 0) {
             $castingsProperty = new PropertyGenerator('castings', $castings, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
             $class->addPropertyFromGenerator($castingsProperty);
@@ -72,7 +84,7 @@ trait RegisterElementTrait
         }
     }
 
-    private function registerElement(DocBlockGenerator $docBlock, Element $element, string $elementId): string
+    private function registerElement(DocBlockGenerator $docBlock, Element $element, string $shortElementId, string $longElementId): string
     {
         $docBlockTypes = [];
         $type = $element->getType();
@@ -95,7 +107,12 @@ trait RegisterElementTrait
         }
 
         $docBlock->setTag(new PropertyTag(
-            $elementId,
+            $shortElementId,
+            $docBlockTypes,
+            $description,
+        ));
+        $docBlock->setTag(new PropertyTag(
+            $longElementId,
             $docBlockTypes,
             $description,
         ));
