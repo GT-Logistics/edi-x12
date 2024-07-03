@@ -23,14 +23,14 @@ final readonly class X12Serializer
         $serializedSegments = [];
         foreach ($edi->ISA as $isa) {
             $iea = new IeaTrailer();
-            $iea->_01 = count($isa->GS);
-            $iea->_02 = $isa->_13;
+            $iea->numberOfIncludedFunctionalGroups = count($isa->GS);
+            $iea->interchangeControlNumber = $isa->interchangeControlNumber;
 
             $serializedSegments[] = $this->serializeSegment($isa);
             foreach ($isa->GS as $gs) {
                 $ge = new GeTrailer();
-                $ge->_01 = count($gs->ST);
-                $ge->_02 = $gs->_06;
+                $ge->numberOfTransactionSetsIncluded = count($gs->ST);
+                $ge->groupControlNumber = $gs->groupControlNumber;
 
                 $serializedSegments[] = $this->serializeSegment($gs);
                 foreach ($gs->ST as $st) {
@@ -39,8 +39,8 @@ final readonly class X12Serializer
 
                     $se = new SeTrailer();
                     // Must be the number of segments plus 2 (for the excluded ST and SE segments)
-                    $se->_01 = count($segments) + 2;
-                    $se->_02 = $elements[2];
+                    $se->numberOfIncludedSegments = count($segments) + 2;
+                    $se->transactionSetControlNumber = $elements[2];
 
                     $serializedSegments[] = $this->serializeSegment($st);
                     foreach ($segments as $segment) {

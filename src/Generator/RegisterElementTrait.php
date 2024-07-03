@@ -15,6 +15,7 @@ use Laminas\Code\Generator\DocBlock\Tag\PropertyTag;
 use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\PropertyGenerator;
 use Laminas\Code\Generator\TypeGenerator;
+
 use function Symfony\Component\String\u;
 
 trait RegisterElementTrait
