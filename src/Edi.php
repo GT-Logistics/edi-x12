@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser;
+namespace Gtlogistics\EdiX12;
 
-use Gtlogistics\X12Parser\Heading\IsaHeading;
+use Gtlogistics\EdiX12\Heading\IsaHeading;
 
 final class Edi
 {

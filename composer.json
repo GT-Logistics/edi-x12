@@ -4,17 +4,17 @@
   "license": "LGPL-2.1-or-later",
   "autoload": {
     "psr-4": {
-      "Gtlogistics\\X12Parser\\": "src/",
-      "Gtlogistics\\X12Parser\\Release\\": "generated/"
+      "Gtlogistics\\EdiX12\\": "src/",
+      "Gtlogistics\\EdiX12\\Release\\": "generated/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Gtlogistics\\X12Parser\\Test\\": "test/"
+      "Gtlogistics\\EdiX12\\Test\\": "test/"
     }
   },
   "bin": [
-    "bin/generator"
+    "bin/edi-generator"
   ],
   "authors": [
     {

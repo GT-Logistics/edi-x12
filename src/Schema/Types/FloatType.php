@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Schema\Types;
+namespace Gtlogistics\EdiX12\Schema\Types;
 
 final class FloatType implements TypeInterface
 {

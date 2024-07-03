@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Generator;
+namespace Gtlogistics\EdiX12\Generator;
 
-use Gtlogistics\X12Parser\Schema\Types\EnumType;
+use Gtlogistics\EdiX12\Schema\Types\EnumType;
 use Laminas\Code\Generator\EnumGenerator\EnumGenerator;
 use Laminas\Code\Generator\FileGenerator;
 use Webmozart\Assert\Assert;

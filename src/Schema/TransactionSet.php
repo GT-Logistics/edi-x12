@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Schema;
+namespace Gtlogistics\EdiX12\Schema;
 
 final class TransactionSet
 {

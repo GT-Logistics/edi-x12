@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Test\Mock;
+namespace Gtlogistics\EdiX12\Test\Mock;
 
-use Gtlogistics\X12Parser\Model\AbstractSegment;
+use Gtlogistics\EdiX12\Model\AbstractSegment;
 
 /**
  * @property mixed $_01

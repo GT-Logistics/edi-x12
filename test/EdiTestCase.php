@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Test;
+namespace Gtlogistics\EdiX12\Test;
 
 use PHPUnit\Framework\TestCase;
 

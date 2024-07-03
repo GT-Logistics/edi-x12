@@ -16,8 +16,8 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     }
 }
 
-use Gtlogistics\X12Parser\Loaders\CDataSchemaLoader;
-use Gtlogistics\X12Parser\Generator\ReleaseGenerator;
+use Gtlogistics\EdiX12\Loaders\CDataSchemaLoader;
+use Gtlogistics\EdiX12\Generator\ReleaseGenerator;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

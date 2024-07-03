@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Generator;
+namespace Gtlogistics\EdiX12\Generator;
 
-use Gtlogistics\X12Parser\Schema\Loop;
-use Gtlogistics\X12Parser\Schema\Segment;
-use Gtlogistics\X12Parser\Schema\SegmentInterface;
+use Gtlogistics\EdiX12\Schema\Loop;
+use Gtlogistics\EdiX12\Schema\Segment;
+use Gtlogistics\EdiX12\Schema\SegmentInterface;
 use Laminas\Code\Generator\AbstractMemberGenerator;
 use Laminas\Code\Generator\ClassGenerator;
 use Laminas\Code\Generator\DocBlock\Tag\PropertyTag;

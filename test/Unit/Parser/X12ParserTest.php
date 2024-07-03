@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Test\Unit\Parser;
+namespace Gtlogistics\EdiX12\Test\Unit\Parser;
 
-use Gtlogistics\X12Parser\Edi;
-use Gtlogistics\X12Parser\Exception\MalformedX12Exception;
-use Gtlogistics\X12Parser\Heading\GsHeading;
-use Gtlogistics\X12Parser\Heading\IsaHeading;
-use Gtlogistics\X12Parser\Model\AbstractSegment;
-use Gtlogistics\X12Parser\Model\ReleaseInterface;
-use Gtlogistics\X12Parser\Parser\X12Parser;
-use Gtlogistics\X12Parser\Test\EdiTestCase;
+use Gtlogistics\EdiX12\Edi;
+use Gtlogistics\EdiX12\Exception\MalformedX12Exception;
+use Gtlogistics\EdiX12\Heading\GsHeading;
+use Gtlogistics\EdiX12\Heading\IsaHeading;
+use Gtlogistics\EdiX12\Model\AbstractSegment;
+use Gtlogistics\EdiX12\Model\ReleaseInterface;
+use Gtlogistics\EdiX12\Parser\X12Parser;
+use Gtlogistics\EdiX12\Test\EdiTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 
@@ -28,7 +28,8 @@ class X12ParserTest extends EdiTestCase
     {
         $release = $this->createStub(ReleaseInterface::class);
         $release->method('supports')
-            ->willReturnCallback(static fn (string $code) => $code === '00000');
+            ->willReturnCallback(static fn (string $code) => $code === '00000')
+        ;
 
         $this->parser = new X12Parser([$release]);
     }

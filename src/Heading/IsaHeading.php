@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Heading;
+namespace Gtlogistics\EdiX12\Heading;
 
-use Gtlogistics\X12Parser\Model\AbstractSegment;
+use Gtlogistics\EdiX12\Model\AbstractSegment;
 
 /**
  * @property "00"|"01"|"02"|"03"|"04"|"05"|"06"|"07"|"08" $_01 **Authorization Information Qualifier:** Code identifying the type of information in the Authorization Information

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Model;
+namespace Gtlogistics\EdiX12\Model;
 
 interface ReleaseInterface
 {

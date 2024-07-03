@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Generator;
+namespace Gtlogistics\EdiX12\Generator;
 
-use Gtlogistics\X12Parser\Schema\Element;
-use Gtlogistics\X12Parser\Schema\Types\DateType;
-use Gtlogistics\X12Parser\Schema\Types\EnumType;
-use Gtlogistics\X12Parser\Schema\Types\StringType;
-use Gtlogistics\X12Parser\Schema\Types\TimeType;
+use Gtlogistics\EdiX12\Schema\Element;
+use Gtlogistics\EdiX12\Schema\Types\DateType;
+use Gtlogistics\EdiX12\Schema\Types\EnumType;
+use Gtlogistics\EdiX12\Schema\Types\StringType;
+use Gtlogistics\EdiX12\Schema\Types\TimeType;
 use Laminas\Code\Generator\AbstractMemberGenerator;
 use Laminas\Code\Generator\ClassGenerator;
 use Laminas\Code\Generator\DocBlock\Tag\PropertyTag;

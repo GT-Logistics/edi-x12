@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Generator;
+namespace Gtlogistics\EdiX12\Generator;
 
-use Gtlogistics\X12Parser\Model\AbstractSegment;
-use Gtlogistics\X12Parser\Schema\Segment;
+use Gtlogistics\EdiX12\Model\AbstractSegment;
+use Gtlogistics\EdiX12\Schema\Segment;
 use Laminas\Code\Generator\ClassGenerator;
 use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\FileGenerator;

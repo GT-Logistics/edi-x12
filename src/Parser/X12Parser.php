@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Parser;
+namespace Gtlogistics\EdiX12\Parser;
 
-use Gtlogistics\X12Parser\Edi;
-use Gtlogistics\X12Parser\Exception\MalformedX12Exception;
-use Gtlogistics\X12Parser\Heading\GsHeading;
-use Gtlogistics\X12Parser\Heading\IsaHeading;
-use Gtlogistics\X12Parser\Model\ReleaseInterface;
-use Gtlogistics\X12Parser\Model\TransactionSetInterface;
+use Gtlogistics\EdiX12\Edi;
+use Gtlogistics\EdiX12\Exception\MalformedX12Exception;
+use Gtlogistics\EdiX12\Heading\GsHeading;
+use Gtlogistics\EdiX12\Heading\IsaHeading;
+use Gtlogistics\EdiX12\Model\ReleaseInterface;
+use Gtlogistics\EdiX12\Model\TransactionSetInterface;
 
 final readonly class X12Parser
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Trailer;
+namespace Gtlogistics\EdiX12\Trailer;
 
-use Gtlogistics\X12Parser\Model\AbstractSegment;
+use Gtlogistics\EdiX12\Model\AbstractSegment;
 
 /**
  * @property int $_01 **Number of Included Segments:** Total number of segments included in a transaction set including ST and SE segments

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Generator;
+namespace Gtlogistics\EdiX12\Generator;
 
-use Gtlogistics\X12Parser\Model\AbstractLoop;
-use Gtlogistics\X12Parser\Schema\Loop;
-use Gtlogistics\X12Parser\Schema\TransactionSet;
+use Gtlogistics\EdiX12\Model\AbstractLoop;
+use Gtlogistics\EdiX12\Schema\Loop;
+use Gtlogistics\EdiX12\Schema\TransactionSet;
 use Laminas\Code\Generator\ClassGenerator;
 use Laminas\Code\Generator\DocBlockGenerator;
 use Laminas\Code\Generator\FileGenerator;

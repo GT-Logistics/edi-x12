@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Test\Unit\Model;
+namespace Gtlogistics\EdiX12\Test\Unit\Model;
 
-use Gtlogistics\X12Parser\Model\AbstractSegment;
-use Gtlogistics\X12Parser\Test\EdiTestCase;
-use Gtlogistics\X12Parser\Test\Mock\SegmentMock;
-use Gtlogistics\X12Parser\Test\Stub\QualifierStub;
+use Gtlogistics\EdiX12\Model\AbstractSegment;
+use Gtlogistics\EdiX12\Test\EdiTestCase;
+use Gtlogistics\EdiX12\Test\Mock\SegmentMock;
+use Gtlogistics\EdiX12\Test\Stub\QualifierStub;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
 use Safe\DateTimeImmutable;

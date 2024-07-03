@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Loaders;
+namespace Gtlogistics\EdiX12\Loaders;
 
-use Gtlogistics\X12Parser\Schema\Release;
+use Gtlogistics\EdiX12\Schema\Release;
 
 interface SchemaLoaderInterface
 {

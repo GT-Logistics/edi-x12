@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Generator;
+namespace Gtlogistics\EdiX12\Generator;
 
-use Gtlogistics\X12Parser\Model\AbstractRelease;
-use Gtlogistics\X12Parser\Schema\Release;
+use Gtlogistics\EdiX12\Model\AbstractRelease;
+use Gtlogistics\EdiX12\Schema\Release;
 use Laminas\Code\Generator\AbstractMemberGenerator;
 use Laminas\Code\Generator\ClassGenerator;
 use Laminas\Code\Generator\FileGenerator;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Heading;
+namespace Gtlogistics\EdiX12\Heading;
 
-use Gtlogistics\X12Parser\Model\AbstractSegment;
-use Gtlogistics\X12Parser\Model\TransactionSetInterface;
+use Gtlogistics\EdiX12\Model\AbstractSegment;
+use Gtlogistics\EdiX12\Model\TransactionSetInterface;
 
 /**
  * @property "AA"|"AB"|"AC"|"AD"|"AE"|"AF"|"AG"|"AH"|"AI"|"AK"|"AL"|"AM"|"AN"|"AO"|"AP"|"AQ"|"AR"|"AS"|"AT"|"AU"|"AV"|"AW"|"AX"|"AY"|"AZ"|"BA"|"BB"|"BC"|"BD"|"BE"|"BF"|"BG"|"BL"|"BS"|"CA"|"CB"|"CC"|"CD"|"CE"|"CF"|"CH"|"CI"|"CJ"|"CK"|"CL"|"CM"|"CN"|"CO"|"CP"|"CQ"|"CR"|"CS"|"CT"|"CU"|"CV"|"CW"|"D3"|"D4"|"D5"|"DA"|"DD"|"DF"|"DI"|"DM"|"DS"|"DX"|"EC"|"ED"|"EI"|"EN"|"EO"|"EP"|"ER"|"ES"|"EV"|"EX"|"FA"|"FB"|"FC"|"FG"|"FR"|"FT"|"GC"|"GE"|"GF"|"GL"|"GP"|"GR"|"GT"|"HB"|"HC"|"HI"|"HN"|"HP"|"HR"|"HS"|"HU"|"HV"|"IA"|"IB"|"IC"|"ID"|"IE"|"IF"|"IG"|"IH"|"IJ"|"IM"|"IN"|"IO"|"IR"|"IS"|"JB"|"KM"|"LA"|"LB"|"LI"|"LN"|"LR"|"LS"|"LT"|"MA"|"MC"|"MD"|"ME"|"MF"|"MG"|"MH"|"MI"|"MJ"|"MK"|"MM"|"MN"|"MO"|"MP"|"MQ"|"MR"|"MS"|"MT"|"MV"|"MW"|"MX"|"MY"|"MZ"|"NC"|"NL"|"NP"|"NR"|"NT"|"OC"|"OG"|"OR"|"OW"|"PA"|"PB"|"PC"|"PD"|"PE"|"PF"|"PG"|"PH"|"PI"|"PJ"|"PK"|"PL"|"PN"|"PO"|"PQ"|"PR"|"PS"|"PT"|"PU"|"PV"|"PW"|"PY"|"QG"|"QM"|"QO"|"RA"|"RB"|"RC"|"RD"|"RE"|"RF"|"RG"|"RH"|"RI"|"RJ"|"RK"|"RL"|"RM"|"RN"|"RO"|"RP"|"RQ"|"RR"|"RS"|"RT"|"RU"|"RV"|"RW"|"RX"|"RY"|"RZ"|"SA"|"SB"|"SC"|"SD"|"SE"|"SF"|"SH"|"SI"|"SJ"|"SL"|"SM"|"SN"|"SO"|"SP"|"SQ"|"SR"|"SS"|"ST"|"SU"|"SV"|"SW"|"TA"|"TB"|"TD"|"TE"|"TF"|"TI"|"TJ"|"TM"|"TN"|"TO"|"TP"|"TR"|"TT"|"TU"|"TX"|"UA"|"UB"|"UC"|"UD"|"UI"|"UP"|"UW"|"VA"|"VB"|"VC"|"VD"|"VE"|"VH"|"VI"|"VS"|"WA"|"WB"|"WG"|"WI"|"WL"|"WR"|"WT" $_01 **Functional Identifier Code:** Code identifying a group of application related transaction sets

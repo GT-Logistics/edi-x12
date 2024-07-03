@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Loaders;
+namespace Gtlogistics\EdiX12\Loaders;
 
-use Gtlogistics\X12Parser\Schema\Element;
-use Gtlogistics\X12Parser\Schema\Loop;
-use Gtlogistics\X12Parser\Schema\Release;
-use Gtlogistics\X12Parser\Schema\Segment;
-use Gtlogistics\X12Parser\Schema\SegmentInterface;
-use Gtlogistics\X12Parser\Schema\TransactionSet;
-use Gtlogistics\X12Parser\Schema\Types\DateType;
-use Gtlogistics\X12Parser\Schema\Types\EnumType;
-use Gtlogistics\X12Parser\Schema\Types\FloatType;
-use Gtlogistics\X12Parser\Schema\Types\IntegerType;
-use Gtlogistics\X12Parser\Schema\Types\StringType;
-use Gtlogistics\X12Parser\Schema\Types\TimeType;
-use Gtlogistics\X12Parser\Schema\Types\TypeInterface;
+use Gtlogistics\EdiX12\Schema\Element;
+use Gtlogistics\EdiX12\Schema\Loop;
+use Gtlogistics\EdiX12\Schema\Release;
+use Gtlogistics\EdiX12\Schema\Segment;
+use Gtlogistics\EdiX12\Schema\SegmentInterface;
+use Gtlogistics\EdiX12\Schema\TransactionSet;
+use Gtlogistics\EdiX12\Schema\Types\DateType;
+use Gtlogistics\EdiX12\Schema\Types\EnumType;
+use Gtlogistics\EdiX12\Schema\Types\FloatType;
+use Gtlogistics\EdiX12\Schema\Types\IntegerType;
+use Gtlogistics\EdiX12\Schema\Types\StringType;
+use Gtlogistics\EdiX12\Schema\Types\TimeType;
+use Gtlogistics\EdiX12\Schema\Types\TypeInterface;
 use Webmozart\Assert\Assert;
 
 use function Safe\file_get_contents;

@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Test\Integration\Parser;
+namespace Gtlogistics\EdiX12\Test\Integration\Parser;
 
-use Gtlogistics\X12Parser\Edi;
-use Gtlogistics\X12Parser\Heading\GsHeading;
-use Gtlogistics\X12Parser\Heading\IsaHeading;
-use Gtlogistics\X12Parser\Model\AbstractSegment;
-use Gtlogistics\X12Parser\Model\AbstractTransactionSet;
-use Gtlogistics\X12Parser\Model\HasSegmentsTrait;
-use Gtlogistics\X12Parser\Release\Qualifier\FunctionalGroupAcknowledgeCode;
-use Gtlogistics\X12Parser\Release\Qualifier\FunctionalIdentifierCode;
-use Gtlogistics\X12Parser\Release\Qualifier\TransactionSetIdentifierCode;
-use Gtlogistics\X12Parser\Release\Segment\AK1Segment;
-use Gtlogistics\X12Parser\Release\Segment\AK9Segment;
-use Gtlogistics\X12Parser\Release\TransactionSet\TransactionSet997;
-use Gtlogistics\X12Parser\Serializer\X12Serializer;
-use Gtlogistics\X12Parser\Test\EdiTestCase;
-use Gtlogistics\X12Parser\Trailer\GeTrailer;
-use Gtlogistics\X12Parser\Trailer\IeaTrailer;
-use Gtlogistics\X12Parser\Trailer\SeTrailer;
+use Gtlogistics\EdiX12\Edi;
+use Gtlogistics\EdiX12\Heading\GsHeading;
+use Gtlogistics\EdiX12\Heading\IsaHeading;
+use Gtlogistics\EdiX12\Model\AbstractSegment;
+use Gtlogistics\EdiX12\Model\AbstractTransactionSet;
+use Gtlogistics\EdiX12\Model\HasSegmentsTrait;
+use Gtlogistics\EdiX12\Release\Qualifier\FunctionalGroupAcknowledgeCode;
+use Gtlogistics\EdiX12\Release\Qualifier\FunctionalIdentifierCode;
+use Gtlogistics\EdiX12\Release\Qualifier\TransactionSetIdentifierCode;
+use Gtlogistics\EdiX12\Release\Segment\AK1Segment;
+use Gtlogistics\EdiX12\Release\Segment\AK9Segment;
+use Gtlogistics\EdiX12\Release\TransactionSet\TransactionSet997;
+use Gtlogistics\EdiX12\Serializer\X12Serializer;
+use Gtlogistics\EdiX12\Test\EdiTestCase;
+use Gtlogistics\EdiX12\Trailer\GeTrailer;
+use Gtlogistics\EdiX12\Trailer\IeaTrailer;
+use Gtlogistics\EdiX12\Trailer\SeTrailer;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversTrait;
 

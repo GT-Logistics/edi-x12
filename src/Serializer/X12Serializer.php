@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Serializer;
+namespace Gtlogistics\EdiX12\Serializer;
 
-use Gtlogistics\X12Parser\Edi;
-use Gtlogistics\X12Parser\Model\SegmentInterface;
-use Gtlogistics\X12Parser\Trailer\GeTrailer;
-use Gtlogistics\X12Parser\Trailer\IeaTrailer;
-use Gtlogistics\X12Parser\Trailer\SeTrailer;
+use Gtlogistics\EdiX12\Edi;
+use Gtlogistics\EdiX12\Model\SegmentInterface;
+use Gtlogistics\EdiX12\Trailer\GeTrailer;
+use Gtlogistics\EdiX12\Trailer\IeaTrailer;
+use Gtlogistics\EdiX12\Trailer\SeTrailer;
 
 final readonly class X12Serializer
 {

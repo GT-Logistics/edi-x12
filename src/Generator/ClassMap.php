@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Generator;
+namespace Gtlogistics\EdiX12\Generator;
 
-use Gtlogistics\X12Parser\Model\SegmentInterface;
-use Gtlogistics\X12Parser\Model\TransactionSetInterface;
+use Gtlogistics\EdiX12\Model\SegmentInterface;
+use Gtlogistics\EdiX12\Model\TransactionSetInterface;
 
 final class ClassMap
 {

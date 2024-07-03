@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gtlogistics\X12Parser\Exception;
+namespace Gtlogistics\EdiX12\Exception;
 
 class MalformedX12Exception extends \Exception
 {
