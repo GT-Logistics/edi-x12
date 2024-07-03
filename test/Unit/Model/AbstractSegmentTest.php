@@ -25,6 +25,7 @@ class AbstractSegmentTest extends EdiTestCase
 
         $mock->setElements(['TST', $value]);
         $this->assertSame($expected, $mock->_01);
+        $this->assertSame($expected, $mock->test);
     }
 
     #[TestWith(['hello', 'hello', 'string'])]
@@ -53,6 +54,7 @@ class AbstractSegmentTest extends EdiTestCase
 
         $mock->setElements(['TST', $expected->value]);
         $this->assertEnum($expected, $mock->_01);
+        $this->assertEnum($expected, $mock->test);
     }
 
     #[TestWith([QualifierStub::TEST_1])]
@@ -86,6 +88,7 @@ class AbstractSegmentTest extends EdiTestCase
 
         $mock->setElements(['TST', $value]);
         $this->assertDate($expected, $mock->_01);
+        $this->assertDate($expected, $mock->test);
     }
 
     /**
@@ -126,6 +129,7 @@ class AbstractSegmentTest extends EdiTestCase
 
         $mock->setElements(['TST', $value]);
         $this->assertTime($expected, $mock->_01);
+        $this->assertTime($expected, $mock->test);
     }
 
     /**
@@ -164,6 +168,7 @@ class AbstractSegmentTest extends EdiTestCase
 
         $mock->setElements(['TST', '']);
         $this->assertNull($mock->_01);
+        $this->assertNull($mock->test);
     }
 
     #[TestWith(['string'])]
