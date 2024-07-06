@@ -36,7 +36,7 @@
     "phpunit/phpunit": "^11.2",
     "infection/infection": "^0.29.5",
     "phpstan/phpstan": "^1.11",
-    "friendsofphp/php-cs-fixer": "^3.59"
+    "gtlogistics/code-style": "^0.0.2"
   },
   "config": {
     "allow-plugins": {
