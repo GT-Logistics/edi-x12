@@ -46,6 +46,9 @@ trait HasSegmentsTrait
     {
         $flatSegments = [];
 
+        // Because the array could be a sparse array,
+        // we need to order it first by its index order
+        ksort($this->segments, SORT_NUMERIC);
         foreach ($this->segments as $segments) {
             foreach ($segments as $segment) {
                 if ($segment instanceof LoopInterface) {
