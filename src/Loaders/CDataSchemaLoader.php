@@ -60,14 +60,7 @@ final class CDataSchemaLoader implements SchemaLoaderInterface
         $release = new Release($releaseId);
 
         if (count($transactionSetIds) === 0) {
-            $files = scandir($this->getReleasePath($releaseId));
-            foreach ($files as $file) {
-                if (!preg_match('/^\d+_RSSBus_\d+_(\d+)\\.json$/', $file, $matches) !== false) {
-                    continue;
-                }
-
-                $transactionSetIds[] = $matches[1];
-            }
+            $transactionSetIds = $this->guessTransactionSetIdsFromPath($releaseId);
         }
 
         foreach ($transactionSetIds as $transactionSetId) {
@@ -77,6 +70,25 @@ final class CDataSchemaLoader implements SchemaLoaderInterface
         }
 
         return $release;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function guessTransactionSetIdsFromPath(string $releaseId): array
+    {
+        $transactionSetIds = [];
+
+        $files = scandir($this->getReleasePath($releaseId));
+        foreach ($files as $file) {
+            if (!preg_match('/^\d+_RSSBus_\d+_(\d+)\\.json$/', $file, $matches) !== false) {
+                continue;
+            }
+
+            $transactionSetIds[] = $matches[1];
+        }
+
+        return $transactionSetIds;
     }
 
     private function getTransactionSet(string $releaseId, string $transactionSetId): TransactionSet

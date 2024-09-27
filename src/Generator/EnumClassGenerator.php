@@ -44,6 +44,8 @@ final readonly class EnumClassGenerator extends AbstractClassGenerator
 
     public function write(): void
     {
+        $this->assureDirExists();
+
         if (file_exists($this->getFilename())) {
             return;
         }

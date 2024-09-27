@@ -57,6 +57,8 @@ final readonly class LoopClassGenerator extends AbstractClassGenerator
 
     public function write(): void
     {
+        $this->assureDirExists();
+
         $loopId = $this->loop->getId();
 
         $docBlock = (new DocBlockGenerator())->setWordWrap(false);

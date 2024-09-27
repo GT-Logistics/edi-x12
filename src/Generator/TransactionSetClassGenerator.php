@@ -57,6 +57,8 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
 
     public function write(): void
     {
+        $this->assureDirExists();
+
         $transactionSetCode = $this->transactionSet->getCode();
         $this->classMap->addTransactionSetClass($transactionSetCode, $this->getFullClassName());
 

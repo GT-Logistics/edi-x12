@@ -55,6 +55,8 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
 
     public function write(): void
     {
+        $this->assureDirExists();
+
         $segmentId = $this->segment->getId();
         $this->classMap->addSegmentClass($segmentId, $this->getFullClassName());
 

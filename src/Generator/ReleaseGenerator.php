@@ -45,6 +45,8 @@ final readonly class ReleaseGenerator extends AbstractClassGenerator
 
     public function write(): void
     {
+        $this->assureDirExists();
+
         $class = new ClassGenerator($this->getClassName(), $this->getNamespace());
         $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
 

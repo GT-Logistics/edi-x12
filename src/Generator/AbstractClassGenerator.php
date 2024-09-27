@@ -26,6 +26,7 @@ namespace Gtlogistics\EdiX12\Generator;
 use Webmozart\Assert\Assert;
 
 use function Symfony\Component\String\u;
+use function Safe\mkdir;
 
 abstract readonly class AbstractClassGenerator implements ClassGeneratorInterface
 {
@@ -50,7 +51,6 @@ abstract readonly class AbstractClassGenerator implements ClassGeneratorInterfac
         string $className,
     ) {
         Assert::stringNotEmpty($outputPath);
-        Assert::directory($outputPath);
         Assert::stringNotEmpty($namespace);
         Assert::stringNotEmpty($className);
 
@@ -98,6 +98,13 @@ abstract readonly class AbstractClassGenerator implements ClassGeneratorInterfac
     public function getFilename(): string
     {
         return $this->getDirname() . DIRECTORY_SEPARATOR . $this->getClassName() . '.php';
+    }
+
+    protected function assureDirExists(): void
+    {
+        if (!is_dir($this->getDirname())) {
+            mkdir($this->getDirname(), 0755, true);
+        }
     }
 
     protected function escapeIdentifier(string $identifier): string
