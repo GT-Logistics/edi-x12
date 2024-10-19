@@ -24,10 +24,10 @@ declare(strict_types=1);
 namespace Gtlogistics\EdiX12\Generator;
 
 use Gtlogistics\EdiX12\Schema\Types\EnumType;
-use Laminas\Code\Generator\EnumGenerator\EnumGenerator;
-use Laminas\Code\Generator\FileGenerator;
-use Webmozart\Assert\Assert;
+use Nette\PhpGenerator\Literal;
+use Nette\PhpGenerator\PhpFile;
 
+use function Safe\file_put_contents;
 use function Symfony\Component\String\u;
 
 final readonly class EnumClassGenerator extends AbstractClassGenerator
@@ -50,26 +50,25 @@ final readonly class EnumClassGenerator extends AbstractClassGenerator
             return;
         }
 
-        $cases = [];
+        $file = new PhpFile();
+        $namespace = $file->addNamespace($this->getNamespace());
+        $enum = $namespace->addEnum($this->getClassName());
+
         foreach ($this->enumType->getAvailableValues() as $value => $description) {
-            $key = u($description)->snake()->upper()->toString() ?: (string) $value;
-            $key = $this->escapeIdentifier($key);
+            $value = (string) $value;
+            $key = $this->escapeIdentifier($value);
+            $case = $enum->addCase($key, $value);
 
-            Assert::stringNotEmpty($key);
+            if ($description) {
+                $key = $this->escapeIdentifier(u($description)->snake()->upper()->toString()) . '_' . $value;
+                $alias = $enum->addConstant($key, new Literal('self::' . $case->getName()));
 
-            $cases[$key] = $value;
+                $case->addComment('@see self::' . $alias->getName());
+                $alias->addComment($description);
+            }
         }
 
-        $enum = EnumGenerator::withConfig([
-            'name' => $this->getFullClassName(),
-            'backedCases' => [
-                'type' => $this->enumType->getNativeType(),
-                'cases' => $cases,
-            ],
-        ]);
-        $file = (new FileGenerator())->setBody($enum->generate())->setFilename($this->getFilename());
-
-        $file->write();
+        file_put_contents($this->getFilename(), (string) $file);
     }
 
     public function getNamespace(): string

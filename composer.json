@@ -30,7 +30,8 @@
     "webmozart/assert": "^1.11",
     "thecodingmachine/safe": "^2.5",
     "symfony/console": "^7.1|^6.4",
-    "symfony/filesystem": "^7.1|^6.4"
+    "symfony/filesystem": "^7.1|^6.4",
+    "nette/php-generator": "^4.1"
   },
   "require-dev": {
     "phpstan/phpstan-webmozart-assert": "^1.2",

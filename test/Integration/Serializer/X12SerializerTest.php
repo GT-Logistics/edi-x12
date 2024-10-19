@@ -61,17 +61,17 @@ class X12SerializerTest extends EdiTestCase
         $serialize = new X12Serializer('*', '~');
 
         $ak1 = new AK1Segment();
-        $ak1->_01 = FunctionalIdentifierCode::MOTOR_CARRIER_LOAD_TENDER204;
+        $ak1->_01 = FunctionalIdentifierCode::SM;
         $ak1->_02 = 1;
 
         $ak9 = new AK9Segment();
-        $ak9->_01 = FunctionalGroupAcknowledgeCode::ACCEPTED;
+        $ak9->_01 = FunctionalGroupAcknowledgeCode::A;
         $ak9->_02 = 1;
         $ak9->_03 = 1;
         $ak9->_04 = 1;
 
         $st = new TransactionSet997();
-        $st->_01 = TransactionSetIdentifierCode::FUNCTIONAL_ACKNOWLEDGMENT;
+        $st->_01 = TransactionSetIdentifierCode::_997;
         $st->_02 = '1000';
         $st->AK1[] = $ak1;
         $st->AK9[] = $ak9;
