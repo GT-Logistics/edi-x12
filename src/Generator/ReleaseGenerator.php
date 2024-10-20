@@ -25,13 +25,11 @@ namespace Gtlogistics\EdiX12\Generator;
 
 use Gtlogistics\EdiX12\Model\AbstractRelease;
 use Gtlogistics\EdiX12\Schema\Release;
-use Laminas\Code\Generator\AbstractMemberGenerator;
-use Laminas\Code\Generator\ClassGenerator;
-use Laminas\Code\Generator\FileGenerator;
-use Laminas\Code\Generator\MethodGenerator;
-use Laminas\Code\Generator\ParameterGenerator;
-use Laminas\Code\Generator\PropertyGenerator;
-use Laminas\Code\Generator\TypeGenerator;
+use Nette\PhpGenerator\Literal;
+use Nette\PhpGenerator\Parameter;
+use Nette\PhpGenerator\PhpFile;
+
+use function Safe\file_put_contents;
 
 final readonly class ReleaseGenerator extends AbstractClassGenerator
 {
@@ -47,8 +45,9 @@ final readonly class ReleaseGenerator extends AbstractClassGenerator
     {
         $this->assureDirExists();
 
-        $class = new ClassGenerator($this->getClassName(), $this->getNamespace());
-        $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
+        $file = new PhpFile();
+        $namespace = $file->addNamespace($this->getNamespace());
+        $class = $namespace->addClass($this->getClassName());
 
         $classMap = new ClassMap();
         foreach ($this->release->getTransactionSets() as $transactionSet) {
@@ -57,28 +56,34 @@ final readonly class ReleaseGenerator extends AbstractClassGenerator
             $transactionSetGenerator->write();
         }
 
-        $class->setExtendedClass(AbstractRelease::class);
-        $class->addPropertyFromGenerator(new PropertyGenerator(
-            'transactionSetClassMap',
-            $classMap->getTransactionSetClassMap(),
-            AbstractMemberGenerator::FLAG_PROTECTED,
-            TypeGenerator::fromTypeString('array'),
-        ));
-        $class->addPropertyFromGenerator(new PropertyGenerator(
-            'segmentClassMap',
-            $classMap->getSegmentClassMap(),
-            AbstractMemberGenerator::FLAG_PROTECTED,
-            TypeGenerator::fromTypeString('array'),
-        ));
+        $class->setExtends(AbstractRelease::class);
+        $class->addProperty('transactionSetClassMap', $this->literalizeClasses($classMap->getTransactionSetClassMap()))
+            ->setProtected()
+            ->setType('array')
+        ;
+        $class->addProperty('segmentClassMap', $this->literalizeClasses($classMap->getSegmentClassMap()))
+            ->setProtected()
+            ->setType('array')
+        ;
 
-        $supportsMethod = new MethodGenerator(
-            'supports',
-            [new ParameterGenerator('releaseId', 'string')],
-            body: "return \$releaseId === '{$this->release->getId()}';",
-        );
-        $supportsMethod->setReturnType('bool');
-        $class->addMethodFromGenerator($supportsMethod);
+        $class->addMethod('supports')
+            ->setParameters([(new Parameter('releaseId'))->setType('string')])
+            ->setBody("return \$releaseId === '{$this->release->getId()}';")
+            ->setReturnType('bool')
+        ;
 
-        $file->write();
+        file_put_contents($this->getFilename(), (string) $file);
+    }
+
+    /**
+     * @template TKey of array-key
+     *
+     * @param array<TKey, class-string> $classes
+     *
+     * @return array<TKey, Literal>
+     */
+    private function literalizeClasses(array $classes): array
+    {
+        return array_map(static fn (string $class) => new Literal('\\' . $class . '::class'), $classes);
     }
 }
