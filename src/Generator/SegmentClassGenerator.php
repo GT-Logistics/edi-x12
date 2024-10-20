@@ -25,14 +25,11 @@ namespace Gtlogistics\EdiX12\Generator;
 
 use Gtlogistics\EdiX12\Model\AbstractSegment;
 use Gtlogistics\EdiX12\Schema\Segment;
-use Laminas\Code\Generator\ClassGenerator;
-use Laminas\Code\Generator\DocBlockGenerator;
-use Laminas\Code\Generator\FileGenerator;
-use Laminas\Code\Generator\MethodGenerator;
+use Nette\PhpGenerator\PhpFile;
 
 final readonly class SegmentClassGenerator extends AbstractClassGenerator
 {
-    use RegisterElementTrait;
+    use RegisterElementNetteTrait;
 
     public function __construct(
         string $outputPath,
@@ -64,19 +61,19 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
             return;
         }
 
-        $docblock = (new DocBlockGenerator())->setWordWrap(false);
-        $class = new ClassGenerator($this->getClassName(), $this->getNamespace(), docBlock: $docblock);
-        $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
+        $file = new PhpFile();
+        $namespace = $file->addNamespace($this->getNamespace());
+        $class = $namespace->addClass($this->getClassName());
 
-        $class->setExtendedClass(AbstractSegment::class);
+        $class->setExtends(AbstractSegment::class);
 
-        $getIdMethod = new MethodGenerator('getId', body: "return '$segmentId';");
+        $getIdMethod = $class->addMethod('getId');
+        $getIdMethod->setBody("return '$segmentId';");
         $getIdMethod->setReturnType('string');
-        $class->addMethodFromGenerator($getIdMethod);
 
         $elements = $this->segment->getElements();
-        $this->registerElements($class, $docblock, $elements);
+        $this->registerElements($namespace, $class, $elements);
 
-        $file->write();
+        file_put_contents($this->getFilename(), (string) $file);
     }
 }
