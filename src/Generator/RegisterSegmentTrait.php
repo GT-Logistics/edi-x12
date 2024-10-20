@@ -26,44 +26,39 @@ namespace Gtlogistics\EdiX12\Generator;
 use Gtlogistics\EdiX12\Schema\Loop;
 use Gtlogistics\EdiX12\Schema\Segment;
 use Gtlogistics\EdiX12\Schema\SegmentInterface;
-use Laminas\Code\Generator\AbstractMemberGenerator;
-use Laminas\Code\Generator\ClassGenerator;
-use Laminas\Code\Generator\DocBlock\Tag\PropertyTag;
-use Laminas\Code\Generator\DocBlockGenerator;
-use Laminas\Code\Generator\PropertyGenerator;
-use Laminas\Code\Generator\TypeGenerator;
+use Nette\PhpGenerator\ClassType;
+use Nette\PhpGenerator\Literal;
+use Nette\PhpGenerator\PhpNamespace;
 
 trait RegisterSegmentTrait
 {
     /**
      * @param SegmentInterface[] $segments
      */
-    private function registerSegments(ClassGenerator $class, DocBlockGenerator $docBlock, array $segments): void
+    private function registerSegments(PhpNamespace $namespace, ClassType $class, array $segments): void
     {
         $order = [];
         $loops = [];
         foreach ($segments as $index => $segment) {
-            $segmentClass = $this->registerSegment($class, $docBlock, $segment);
+            $segmentClass = $this->registerSegment($namespace, $class, $segment);
             if ($segment instanceof Loop) {
                 $firstSegment = $segment->getSegments()[0];
 
-                $loops[$firstSegment->getId()] = $segmentClass;
+                $loops[$firstSegment->getId()] = new Literal($segmentClass . '::class');
             }
 
             $order[$segment->getId()] = $index;
         }
 
         if (count($loops) > 0) {
-            $loopsProperty = new PropertyGenerator('loops', $loops, AbstractMemberGenerator::FLAG_STATIC | AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
-            $class->addPropertyFromGenerator($loopsProperty);
+            $class->addProperty('loops', $loops)->setStatic()->setProtected()->setType('array');
         }
         if (count($order) > 0) {
-            $orderProperty = new PropertyGenerator('order', $order, AbstractMemberGenerator::FLAG_STATIC | AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
-            $class->addPropertyFromGenerator($orderProperty);
+            $class->addProperty('order', $order)->setStatic()->setProtected()->setType('array');
         }
     }
 
-    private function registerSegment(ClassGenerator $class, DocBlockGenerator $docBlock, SegmentInterface $segment): string
+    private function registerSegment(PhpNamespace $namespace, ClassType $class, SegmentInterface $segment): string
     {
         $segmentId = $segment->getId();
         $generator = match (true) {
@@ -72,11 +67,11 @@ trait RegisterSegmentTrait
             default => throw new \RuntimeException('Unsupported segment ' . $segment->getId()),
         };
 
-        $class->addUse($generator->getFullClassName());
-        $docBlock->setTag(new PropertyTag($segmentId, [$generator->getClassName() . '[]']));
+        $namespace->addUse($generator->getFullClassName());
+        $class->addComment(sprintf('@property %s $%s', $generator->getClassName() . '[]', $segmentId));
 
         $generator->write();
 
-        return $generator->getFullClassName();
+        return $generator->getClassName();
     }
 }

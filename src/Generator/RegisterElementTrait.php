@@ -28,12 +28,9 @@ use Gtlogistics\EdiX12\Schema\Types\DateType;
 use Gtlogistics\EdiX12\Schema\Types\EnumType;
 use Gtlogistics\EdiX12\Schema\Types\StringType;
 use Gtlogistics\EdiX12\Schema\Types\TimeType;
-use Laminas\Code\Generator\AbstractMemberGenerator;
-use Laminas\Code\Generator\ClassGenerator;
-use Laminas\Code\Generator\DocBlock\Tag\PropertyTag;
-use Laminas\Code\Generator\DocBlockGenerator;
-use Laminas\Code\Generator\PropertyGenerator;
-use Laminas\Code\Generator\TypeGenerator;
+use Nette\PhpGenerator\ClassType;
+use Nette\PhpGenerator\Literal;
+use Nette\PhpGenerator\PhpNamespace;
 
 use function Symfony\Component\String\u;
 
@@ -42,7 +39,7 @@ trait RegisterElementTrait
     /**
      * @param Element[] $elements
      */
-    private function registerElements(ClassGenerator $class, DocBlockGenerator $docBlock, array $elements): void
+    private function registerElements(PhpNamespace $namespace, ClassType $class, array $elements): void
     {
         $castings = [];
         $lengths = [];
@@ -54,11 +51,7 @@ trait RegisterElementTrait
 
             $shortElementId = '_' . str_pad((string) $elementIndex, 2, '0', STR_PAD_LEFT);
             $longElementId = $this->escapeIdentifier(u($elementDescription)->camel()->toString()) . $shortElementId;
-            $elementNativeType = $this->registerElement($docBlock, $element, $shortElementId, $longElementId);
-
-            if (class_exists($elementNativeType) || interface_exists($elementNativeType)) {
-                $class->addUse($elementNativeType);
-            }
+            $elementNativeType = $this->registerElement($namespace, $class, $element, $shortElementId, $longElementId);
 
             $aliases[$longElementId] = $elementIndex;
 
@@ -66,6 +59,7 @@ trait RegisterElementTrait
                 $castings[$elementIndex] = match (true) {
                     $elementType instanceof DateType => 'date',
                     $elementType instanceof TimeType => 'time',
+                    $elementType instanceof EnumType => new Literal($elementNativeType . '::class'),
                     default => $elementNativeType,
                 };
             }
@@ -83,22 +77,19 @@ trait RegisterElementTrait
         }
 
         if (count($castings) !== 0) {
-            $castingsProperty = new PropertyGenerator('castings', $castings, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
-            $class->addPropertyFromGenerator($castingsProperty);
+            $class->addProperty('castings', $castings)->setProtected()->setType('array');
         }
 
         if (count($lengths) !== 0) {
-            $lengthsProperty = new PropertyGenerator('lengths', $lengths, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
-            $class->addPropertyFromGenerator($lengthsProperty);
+            $class->addProperty('lengths', $lengths)->setProtected()->setType('array');
         }
 
         if (count($required) !== 0) {
-            $requiredProperty = new PropertyGenerator('required', $required, AbstractMemberGenerator::FLAG_PROTECTED, TypeGenerator::fromTypeString('array'));
-            $class->addPropertyFromGenerator($requiredProperty);
+            $class->addProperty('required', $required)->setProtected()->setType('array');
         }
     }
 
-    private function registerElement(DocBlockGenerator $docBlock, Element $element, string $shortElementId, string $longElementId): string
+    private function registerElement(PhpNamespace $namespace, ClassType $class, Element $element, string $shortElementId, string $longElementId): string
     {
         $docBlockTypes = [];
         $type = $element->getType();
@@ -107,29 +98,21 @@ trait RegisterElementTrait
 
         if ($type instanceof EnumType) {
             $enumGenerator = new EnumClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $type);
+            $nativeType = $enumGenerator->getClassName();
 
-            $nativeType = $enumGenerator->getFullClassName();
-            $docBlockTypes[] = $enumGenerator->getClassName();
-
+            $namespace->addUse($enumGenerator->getFullClassName());
             $enumGenerator->write();
-        } else {
-            $docBlockTypes[] = $nativeType;
+        } elseif ($type instanceof DateType || $type instanceof TimeType) {
+            $namespace->addUse($nativeType);
         }
+        $docBlockTypes[] = $nativeType;
 
         if (!$element->isRequired()) {
             $docBlockTypes[] = 'null';
         }
 
-        $docBlock->setTag(new PropertyTag(
-            $longElementId,
-            $docBlockTypes,
-            $description,
-        ));
-        $docBlock->setTag(new PropertyTag(
-            $shortElementId,
-            $docBlockTypes,
-            "See $$longElementId",
-        ));
+        $class->addComment(sprintf('@property %s $%s %s', implode('|', $docBlockTypes), $longElementId, $description));
+        $class->addComment(sprintf('@property %s $%s %s', implode('|', $docBlockTypes), $shortElementId, "See $$longElementId"));
 
         return $nativeType;
     }

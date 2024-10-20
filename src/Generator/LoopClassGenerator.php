@@ -32,7 +32,7 @@ use function Safe\file_put_contents;
 
 final readonly class LoopClassGenerator extends AbstractClassGenerator
 {
-    use RegisterSegmentNetteTrait;
+    use RegisterSegmentTrait;
 
     public function __construct(
         string $outputPath,

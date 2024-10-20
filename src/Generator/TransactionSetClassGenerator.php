@@ -32,8 +32,8 @@ use function Safe\file_put_contents;
 
 final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
 {
-    use RegisterElementNetteTrait;
-    use RegisterSegmentNetteTrait;
+    use RegisterElementTrait;
+    use RegisterSegmentTrait;
 
     public function __construct(
         string $outputPath,

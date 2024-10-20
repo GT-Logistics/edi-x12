@@ -29,7 +29,7 @@ use Nette\PhpGenerator\PhpFile;
 
 final readonly class SegmentClassGenerator extends AbstractClassGenerator
 {
-    use RegisterElementNetteTrait;
+    use RegisterElementTrait;
 
     public function __construct(
         string $outputPath,
