@@ -26,14 +26,13 @@ namespace Gtlogistics\EdiX12\Generator;
 use Gtlogistics\EdiX12\Model\AbstractLoop;
 use Gtlogistics\EdiX12\Schema\Loop;
 use Gtlogistics\EdiX12\Schema\TransactionSet;
-use Laminas\Code\Generator\ClassGenerator;
-use Laminas\Code\Generator\DocBlockGenerator;
-use Laminas\Code\Generator\FileGenerator;
-use Laminas\Code\Generator\MethodGenerator;
+use Nette\PhpGenerator\PhpFile;
+
+use function Safe\file_put_contents;
 
 final readonly class LoopClassGenerator extends AbstractClassGenerator
 {
-    use RegisterSegmentTrait;
+    use RegisterSegmentNetteTrait;
 
     public function __construct(
         string $outputPath,
@@ -61,19 +60,17 @@ final readonly class LoopClassGenerator extends AbstractClassGenerator
 
         $loopId = $this->loop->getId();
 
-        $docBlock = (new DocBlockGenerator())->setWordWrap(false);
-        $class = new ClassGenerator($this->getClassName(), $this->getNamespace(), docBlock: $docBlock);
-        $file = (new FileGenerator())->setClass($class)->setFilename($this->getFilename());
+        $file = new PhpFile();
+        $namespace = $file->addNamespace($this->getNamespace());
+        $class = $namespace->addClass($this->getClassName());
 
-        $class->setExtendedClass(AbstractLoop::class);
+        $class->setExtends(AbstractLoop::class);
 
-        $getIdMethod = new MethodGenerator('getId', body: "return '$loopId';");
-        $getIdMethod->setReturnType('string');
-        $class->addMethodFromGenerator($getIdMethod);
+        $class->addMethod('getId')->setBody("return '$loopId';")->setReturnType('string');
 
         $segments = $this->loop->getSegments();
-        $this->registerSegments($class, $docBlock, $segments);
+        $this->registerSegments($namespace, $class, $segments);
 
-        $file->write();
+        file_put_contents($this->getFilename(), (string) $file);
     }
 }
