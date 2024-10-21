@@ -33,7 +33,7 @@
     "nette/php-generator": "^4.1"
   },
   "require-dev": {
-    "phpstan/phpstan-webmozart-assert": "^1.2",
+    "phpstan/phpstan-webmozart-assert": "^1.2.7",
     "thecodingmachine/phpstan-safe-rule": "^1.2",
     "phpunit/phpunit": "^11.2",
     "infection/infection": "^0.29.5",

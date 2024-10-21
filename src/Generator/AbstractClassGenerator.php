@@ -25,8 +25,8 @@ namespace Gtlogistics\EdiX12\Generator;
 
 use Webmozart\Assert\Assert;
 
-use function Symfony\Component\String\u;
 use function Safe\mkdir;
+use function Symfony\Component\String\u;
 
 abstract readonly class AbstractClassGenerator implements ClassGeneratorInterface
 {

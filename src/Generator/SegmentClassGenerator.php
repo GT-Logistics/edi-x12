@@ -27,6 +27,8 @@ use Gtlogistics\EdiX12\Model\AbstractSegment;
 use Gtlogistics\EdiX12\Schema\Segment;
 use Nette\PhpGenerator\PhpFile;
 
+use function Safe\file_put_contents;
+
 final readonly class SegmentClassGenerator extends AbstractClassGenerator
 {
     use RegisterElementTrait;

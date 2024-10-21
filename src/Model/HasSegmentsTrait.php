@@ -126,6 +126,9 @@ trait HasSegmentsTrait
         return isset($this->segments[$index]);
     }
 
+    /**
+     * @return SegmentInterface[]|LoopInterface[]
+     */
     private function &getSegment(string $key): array
     {
         $index = $this->getOrder($key);
