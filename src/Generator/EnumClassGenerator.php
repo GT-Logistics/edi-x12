@@ -61,7 +61,7 @@ final readonly class EnumClassGenerator extends AbstractClassGenerator
 
             if ($description) {
                 $key = $this->escapeIdentifier(u($description)->snake()->upper()->toString()) . '_' . $value;
-                $alias = $enum->addConstant($key, new Literal('self::' . $case->getName()));
+                $alias = $enum->addConstant($key, new Literal('self::' . $case->getName()))->setType('self');
 
                 $case->addComment('@see self::' . $alias->getName());
                 $alias->addComment($description);
