@@ -27,6 +27,7 @@ use Gtlogistics\EdiX12\Model\AbstractLoop;
 use Gtlogistics\EdiX12\Schema\Loop;
 use Gtlogistics\EdiX12\Schema\TransactionSet;
 use Nette\PhpGenerator\PhpFile;
+use Nette\PhpGenerator\Printer;
 
 use function Safe\file_put_contents;
 
@@ -37,6 +38,7 @@ final readonly class LoopClassGenerator extends AbstractClassGenerator
     public function __construct(
         string $outputPath,
         string $namespace,
+        private Printer $printer,
         private ClassMap $classMap,
         private TransactionSet $transactionSet,
         private Loop $loop,
@@ -71,6 +73,6 @@ final readonly class LoopClassGenerator extends AbstractClassGenerator
         $segments = $this->loop->getSegments();
         $this->registerSegments($namespace, $class, $segments);
 
-        file_put_contents($this->getFilename(), (string) $file);
+        file_put_contents($this->getFilename(), $this->printer->printFile($file));
     }
 }

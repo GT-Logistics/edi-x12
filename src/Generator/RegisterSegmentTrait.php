@@ -62,8 +62,8 @@ trait RegisterSegmentTrait
     {
         $segmentId = $segment->getId();
         $generator = match (true) {
-            $segment instanceof Loop => new LoopClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $this->classMap, $this->transactionSet, $segment),
-            $segment instanceof Segment => new SegmentClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $this->classMap, $segment),
+            $segment instanceof Loop => new LoopClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $this->printer, $this->classMap, $this->transactionSet, $segment),
+            $segment instanceof Segment => new SegmentClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $this->printer, $this->classMap, $segment),
             default => throw new \RuntimeException('Unsupported segment ' . $segment->getId()),
         };
 

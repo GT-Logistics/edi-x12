@@ -28,6 +28,7 @@ use Gtlogistics\EdiX12\Schema\Release;
 use Nette\PhpGenerator\Literal;
 use Nette\PhpGenerator\Parameter;
 use Nette\PhpGenerator\PhpFile;
+use Nette\PhpGenerator\Printer;
 
 use function Safe\file_put_contents;
 
@@ -36,6 +37,7 @@ final readonly class ReleaseGenerator extends AbstractClassGenerator
     public function __construct(
         string $outputPath,
         string $namespace,
+        private Printer $printer,
         private Release $release,
     ) {
         parent::__construct($outputPath, $namespace, "Release{$release->getId()}");
@@ -51,7 +53,7 @@ final readonly class ReleaseGenerator extends AbstractClassGenerator
 
         $classMap = new ClassMap();
         foreach ($this->release->getTransactionSets() as $transactionSet) {
-            $transactionSetGenerator = new TransactionSetClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $classMap, $transactionSet);
+            $transactionSetGenerator = new TransactionSetClassGenerator($this->getRootDirname(), $this->getRootNamespace(), $this->printer, $classMap, $transactionSet);
 
             $transactionSetGenerator->write();
         }
@@ -72,7 +74,7 @@ final readonly class ReleaseGenerator extends AbstractClassGenerator
             ->setReturnType('bool')
         ;
 
-        file_put_contents($this->getFilename(), (string) $file);
+        file_put_contents($this->getFilename(), $this->printer->printFile($file));
     }
 
     /**

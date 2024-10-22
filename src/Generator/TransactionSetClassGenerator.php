@@ -27,6 +27,7 @@ use Gtlogistics\EdiX12\Model\AbstractTransactionSet;
 use Gtlogistics\EdiX12\Schema\Segment;
 use Gtlogistics\EdiX12\Schema\TransactionSet;
 use Nette\PhpGenerator\PhpFile;
+use Nette\PhpGenerator\Printer;
 
 use function Safe\file_put_contents;
 
@@ -38,6 +39,7 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
     public function __construct(
         string $outputPath,
         string $namespace,
+        private Printer $printer,
         private ClassMap $classMap,
         private TransactionSet $transactionSet,
     ) {
@@ -78,6 +80,6 @@ final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
         $this->registerElements($namespace, $class, $stSegment->getElements());
         $this->registerSegments($namespace, $class, $segments);
 
-        file_put_contents($this->getFilename(), (string) $file);
+        file_put_contents($this->getFilename(), $this->printer->printFile($file));
     }
 }

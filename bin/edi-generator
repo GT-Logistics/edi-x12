@@ -18,6 +18,7 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 
 use Gtlogistics\EdiX12\Loaders\CDataSchemaLoader;
 use Gtlogistics\EdiX12\Generator\ReleaseGenerator;
+use Nette\PhpGenerator\Printer;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -51,10 +52,16 @@ $application->register('generate')
         $filesystem = new Filesystem();
         $filesystem->remove($outputPath);
 
+        $printer = new Printer();
+        $printer->indentation = '    ';
+        $printer->linesBetweenMethods = 1;
+        $printer->linesBetweenProperties = 1;
+        $printer->wrapLength = 0;
+
         $schemaLoader = new CDataSchemaLoader($schemaPath);
         $release = $schemaLoader->getRelease($release, $transactionSets);
 
-        $releaseGenerator = new ReleaseGenerator($outputPath, $namespace, $release);
+        $releaseGenerator = new ReleaseGenerator($outputPath, $namespace, $printer, $release);
         $releaseGenerator->write();
 
         return Command::SUCCESS;

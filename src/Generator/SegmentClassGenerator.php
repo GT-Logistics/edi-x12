@@ -26,6 +26,7 @@ namespace Gtlogistics\EdiX12\Generator;
 use Gtlogistics\EdiX12\Model\AbstractSegment;
 use Gtlogistics\EdiX12\Schema\Segment;
 use Nette\PhpGenerator\PhpFile;
+use Nette\PhpGenerator\Printer;
 
 use function Safe\file_put_contents;
 
@@ -36,6 +37,7 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
     public function __construct(
         string $outputPath,
         string $namespace,
+        private Printer $printer,
         private ClassMap $classMap,
         private Segment $segment,
     ) {
@@ -76,6 +78,6 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
         $elements = $this->segment->getElements();
         $this->registerElements($namespace, $class, $elements);
 
-        file_put_contents($this->getFilename(), (string) $file);
+        file_put_contents($this->getFilename(), $this->printer->printFile($file));
     }
 }
