@@ -31,6 +31,9 @@ use Nette\PhpGenerator\Printer;
 
 use function Safe\file_put_contents;
 
+/**
+ * @extends AbstractClassGenerator<AbstractTransactionSet>
+ */
 final readonly class TransactionSetClassGenerator extends AbstractClassGenerator
 {
     use RegisterElementTrait;

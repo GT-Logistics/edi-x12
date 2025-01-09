@@ -24,12 +24,16 @@ declare(strict_types=1);
 namespace Gtlogistics\EdiX12\Generator;
 
 use Gtlogistics\EdiX12\Model\AbstractSegment;
+use Gtlogistics\EdiX12\Model\SegmentInterface;
 use Gtlogistics\EdiX12\Schema\Segment;
 use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\Printer;
 
 use function Safe\file_put_contents;
 
+/**
+ * @extends AbstractClassGenerator<AbstractSegment>
+ */
 final readonly class SegmentClassGenerator extends AbstractClassGenerator
 {
     use RegisterElementTrait;
@@ -47,6 +51,17 @@ final readonly class SegmentClassGenerator extends AbstractClassGenerator
     public function getNamespace(): string
     {
         return parent::getNamespace() . '\\Segment';
+    }
+
+    /**
+     * @return class-string<SegmentInterface>
+     */
+    public function getFullClassName(): string
+    {
+        /** @var class-string<SegmentInterface> $className */
+        $className = parent::getFullClassName();
+
+        return $className;
     }
 
     public function getDirname(): string

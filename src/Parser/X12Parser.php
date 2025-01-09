@@ -89,7 +89,7 @@ final readonly class X12Parser
 
                 $currentIsa = new IsaHeading();
                 $currentIsa->setElements($elements);
-                $currentRelease = $this->getRelease($currentIsa->_12);
+                $currentRelease = $this->getRelease($currentIsa->getElements()[12]);
                 $currentSegments = [];
                 $ended = false;
 

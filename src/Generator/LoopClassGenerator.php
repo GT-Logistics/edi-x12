@@ -31,6 +31,9 @@ use Nette\PhpGenerator\Printer;
 
 use function Safe\file_put_contents;
 
+/**
+ * @extends AbstractClassGenerator<AbstractLoop>
+ */
 final readonly class LoopClassGenerator extends AbstractClassGenerator
 {
     use RegisterSegmentTrait;

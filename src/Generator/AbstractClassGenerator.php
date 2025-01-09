@@ -28,6 +28,9 @@ use Webmozart\Assert\Assert;
 use function Safe\mkdir;
 use function Symfony\Component\String\u;
 
+/**
+ * @template TClass of object
+ */
 abstract readonly class AbstractClassGenerator implements ClassGeneratorInterface
 {
     /**
@@ -77,9 +80,15 @@ abstract readonly class AbstractClassGenerator implements ClassGeneratorInterfac
         return $this->className;
     }
 
+    /**
+     * @return class-string<TClass>
+     */
     public function getFullClassName(): string
     {
-        return $this->getNamespace() . '\\' . $this->getClassName();
+        /** @var class-string<TClass> $fullClassName */
+        $fullClassName = $this->getNamespace() . '\\' . $this->getClassName();
+
+        return $fullClassName;
     }
 
     /**

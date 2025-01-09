@@ -30,6 +30,9 @@ use Nette\PhpGenerator\PhpFile;
 use function Safe\file_put_contents;
 use function Symfony\Component\String\u;
 
+/**
+ * @extends AbstractClassGenerator<\BackedEnum>
+ */
 final readonly class EnumClassGenerator extends AbstractClassGenerator
 {
     public function __construct(

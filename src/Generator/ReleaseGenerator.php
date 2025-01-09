@@ -32,6 +32,9 @@ use Nette\PhpGenerator\Printer;
 
 use function Safe\file_put_contents;
 
+/**
+ * @extends AbstractClassGenerator<AbstractRelease>
+ */
 final readonly class ReleaseGenerator extends AbstractClassGenerator
 {
     public function __construct(
