@@ -119,6 +119,19 @@ trait HasSegmentsTrait
         }
     }
 
+    public function __serialize(): array
+    {
+        $data = [];
+        if (is_callable('parent::__serialize')) {
+            $data = parent::__serialize();
+        }
+
+        return [
+            ...$data,
+            'segments' => $this->segments,
+        ];
+    }
+
     private function hasSegment(string $key): bool
     {
         $index = $this->getOrder($key);

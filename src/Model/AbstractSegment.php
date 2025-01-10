@@ -91,6 +91,13 @@ abstract class AbstractSegment implements SegmentInterface
         return isset($this->elements[$this->parseIndex($key)]);
     }
 
+    public function __serialize(): array
+    {
+        return [
+            'elements' => $this->elements,
+        ];
+    }
+
     private function parseIndex(string $key): int
     {
         return (int) substr($key, -2);
