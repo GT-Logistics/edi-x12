@@ -119,6 +119,26 @@ trait HasSegmentsTrait
         }
     }
 
+    public function jsonSerialize(): array
+    {
+        $data = [];
+        if (is_callable('parent::jsonSerialize')) {
+            $data['*'] = parent::jsonSerialize();
+        }
+
+        $normalizedSegments = [];
+        foreach (static::$order as $key => $index) {
+            if (isset($this->segments[$index])) {
+                $normalizedSegments[$key] = $this->segments[$index];
+            }
+        }
+
+        return [
+            ...$data,
+            ...$normalizedSegments,
+        ];
+    }
+
     public function __serialize(): array
     {
         $data = [];

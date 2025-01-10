@@ -86,6 +86,14 @@ final class GsHeading extends AbstractSegment
         return 'GS';
     }
 
+    public function jsonSerialize(): array
+    {
+        return [
+            '*' => parent::jsonSerialize(),
+            'ST' => $this->ST,
+        ];
+    }
+
     public function __serialize(): array
     {
         return [

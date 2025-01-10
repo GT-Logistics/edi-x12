@@ -115,6 +115,14 @@ final class IsaHeading extends AbstractSegment
         return 'ISA';
     }
 
+    public function jsonSerialize(): array
+    {
+        return [
+            '*' => parent::jsonSerialize(),
+            'GS' => $this->GS,
+        ];
+    }
+
     public function __serialize(): array
     {
         return [

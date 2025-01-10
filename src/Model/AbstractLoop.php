@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace Gtlogistics\EdiX12\Model;
 
-abstract class AbstractLoop implements LoopInterface
+abstract class AbstractLoop implements LoopInterface, \JsonSerializable
 {
     use HasSegmentsTrait;
 
