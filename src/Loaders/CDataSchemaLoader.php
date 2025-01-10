@@ -81,7 +81,7 @@ final class CDataSchemaLoader implements SchemaLoaderInterface
 
         $files = scandir($this->getReleasePath($releaseId));
         foreach ($files as $file) {
-            if (!preg_match('/^\d+_RSSBus_\d+_(\d+)\\.json$/', $file, $matches) !== false) {
+            if (!preg_match('/^\d+\\\\RSSBus_\d+_(\d+)\.json$/', $file, $matches) !== false) {
                 continue;
             }
 
@@ -152,7 +152,7 @@ final class CDataSchemaLoader implements SchemaLoaderInterface
 
     private function getSchema(string $releaseId): array
     {
-        $filePath = $this->getReleasePath($releaseId) . DIRECTORY_SEPARATOR . "{$releaseId}_RSSBus_$releaseId.json";
+        $filePath = $this->getReleasePath($releaseId) . DIRECTORY_SEPARATOR . "$releaseId\\RSSBus_$releaseId.json";
 
         Assert::file($filePath);
 
@@ -175,7 +175,7 @@ final class CDataSchemaLoader implements SchemaLoaderInterface
 
     private function getTransactionSetSchema(string $releaseId, string $transactionSetId): array
     {
-        $filePath = $this->getReleasePath($releaseId) . DIRECTORY_SEPARATOR . "{$releaseId}_RSSBus_{$releaseId}_$transactionSetId.json";
+        $filePath = $this->getReleasePath($releaseId) . DIRECTORY_SEPARATOR . "$releaseId\\RSSBus_{$releaseId}_$transactionSetId.json";
 
         Assert::file($filePath);
 
