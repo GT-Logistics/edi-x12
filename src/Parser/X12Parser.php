@@ -30,7 +30,7 @@ use Gtlogistics\EdiX12\Heading\IsaHeading;
 use Gtlogistics\EdiX12\Model\ReleaseInterface;
 use Gtlogistics\EdiX12\Model\TransactionSetInterface;
 
-final readonly class X12Parser
+final readonly class X12Parser implements ParserInterface
 {
     /**
      * @param ReleaseInterface[] $releases
