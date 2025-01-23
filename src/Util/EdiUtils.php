@@ -39,7 +39,7 @@ final class EdiUtils
 
         $se = new SeTrailer();
         // Must be the number of segments plus 2 (for the excluded ST and SE segments)
-        $se->numberOfIncludedSegments_01 = count($segments) + 2;
+        $se->numberOfIncludedSegments_01 = iterator_count($segments) + 2;
         $se->transactionSetControlNumber_02 = $elements[2];
 
         return $se;

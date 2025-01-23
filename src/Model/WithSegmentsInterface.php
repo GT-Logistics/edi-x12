@@ -26,9 +26,9 @@ namespace Gtlogistics\EdiX12\Model;
 interface WithSegmentsInterface
 {
     /**
-     * @return SegmentInterface[]
+     * @return iterable<SegmentInterface|LoopInterface>
      */
-    public function getSegments(): array;
+    public function getSegments(): iterable;
 
     /**
      * @param SegmentInterface[] $segments

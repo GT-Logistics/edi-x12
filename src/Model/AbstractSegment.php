@@ -25,7 +25,7 @@ namespace Gtlogistics\EdiX12\Model;
 
 use Webmozart\Assert\Assert;
 
-abstract class AbstractSegment implements SegmentInterface, \JsonSerializable
+abstract class AbstractSegment implements SegmentInterface
 {
     /**
      * @var array<int, string>
@@ -68,14 +68,6 @@ abstract class AbstractSegment implements SegmentInterface, \JsonSerializable
     public function setElements(array $elements): void
     {
         $this->elements = $elements;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    public function jsonSerialize(): array
-    {
-        return array_slice($this->getElements(), 1);
     }
 
     public function __get(string $key): mixed
