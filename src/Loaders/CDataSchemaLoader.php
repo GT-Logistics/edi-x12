@@ -97,6 +97,11 @@ final class CDataSchemaLoader implements SchemaLoaderInterface
         $transactionSet = new TransactionSet($transactionSetId);
 
         foreach ($transactionSetSchema as $segmentSchema) {
+            // Exclude the SE trailer for the transaction set
+            if ($segmentSchema['ID'] === 'SE') {
+                continue;
+            }
+
             $segment = $this->getSegment($releaseId, $segmentSchema);
 
             $transactionSet->addSegment($segment);
