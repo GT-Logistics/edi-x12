@@ -24,7 +24,9 @@ declare(strict_types=1);
 namespace Gtlogistics\EdiX12\Serializer;
 
 use Gtlogistics\EdiX12\Edi;
+use Gtlogistics\EdiX12\Model\LoopInterface;
 use Gtlogistics\EdiX12\Model\SegmentInterface;
+use Gtlogistics\EdiX12\Model\WithSegmentsInterface;
 use Gtlogistics\EdiX12\Util\EdiUtils;
 
 final readonly class X12Serializer implements SerializerInterface
@@ -43,26 +45,43 @@ final readonly class X12Serializer implements SerializerInterface
         $serializedSegments = [];
 
         foreach ($edi->ISA as $isa) {
-            $serializedSegments[] = $this->serializeSegment($isa);
+            $this->pushSegment($serializedSegments, $isa);
             foreach ($isa->GS as $gs) {
-                $serializedSegments[] = $this->serializeSegment($gs);
+                $this->pushSegment($serializedSegments, $gs);
                 foreach ($gs->ST as $st) {
-                    $serializedSegments[] = $this->serializeSegment($st);
-                    foreach ($st->getSegments() as $segment) {
-                        $serializedSegments[] = $this->serializeSegment($segment);
-                    }
-                    $serializedSegments[] = $this->serializeSegment($this->ediUtils->seTrailer($st));
+                    $this->pushSegment($serializedSegments, $st);
+                    $this->pushNested($serializedSegments, $st);
+                    $this->pushSegment($serializedSegments, $this->ediUtils->seTrailer($st));
                 }
-                $serializedSegments[] = $this->serializeSegment($this->ediUtils->geTrailer($gs));
+                $this->pushSegment($serializedSegments, $this->ediUtils->geTrailer($gs));
             }
-            $serializedSegments[] = $this->serializeSegment($this->ediUtils->ieaTrailer($isa));
+            $this->pushSegment($serializedSegments, $this->ediUtils->ieaTrailer($isa));
         }
 
         return implode("$this->segmentDelimiter\n", $serializedSegments);
     }
 
-    private function serializeSegment(SegmentInterface $segment): string
+    /**
+     * @param string[] $array
+     */
+    private function pushNested(array &$array, WithSegmentsInterface $nested): void
     {
-        return rtrim(implode($this->elementDelimiter, $segment->getElements()), $this->elementDelimiter);
+        foreach ($nested->getSegments() as $segment) {
+            if ($segment instanceof LoopInterface) {
+                $this->pushNested($array, $segment);
+
+                continue;
+            }
+
+            $this->pushSegment($array, $segment);
+        }
+    }
+
+    /**
+     * @param string[] $array
+     */
+    private function pushSegment(array &$array, SegmentInterface $segment): void
+    {
+        $array[] = rtrim(implode($this->elementDelimiter, $segment->getElements()), $this->elementDelimiter);
     }
 }

@@ -132,7 +132,6 @@ abstract class AbstractSegment implements SegmentInterface
                 Assert::numeric($value);
                 $value = str_pad($value, $min, '0', STR_PAD_LEFT);
             } else {
-                Assert::string($value);
                 $value = str_pad($value, $min);
             }
 
@@ -172,8 +171,6 @@ abstract class AbstractSegment implements SegmentInterface
             return (float) $value;
         }
         if ($type === 'string') {
-            Assert::string($value);
-
             return $value;
         }
 
