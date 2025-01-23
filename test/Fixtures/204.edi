@@ -1,0 +1,50 @@
+ISA*00*          *00*          *ZZ*SENDER         *ZZ*RECEIVER       *240131*1100*U*00401*000011111*0*P*`~
+GS*SM*SENDERAPP*RECEIVERAPP*20240131*1100*000001000*X*004010~
+ST*204*1000~
+B2**000X**123456789**PP~
+B2A*00*LT~
+L11*TRUCK 25 TON*6Y~
+L11*SOLO*ZZ*12~
+G62*64*20240131*1*1200~
+MS3*000X*B**M~
+NTE**Lorem ipsum dolor sit amet, consectetur adipiscing elit.~
+NTE**Proin porta lectus eu faucibus aliquet.~
+NTE**Nam pretium justo interdum, ultrices odio ac, blandit nulla.~
+N1*OB*Springfield Power Company*ZZ*XXXXXXXXXX~
+N3*Evergreen Terrace*742~
+N4*Springfield*OR*80085*USA~
+G61*OC*Homer Simpson*TE*(939) 555-0113~
+N1*BT*Springfield Power Company*ZZ*ZZ~
+N3*Fake Street*123~
+N4*Springfield*OR*80085*USA~
+N1*BN*Charles Montgomery Burns~
+N7**000000*********TV****05000*******XXXX~
+S5*1*CL*5432.1*K*100*PC~
+L11*11111*OQ~
+L11*22222*KK~
+G62*37*20240131*I*0800~
+G62*38*20240131*K*1400~
+AT8*G*K*5432.1*100~
+N1*SF*Bednar LLC*ZZ*XXXX~
+N3*927 Washington Boulevard~
+N4*Newport*RI*02840*USA~
+G61*SH*UNKNOWN*TE*555-555-5555~
+OID*S1*0123456789**PC*100*K*5432.1~
+L5*1*Chair****000000000987654321*SM~
+AT8*G*K*5432.1*100*10~
+S5*99*CU*5432.1*K*100*PC~
+L11*33333*OQ~
+L11*44444*KK~
+G62*02*20240205*Z*1100~
+AT8*G*K*5432.1*100~
+N1*CN*Springfield Power Company*ZZ*ZZZZ~
+N3*Fake Street 123~
+N4*Springfield*OR*80085*USA~
+G61*DC*Unknown*TE*555-555-1212~
+OID*S1*0123456789**PC*100*K*5432.1~
+L5*1*Chair****000000000987654321*SM~
+AT8*G*K*5432.1*100*10~
+L3*5432.1*N***100******100*K~
+SE*46*1000~
+GE*1*000001000~
+IEA*1*000011111~

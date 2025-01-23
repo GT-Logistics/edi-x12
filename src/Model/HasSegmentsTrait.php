@@ -97,6 +97,7 @@ trait HasSegmentsTrait
             $currentLoop->setSegments($currentLoopSegments);
 
             $this->segments[$currentLoop->getId()][] = $currentLoop;
+            $this->segments[$segment->getId()][] = $segment;
             $currentLoop = null;
         }
 
