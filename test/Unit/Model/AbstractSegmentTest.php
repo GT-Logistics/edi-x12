@@ -42,7 +42,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock = new SegmentMock();
         $mock->setCastings([1 => $type]);
 
-        $mock->setElements(['TST', $value]);
+        $mock->setElements([$value]);
         $this->assertSame($expected, $mock->_01);
         $this->assertSame($expected, $mock->test_01);
     }
@@ -58,9 +58,8 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->_01 = $value;
         $elements = $mock->getElements();
 
-        $this->assertCount(2, $elements);
-        $this->assertSame('TST', $elements[0]);
-        $this->assertSame($expected, $elements[1]);
+        $this->assertCount(1, $elements);
+        $this->assertSame($expected, $elements[0]);
     }
 
     #[TestWith([QualifierStub::TEST_1])]
@@ -71,7 +70,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock = new SegmentMock();
         $mock->setCastings([1 => QualifierStub::class]);
 
-        $mock->setElements(['TST', $expected->value]);
+        $mock->setElements([$expected->value]);
         $this->assertEnum($expected, $mock->_01);
         $this->assertEnum($expected, $mock->test_01);
     }
@@ -87,9 +86,8 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->_01 = $expected;
         $elements = $mock->getElements();
 
-        $this->assertCount(2, $elements);
-        $this->assertSame('TST', $elements[0]);
-        $this->assertSame($expected->value, $elements[1]);
+        $this->assertCount(1, $elements);
+        $this->assertSame($expected->value, $elements[0]);
     }
 
     /**
@@ -105,7 +103,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->setCastings([1 => 'date']);
         $mock->setLengths([1 => $length]);
 
-        $mock->setElements(['TST', $value]);
+        $mock->setElements([$value]);
         $this->assertDate($expected, $mock->_01);
         $this->assertDate($expected, $mock->test_01);
     }
@@ -126,9 +124,8 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->_01 = new DateTimeImmutable($value);
         $elements = $mock->getElements();
 
-        $this->assertCount(2, $elements);
-        $this->assertSame('TST', $elements[0]);
-        $this->assertSame($expected, $elements[1]);
+        $this->assertCount(1, $elements);
+        $this->assertSame($expected, $elements[0]);
     }
 
     /**
@@ -146,7 +143,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->setCastings([1 => 'time']);
         $mock->setLengths([1 => $length]);
 
-        $mock->setElements(['TST', $value]);
+        $mock->setElements([$value]);
         $this->assertTime($expected, $mock->_01);
         $this->assertTime($expected, $mock->test_01);
     }
@@ -169,9 +166,8 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->_01 = new DateTimeImmutable($value);
         $elements = $mock->getElements();
 
-        $this->assertCount(2, $elements);
-        $this->assertSame('TST', $elements[0]);
-        $this->assertSame($expected, $elements[1]);
+        $this->assertCount(1, $elements);
+        $this->assertSame($expected, $elements[0]);
     }
 
     #[TestWith(['string'])]
@@ -185,7 +181,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock = new SegmentMock();
         $mock->setCastings([1 => $type]);
 
-        $mock->setElements(['TST', '']);
+        $mock->setElements(['']);
         $this->assertNull($mock->_01);
         $this->assertNull($mock->test_01);
     }
@@ -204,9 +200,8 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->_01 = null;
         $elements = $mock->getElements();
 
-        $this->assertCount(2, $elements);
-        $this->assertSame('TST', $elements[0]);
-        $this->assertSame('', $elements[1]);
+        $this->assertCount(1, $elements);
+        $this->assertSame('', $elements[0]);
     }
 
     public function testRequiredCasting(): void
@@ -217,7 +212,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock = new SegmentMock();
         $mock->setRequired([1 => true]);
 
-        $mock->setElements(['TST', '']);
+        $mock->setElements(['']);
         $mock->_01;
     }
 
@@ -251,7 +246,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock = new SegmentMock();
         $mock->setCastings([1 => 'unknown']);
 
-        $mock->setElements(['TST', 'test']);
+        $mock->setElements(['test']);
         $mock->_01;
     }
 
@@ -265,7 +260,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock = new SegmentMock();
         $mock->setCastings([1 => $type]);
 
-        $mock->setElements(['TST', $value]);
+        $mock->setElements([$value]);
         $mock->_01;
     }
 
@@ -277,7 +272,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock = new SegmentMock();
         $mock->setCastings([1 => QualifierStub::class]);
 
-        $mock->setElements(['TST', 'error']);
+        $mock->setElements(['error']);
         $mock->_01;
     }
 
@@ -332,7 +327,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->setCastings([1 => 'date']);
         $mock->setLengths([1 => [6, 6]]);
 
-        $mock->setElements(['TST', $dateString]);
+        $mock->setElements([$dateString]);
         $mock->_01;
     }
 
@@ -350,7 +345,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->setCastings([1 => 'time']);
         $mock->setLengths([1 => [6, 6]]);
 
-        $mock->setElements(['TST', $timeString]);
+        $mock->setElements([$timeString]);
         $mock->_01;
     }
 }

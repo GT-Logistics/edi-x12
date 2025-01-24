@@ -61,11 +61,11 @@ abstract class AbstractSegment implements SegmentInterface
     {
         $elements = [];
 
-        for ($index = 0, $lastIndex = max(array_keys($this->elements)); $index <= $lastIndex; ++$index) {
+        for ($index = 1, $lastIndex = max(array_keys($this->elements)); $index <= $lastIndex; ++$index) {
             $value = $this->elements[$index] ?? '';
             $length = $this->overrides[$index] ?? null;
 
-            $elements[$index] = $this->padValue($index, $value, $length);
+            $elements[] = $this->padValue($index, $value, $length);
         }
 
         return $elements;
@@ -73,7 +73,10 @@ abstract class AbstractSegment implements SegmentInterface
 
     public function setElements(array $elements): void
     {
-        $this->elements = $elements;
+        $index = 1;
+        foreach ($elements as $element) {
+            $this->elements[$index++] = $element;
+        }
     }
 
     public function overrideLength(int $index, int $length): void

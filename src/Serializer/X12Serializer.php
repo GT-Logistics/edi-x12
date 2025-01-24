@@ -82,6 +82,6 @@ final readonly class X12Serializer implements SerializerInterface
      */
     private function pushSegment(array &$array, SegmentInterface $segment): void
     {
-        $array[] = rtrim(implode($this->elementDelimiter, $segment->getElements()), $this->elementDelimiter);
+        $array[] = rtrim(implode($this->elementDelimiter, [$segment->getId(), ...$segment->getElements()]), $this->elementDelimiter);
     }
 }

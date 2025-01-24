@@ -88,8 +88,8 @@ final readonly class X12Parser implements ParserInterface
                 }
 
                 $currentIsa = new IsaHeading();
-                $currentIsa->setElements($elements);
-                $currentRelease = $this->getRelease($currentIsa->getElements()[12]);
+                $currentIsa->setElements(array_slice($elements, 1));
+                $currentRelease = $this->getRelease($elements[12]);
                 $currentSegments = [];
                 $ended = false;
 
@@ -144,7 +144,7 @@ final readonly class X12Parser implements ParserInterface
                 }
 
                 $currentGs = new GsHeading();
-                $currentGs->setElements($elements);
+                $currentGs->setElements(array_slice($elements, 1));
                 $currentSegments = [];
                 $ended = false;
 
@@ -201,7 +201,7 @@ final readonly class X12Parser implements ParserInterface
 
                 $transactionSetId = $elements[1];
                 $currentSt = $release->makeTransactionSet($transactionSetId);
-                $currentSt->setElements($elements);
+                $currentSt->setElements(array_slice($elements, 1));
 
                 $currentSegments = [];
                 $segmentCount = 0;
@@ -227,7 +227,7 @@ final readonly class X12Parser implements ParserInterface
             }
 
             $currentSegment = $release->makeSegment($segmentId);
-            $currentSegment->setElements($elements);
+            $currentSegment->setElements(array_slice($elements, 1));
             $currentSegments[] = $currentSegment;
             ++$segmentCount;
         }
