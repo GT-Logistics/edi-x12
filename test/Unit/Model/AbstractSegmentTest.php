@@ -209,7 +209,19 @@ class AbstractSegmentTest extends EdiTestCase
         $this->assertSame('', $elements[1]);
     }
 
-    public function testRequired(): void
+    public function testRequiredCasting(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected a different value than "".');
+
+        $mock = new SegmentMock();
+        $mock->setRequired([1 => true]);
+
+        $mock->setElements(['TST', '']);
+        $mock->_01;
+    }
+
+    public function testRequiredParsing(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Expected a value other than null.');
@@ -220,7 +232,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->_01 = null;
     }
 
-    public function testInvalidCasting(): void
+    public function testInvalidTypeCasting(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Not a valid type "unknown"');
@@ -231,7 +243,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->_01 = 'test';
     }
 
-    public function testInvalidParsing(): void
+    public function testInvalidTypeParsing(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Not a valid type "unknown"');
@@ -257,9 +269,24 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->_01;
     }
 
+    public function testInvalidEnumCasting(): void
+    {
+        $this->expectException(\ValueError::class);
+        $this->expectExceptionMessage('"error" is not a valid backing value for enum Gtlogistics\EdiX12\Test\Stub\QualifierStub');
+
+        $mock = new SegmentMock();
+        $mock->setCastings([1 => QualifierStub::class]);
+
+        $mock->setElements(['TST', 'error']);
+        $mock->_01;
+    }
+
     #[TestWith(['Expected an integer. Got: string', 'error', 'int'])]
     #[TestWith(['Expected a float. Got: string', 'error', 'float'])]
-    public function testInvalidNumericParsing(string $expected, mixed $value, string $type): void
+    #[TestWith(['Expected an instance of DateTimeInterface. Got: string', 'error', 'date'])]
+    #[TestWith(['Expected an instance of DateTimeInterface. Got: string', 'error', 'time'])]
+    #[TestWith(['Expected an instance of Gtlogistics\EdiX12\Test\Stub\QualifierStub. Got: string', 'error', QualifierStub::class])]
+    public function testInvalidParsing(string $expected, mixed $value, string $type): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage($expected);
@@ -296,7 +323,7 @@ class AbstractSegmentTest extends EdiTestCase
     #[TestWith(['20241201'])]
     #[TestWith(['00000000'])]
     #[TestWith(['      '])]
-    public function testInvalidDate(string $dateString): void
+    public function testInvalidDateCasting(string $dateString): void
     {
         $this->expectException(\DateMalformedStringException::class);
         $this->expectExceptionMessage('Invalid Date/Time string');
@@ -314,7 +341,7 @@ class AbstractSegmentTest extends EdiTestCase
     #[TestWith(['23000000'])]
     #[TestWith(['00000000'])]
     #[TestWith(['      '])]
-    public function testInvalidTime(string $timeString): void
+    public function testInvalidTimeCasting(string $timeString): void
     {
         $this->expectException(\DateMalformedStringException::class);
         $this->expectExceptionMessage('Invalid Date/Time string');
