@@ -57,7 +57,7 @@ trait HasSegmentsTrait
         }
     }
 
-    public function setSegments(array $segments): void
+    public function setSegments(iterable $segments): void
     {
         $this->segments = [];
 

@@ -53,12 +53,10 @@ final class EdiUtils
 
     public function seTrailer(TransactionSetInterface $st): SeTrailer
     {
-        $elements = $st->getElements();
-
         $se = new SeTrailer();
         // Must be the number of segments plus 2 (for the excluded ST and SE segments)
         $se->numberOfIncludedSegments_01 = $st->countSegments() + 2;
-        $se->transactionSetControlNumber_02 = $elements[1];
+        $se->transactionSetControlNumber_02 = $st->getTransactionSetControlNumber();
 
         return $se;
     }

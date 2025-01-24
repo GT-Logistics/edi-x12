@@ -27,6 +27,11 @@ abstract class AbstractTransactionSet extends AbstractSegment implements Transac
 {
     use HasSegmentsTrait;
 
+    public function getTransactionSetControlNumber(): string
+    {
+        return $this->__get('_02');
+    }
+
     public function &__get(string $key): mixed
     {
         if ($this->isElement($key)) {

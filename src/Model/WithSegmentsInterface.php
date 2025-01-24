@@ -31,9 +31,9 @@ interface WithSegmentsInterface
     public function getSegments(): iterable;
 
     /**
-     * @param SegmentInterface[] $segments
+     * @param iterable<SegmentInterface> $segments
      */
-    public function setSegments(array $segments): void;
+    public function setSegments(iterable $segments): void;
 
     public function countSegments(): int;
 }

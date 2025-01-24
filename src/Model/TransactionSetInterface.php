@@ -25,4 +25,5 @@ namespace Gtlogistics\EdiX12\Model;
 
 interface TransactionSetInterface extends SegmentInterface, WithSegmentsInterface
 {
+    public function getTransactionSetControlNumber(): string;
 }

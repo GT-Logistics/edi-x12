@@ -57,21 +57,17 @@ abstract class AbstractSegment implements SegmentInterface
         $this->elements[0] = $this->getId();
     }
 
-    public function getElements(): array
+    public function getElements(): iterable
     {
-        $elements = [];
-
         for ($index = 1, $lastIndex = max(array_keys($this->elements)); $index <= $lastIndex; ++$index) {
             $value = $this->elements[$index] ?? '';
             $length = $this->overrides[$index] ?? null;
 
-            $elements[] = $this->padValue($index, $value, $length);
+            yield $this->padValue($index, $value, $length);
         }
-
-        return $elements;
     }
 
-    public function setElements(array $elements): void
+    public function setElements(iterable $elements): void
     {
         $index = 1;
         foreach ($elements as $element) {

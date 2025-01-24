@@ -40,11 +40,11 @@ final class JsonSerializer implements SerializerInterface
         $serializedSegments = [];
 
         foreach ($edi->ISA as $isa) {
-            $serializedIsa = ['@' => $isa->getElements()];
+            $serializedIsa = ['@' => iterator_to_array($isa->getElements())];
             foreach ($isa->GS as $gs) {
-                $serializedGs = ['@' => $gs->getElements()];
+                $serializedGs = ['@' => iterator_to_array($gs->getElements())];
                 foreach ($gs->ST as $st) {
-                    $serializedSt = ['@' => $st->getElements()];
+                    $serializedSt = ['@' => iterator_to_array($st->getElements())];
                     $this->pushNested($serializedSt, $st);
                     $serializedGs[$st->getId()][] = $serializedSt;
                 }
@@ -88,6 +88,6 @@ final class JsonSerializer implements SerializerInterface
      */
     private function pushSegment(array &$array, SegmentInterface $segment): void
     {
-        $array[$segment->getId()][] = $segment->getElements();
+        $array[$segment->getId()][] = iterator_to_array($segment->getElements());
     }
 }

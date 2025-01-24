@@ -56,7 +56,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->setCastings([1 => $type]);
 
         $mock->_01 = $value;
-        $elements = $mock->getElements();
+        $elements = iterator_to_array($mock->getElements());
 
         $this->assertCount(1, $elements);
         $this->assertSame($expected, $elements[0]);
@@ -84,7 +84,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->setCastings([1 => $expected::class]);
 
         $mock->_01 = $expected;
-        $elements = $mock->getElements();
+        $elements = iterator_to_array($mock->getElements());
 
         $this->assertCount(1, $elements);
         $this->assertSame($expected->value, $elements[0]);
@@ -122,7 +122,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->setLengths([1 => $length]);
 
         $mock->_01 = new DateTimeImmutable($value);
-        $elements = $mock->getElements();
+        $elements = iterator_to_array($mock->getElements());
 
         $this->assertCount(1, $elements);
         $this->assertSame($expected, $elements[0]);
@@ -164,7 +164,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->setLengths([1 => $length]);
 
         $mock->_01 = new DateTimeImmutable($value);
-        $elements = $mock->getElements();
+        $elements = iterator_to_array($mock->getElements());
 
         $this->assertCount(1, $elements);
         $this->assertSame($expected, $elements[0]);
@@ -198,7 +198,7 @@ class AbstractSegmentTest extends EdiTestCase
         $mock->setCastings([1 => $type]);
 
         $mock->_01 = null;
-        $elements = $mock->getElements();
+        $elements = iterator_to_array($mock->getElements());
 
         $this->assertCount(1, $elements);
         $this->assertSame('', $elements[0]);

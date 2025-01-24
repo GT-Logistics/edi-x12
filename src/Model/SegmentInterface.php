@@ -28,12 +28,12 @@ interface SegmentInterface
     public function getId(): string;
 
     /**
-     * @return string[]
+     * @return iterable<string>
      */
-    public function getElements(): array;
+    public function getElements(): iterable;
 
     /**
-     * @param string[] $elements
+     * @param iterable<string> $elements
      */
-    public function setElements(array $elements): void;
+    public function setElements(iterable $elements): void;
 }
