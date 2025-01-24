@@ -121,7 +121,7 @@ trait HasSegmentsTrait
                     continue;
                 }
 
-                $count++;
+                ++$count;
             }
         }
 
