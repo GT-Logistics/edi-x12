@@ -30,7 +30,7 @@ use Gtlogistics\EdiX12\Heading\IsaHeading;
 use Gtlogistics\EdiX12\Model\AbstractSegment;
 use Gtlogistics\EdiX12\Model\ReleaseInterface;
 use Gtlogistics\EdiX12\Parser\X12Parser;
-use Gtlogistics\EdiX12\Test\EdiTestCase;
+use Gtlogistics\EdiX12\Test\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 
@@ -39,12 +39,14 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(IsaHeading::class)]
 #[UsesClass(GsHeading::class)]
 #[UsesClass(AbstractSegment::class)]
-class X12ParserTest extends EdiTestCase
+class X12ParserTest extends TestCase
 {
     private X12Parser $parser;
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $release = $this->createStub(ReleaseInterface::class);
         $release->method('supports')
             ->willReturnCallback(static fn (string $code) => $code === '00000')
