@@ -50,4 +50,19 @@ abstract class AbstractLoop implements LoopInterface
     {
         return array_key_first(static::$order) === $segment->getId();
     }
+
+    public static function supportSegment(SegmentInterface $segment): bool
+    {
+        if (isset(static::$order[$segment->getId()])) {
+            return true;
+        }
+
+        foreach (static::$loops as $loop) {
+            if ($loop::supportSegment($segment)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

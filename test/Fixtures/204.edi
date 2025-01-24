@@ -14,8 +14,8 @@ N1*OB*Springfield Power Company*ZZ*XXXXXXXXXX~
 N3*Evergreen Terrace*742~
 N4*Springfield*OR*80085*USA~
 G61*OC*Homer Simpson*TE*(939) 555-0113~
-N1*BT*Springfield Power Company*ZZ*ZZ~
-N3*Fake Street*123~
+N1*BT*Springfield Power Company*ZZ*XXXXXXXXXX~
+N3*Evergreen Terrace*742~
 N4*Springfield*OR*80085*USA~
 N1*BN*Charles Montgomery Burns~
 N7**000000*********TV****05000*******XXXX~
@@ -25,7 +25,7 @@ L11*22222*KK~
 G62*37*20240131*I*0800~
 G62*38*20240131*K*1400~
 AT8*G*K*5432.1*100~
-N1*SF*Bednar LLC*ZZ*XXXX~
+N1*SF*Bednar LLC*ZZ*ZZZZ~
 N3*927 Washington Boulevard~
 N4*Newport*RI*02840*USA~
 G61*SH*UNKNOWN*TE*555-555-5555~
@@ -37,10 +37,10 @@ L11*33333*OQ~
 L11*44444*KK~
 G62*02*20240205*Z*1100~
 AT8*G*K*5432.1*100~
-N1*CN*Springfield Power Company*ZZ*ZZZZ~
-N3*Fake Street 123~
+N1*CN*Springfield Power Company*ZZ*XXXX~
+N3*Evergreen Terrace*742~
 N4*Springfield*OR*80085*USA~
-G61*DC*Unknown*TE*555-555-1212~
+G61*DC*Homer Simpson*TE*(939) 555-0113~
 OID*S1*0123456789**PC*100*K*5432.1~
 L5*1*Chair****000000000987654321*SM~
 AT8*G*K*5432.1*100*10~

@@ -54,8 +54,8 @@ class EdiTestCase extends TestCase
 
     protected function assertEdi(string $expected, string $value): void
     {
-        $expected = str_replace(["\n", "\t", "\r"], '', $expected);
-        $value = str_replace(["\n", "\t", "\r"], '', $value);
+        $expected = trim($expected);
+        $value = trim($value);
 
         $this->assertSame($expected, $value);
     }

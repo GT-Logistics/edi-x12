@@ -247,7 +247,7 @@ class X12ParserTest extends EdiTestCase
         $this->assertEnum(EntityIdentifierCode::BT, $n1->_01);
         $this->assertSame('Springfield Power Company', $n1->_02);
         $this->assertEnum(IdentificationCodeQualifier::ZZ, $n1->_03);
-        $this->assertSame('ZZ', $n1->_04);
+        $this->assertSame('XXXXXXXXXX', $n1->_04);
         $this->assertNull($n1->_05);
 
         $this->assertCount(0, $n1Loop->N2);
@@ -255,8 +255,8 @@ class X12ParserTest extends EdiTestCase
         $this->assertCount(1, $n1Loop->N3);
         $n3 = $n1Loop->N3[0];
         $this->assertInstanceOf(N3Segment::class, $n3);
-        $this->assertSame('Fake Street', $n3->_01);
-        $this->assertSame('123', $n3->_02);
+        $this->assertSame('Evergreen Terrace', $n3->_01);
+        $this->assertSame('742', $n3->_02);
 
         $this->assertCount(1, $n1Loop->N4);
         $n4 = $n1Loop->N4[0];
@@ -399,7 +399,7 @@ class X12ParserTest extends EdiTestCase
         $this->assertEnum(EntityIdentifierCode::SF, $n1->_01);
         $this->assertSame('Bednar LLC', $n1->_02);
         $this->assertEnum(IdentificationCodeQualifier::ZZ, $n1->_03);
-        $this->assertSame($n1->_04, 'XXXX');
+        $this->assertSame($n1->_04, 'ZZZZ');
         $this->assertNull($n1->_05);
 
         $this->assertCount(0, $n1Loop->N2);
@@ -547,15 +547,15 @@ class X12ParserTest extends EdiTestCase
         $this->assertSame(EntityIdentifierCode::CN, $n1->_01);
         $this->assertSame('Springfield Power Company', $n1->_02);
         $this->assertSame(IdentificationCodeQualifier::ZZ, $n1->_03);
-        $this->assertSame('ZZZZ', $n1->_04);
+        $this->assertSame('XXXX', $n1->_04);
 
         $this->assertCount(0, $n1Loop->N2);
 
         $this->assertCount(1, $n1Loop->N3);
         $n3 = $n1Loop->N3[0];
         $this->assertInstanceOf(N3Segment::class, $n3);
-        $this->assertSame('Fake Street 123', $n3->_01);
-        $this->assertNull($n3->_02);
+        $this->assertSame('Evergreen Terrace', $n3->_01);
+        $this->assertSame('742', $n3->_02);
 
         $this->assertCount(1, $n1Loop->N4);
         $n4 = $n1Loop->N4[0];
@@ -571,9 +571,9 @@ class X12ParserTest extends EdiTestCase
         $g61 = $n1Loop->G61[0];
         $this->assertInstanceOf(G61Segment::class, $g61);
         $this->assertEnum(ContactFunctionCode::DC, $g61->_01);
-        $this->assertSame('Unknown', $g61->_02);
+        $this->assertSame('Homer Simpson', $g61->_02);
         $this->assertEnum(CommunicationNumberQualifier::TE, $g61->_03);
-        $this->assertSame('555-555-1212', $g61->_04);
+        $this->assertSame('(939) 555-0113', $g61->_04);
         $this->assertNull($g61->_05);
 
         $this->assertCount(0, $s5Loop->L5Loop1);

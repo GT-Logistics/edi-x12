@@ -34,4 +34,6 @@ interface WithSegmentsInterface
      * @param SegmentInterface[] $segments
      */
     public function setSegments(array $segments): void;
+
+    public function countSegments(): int;
 }

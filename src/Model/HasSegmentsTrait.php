@@ -110,6 +110,24 @@ trait HasSegmentsTrait
         }
     }
 
+    public function countSegments(): int
+    {
+        $count = 0;
+        foreach ($this->segments as $segments) {
+            foreach ($segments as $segment) {
+                if ($segment instanceof LoopInterface) {
+                    $count += $segment->countSegments();
+
+                    continue;
+                }
+
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
     public function __serialize(): array
     {
         $data = [];
@@ -141,21 +159,6 @@ trait HasSegmentsTrait
     private function setSegment(string $key, mixed $value): void
     {
         $this->segments[$key] = $this->validateSegments($key, $value);
-    }
-
-    public static function supportSegment(SegmentInterface $segment): bool
-    {
-        if (isset(static::$order[$segment->getId()])) {
-            return true;
-        }
-
-        foreach (static::$loops as $loop) {
-            if ($loop::supportSegment($segment)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
