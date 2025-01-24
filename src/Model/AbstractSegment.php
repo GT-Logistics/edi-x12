@@ -38,6 +38,11 @@ abstract class AbstractSegment implements SegmentInterface
     protected array $lengths = [];
 
     /**
+     * @var array<int, int>
+     */
+    protected array $overrides = [];
+
+    /**
      * @var array<int, true>
      */
     protected array $required = [];
@@ -58,8 +63,9 @@ abstract class AbstractSegment implements SegmentInterface
 
         for ($index = 0, $lastIndex = max(array_keys($this->elements)); $index <= $lastIndex; ++$index) {
             $value = $this->elements[$index] ?? '';
+            $length = $this->overrides[$index] ?? null;
 
-            $elements[$index] = $this->padValue($index, $value);
+            $elements[$index] = $this->padValue($index, $value, $length);
         }
 
         return $elements;
@@ -68,6 +74,17 @@ abstract class AbstractSegment implements SegmentInterface
     public function setElements(array $elements): void
     {
         $this->elements = $elements;
+    }
+
+    public function overrideLength(int $index, int $length): void
+    {
+        Assert::positiveInteger($index);
+        Assert::positiveInteger($length);
+
+        [$min, $max] = $this->getLengths($index);
+        Assert::range($length, $min, $max);
+
+        $this->overrides[$index] = $length;
     }
 
     public function __get(string $key): mixed
@@ -121,9 +138,14 @@ abstract class AbstractSegment implements SegmentInterface
         return $this->required[$index] ?? false;
     }
 
-    private function padValue(int $index, string $value): string
+    private function padValue(int $index, string $value, ?int $length): string
     {
-        [$min, $max] = $this->getLengths($index);
+        if ($length === null) {
+            [$min, $max] = $this->getLengths($index);
+        } else {
+            $min = $length;
+            $max = $length;
+        }
         $casting = $this->getCasting($index);
         $required = $this->getRequired($index);
 

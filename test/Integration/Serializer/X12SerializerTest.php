@@ -26,6 +26,7 @@ namespace Gtlogistics\EdiX12\Test\Integration\Parser;
 use Gtlogistics\EdiX12\Edi;
 use Gtlogistics\EdiX12\Heading\GsHeading;
 use Gtlogistics\EdiX12\Heading\IsaHeading;
+use Gtlogistics\EdiX12\Model\AbstractLoop;
 use Gtlogistics\EdiX12\Model\AbstractSegment;
 use Gtlogistics\EdiX12\Model\AbstractTransactionSet;
 use Gtlogistics\EdiX12\Model\HasSegmentsTrait;
@@ -95,6 +96,7 @@ use PHPUnit\Framework\Attributes\CoversTrait;
 #[CoversClass(SeTrailer::class)]
 #[CoversClass(AbstractTransactionSet::class)]
 #[CoversClass(AbstractSegment::class)]
+#[CoversClass(AbstractLoop::class)]
 #[CoversTrait(HasSegmentsTrait::class)]
 class X12SerializerTest extends EdiTestCase
 {
@@ -128,6 +130,7 @@ class X12SerializerTest extends EdiTestCase
         $gs->_03 = 'RECEIVERAPP';
         $gs->_04 = $dateTime;
         $gs->_05 = $dateTime;
+        $gs->overrideLength(5, 4);
         $gs->_06 = 1000;
         $gs->_07 = 'X';
         $gs->_08 = '004010';
@@ -165,6 +168,7 @@ class X12SerializerTest extends EdiTestCase
         $g62->_02 = new \DateTimeImmutable('2024-01-31');
         $g62->_03 = TimeQualifier::_1;
         $g62->_04 = new \DateTimeImmutable('12:00');
+        $g62->overrideLength(4, 4);
         $st->G62[] = $g62;
 
         $ms3 = new Ms3Segment();
@@ -251,6 +255,7 @@ class X12SerializerTest extends EdiTestCase
         $n7->_02 = '000000';
         $n7->_11 = EquipmentDescriptionCode::TV;
         $n7->_15 = 5000;
+        $n7->overrideLength(15, 5);
         $n7->_22 = 'XXXX';
         $n7Loop->N7[] = $n7;
 
@@ -281,6 +286,7 @@ class X12SerializerTest extends EdiTestCase
         $g62->_02 = new \DateTimeImmutable('2024-01-31');
         $g62->_03 = TimeQualifier::I;
         $g62->_04 = new \DateTimeImmutable('08:00');
+        $g62->overrideLength(4, 4);
         $s5Loop->G62[] = $g62;
 
         $g62 = new G62Segment();
@@ -288,6 +294,7 @@ class X12SerializerTest extends EdiTestCase
         $g62->_02 = new \DateTimeImmutable('2024-01-31');
         $g62->_03 = TimeQualifier::K;
         $g62->_04 = new \DateTimeImmutable('14:00');
+        $g62->overrideLength(4, 4);
         $s5Loop->G62[] = $g62;
 
         $at8 = new AT8Segment();
@@ -382,6 +389,7 @@ class X12SerializerTest extends EdiTestCase
         $g62->_02 = new \DateTimeImmutable('2024-02-05');
         $g62->_03 = TimeQualifier::Z;
         $g62->_04 = new \DateTimeImmutable('11:00');
+        $g62->overrideLength(4, 4);
         $s5Loop->G62[] = $g62;
 
         $at8 = new AT8Segment();

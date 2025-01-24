@@ -58,7 +58,7 @@ final readonly class X12Serializer implements SerializerInterface
             $this->pushSegment($serializedSegments, $this->ediUtils->ieaTrailer($isa));
         }
 
-        return implode("$this->segmentDelimiter\n", $serializedSegments);
+        return implode("$this->segmentDelimiter\n", $serializedSegments) . $this->segmentDelimiter;
     }
 
     /**
